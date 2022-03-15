@@ -81,7 +81,7 @@ public class TestClass {
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
-        glfwSwapInterval(1);
+        glfwSwapInterval(0);
 
         // Make the window visible
         glfwShowWindow(window);
@@ -109,10 +109,11 @@ public class TestClass {
             timer.getDeltaTime();
             timer.updateFPS();
             timer.updateCycle();
+            timer.sync(30);
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
-            System.out.println(String.format("FPS: %d", timer.getFPS()));
+            System.out.println(String.format("FPS: %d", timer.getFps()));
         }
     }
 
