@@ -17,7 +17,6 @@ public class TestClass {
 
     // The window handle
     private long window;
-    private Time timer = new Time();
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -86,7 +85,7 @@ public class TestClass {
         // Make the window visible
         glfwShowWindow(window);
 
-        timer.init();
+        Time.init();
     }
 
     private void loop() {
@@ -106,14 +105,14 @@ public class TestClass {
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             glfwSwapBuffers(window); // swap the color buffers
-            timer.getDeltaTime();
-            timer.updateFPS();
-            timer.updateCycle();
-            timer.sync(30);
+            System.out.println(Time.getDeltaTime());
+            Time.updateFps();
+            Time.updateCycle();
+            Time.sync(60);
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
-            System.out.println(String.format("FPS: %d", timer.getFps()));
+            System.out.println(String.format("FPS: %d", Time.getFps()));
         }
     }
 

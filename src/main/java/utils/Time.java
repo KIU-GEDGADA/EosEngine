@@ -4,31 +4,41 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public class Time {
 
-    private final double INTERVAL = 1.0f;
+    private static final double INTERVAL = 1.0f;
 
-    private double presentTime;
-    private double pastTime;
-    private double updateCounter;
-    private int fpsCounter;
-    private int fps;
+    private static double presentTime;
+    private static double pastTime;
+    private static double updateCounter;
+    private static int fpsCounter;
+    private static int fps;
 
-    public void init(){
+    private Time(){}
+
+    public static double getPresentTime() {
+        return presentTime;
+    }
+
+    public static double getPastTime() {
+        return pastTime;
+    }
+
+    public static void init(){
         pastTime = glfwGetTime();
     }
 
-    public double getDeltaTime(){
-        this.presentTime = glfwGetTime();
+    public static double getDeltaTime(){
+        presentTime = glfwGetTime();
         double deltaTime = presentTime - pastTime;
         pastTime = presentTime;
         updateCounter += deltaTime;
         return deltaTime;
     }
 
-    public void updateFPS(){
+    public static void updateFps(){
         fpsCounter++;
     }
 
-    public void updateCycle(){
+    public static void updateCycle(){
         if (updateCounter >= INTERVAL){
             fps = fpsCounter;
             fpsCounter = 0;
@@ -36,11 +46,11 @@ public class Time {
         }
     }
 
-    public int getFps(){
+    public static int getFps(){
         return fps > 0 ? fps : fpsCounter;
     }
 
-    public void sync(int FPS){
+    public static void sync(int FPS){
         double actualTime = 1.0f / FPS;
         presentTime = glfwGetTime();
         while(presentTime - pastTime < actualTime){
