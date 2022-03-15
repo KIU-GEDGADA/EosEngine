@@ -11,10 +11,13 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import utils.Time;
+
 public class TestClass {
 
     // The window handle
     private long window;
+    private Time timer = new Time();
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -78,10 +81,12 @@ public class TestClass {
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
-        glfwSwapInterval(1);
+        glfwSwapInterval(0);
 
         // Make the window visible
         glfwShowWindow(window);
+
+        timer.init();
     }
 
     private void loop() {
@@ -90,6 +95,7 @@ public class TestClass {
         // LWJGL detects the context that is current in the current thread,
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
+
         GL.createCapabilities();
 
         // Set the clear color
@@ -99,12 +105,15 @@ public class TestClass {
         // the window or has pressed the ESCAPE key.
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
             glfwSwapBuffers(window); // swap the color buffers
-
+            timer.getDeltaTime();
+            timer.updateFPS();
+            timer.updateCycle();
+            timer.sync(30);
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+            System.out.println(String.format("FPS: %d", timer.getFps()));
         }
     }
 
