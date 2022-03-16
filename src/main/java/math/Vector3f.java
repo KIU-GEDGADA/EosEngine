@@ -23,7 +23,7 @@ public class Vector3f {
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    public Boolean equals(Vector3f v1, Vector3f v2){
+    public static Boolean equals(Vector3f v1, Vector3f v2){
         return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
     }
 

@@ -22,7 +22,7 @@ public class Vector2f {
         return this.x * this.x + this.y * this.y;
     }
 
-    public Boolean equals(Vector2f v1, Vector2f v2){
+    public static Boolean equals(Vector2f v1, Vector2f v2){
         return v1.x == v2.x && v1.y == v2.y;
     }
 
