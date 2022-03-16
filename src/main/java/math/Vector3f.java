@@ -94,6 +94,10 @@ public class Vector3f {
         tangent = normalize(tangent);
     }
 
+    public static Vector3f random(){
+        return new Vector3f(Math.random(), Math.random(), Math.random());
+    }
+
     public static Vector3f zero(){
         return new Vector3f(0, 0, 0);
     }

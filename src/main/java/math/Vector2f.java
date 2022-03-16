@@ -101,20 +101,4 @@ public class Vector2f {
     public static Vector2f random(){
         return new Vector2f(Math.random(), Math.random());
     }
-
-    public static Vector2f random(double min, double max){
-        return new Vector2f(Math.random() * (max - min) + min, Math.random() * (max - min) + min);
-    }
-
-    public static Vector2f random(double xMin, double xMax, double yMin, double yMax){
-        return new Vector2f(Math.random() * (xMax - xMin) + xMin, Math.random() * (yMax - yMin) + yMin);
-    }
-
-    public static Vector3f toVector3f(Vector2f v){
-        return new Vector3f(v.x, v.y, 0);
-    }
-    
-    public static Vector2f toVector2f(Vector3f v){
-        return new Vector2f(v.x, v.y);
-    }
 }
