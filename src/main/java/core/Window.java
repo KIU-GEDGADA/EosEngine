@@ -1,3 +1,5 @@
+package core;
+
 public interface Window {
 
     public void start();
