@@ -8,11 +8,12 @@ public class InputExperimental {
     private static GLFWKeyCallback keyboard;
     private static GLFWCursorPosCallback mouse;
     private static GLFWMouseButtonCallback mbtn;
-    private double xPos, yPos;
-    private static int[] keys = new int[350];
-    private static boolean[] activeKeys = new boolean[350];
-    private static boolean[] activeMouseBts = new boolean[7];
-    private static int[] buttons = new int[7];
+    private static double xPos, yPos;
+    private static final int MOUSEBTNS =7;
+    private static final int[] keys = new int[GLFW_KEY_LAST];//every key with its corresponding state, 1 or 0
+    private static final boolean[] activeKeys = new boolean[GLFW_KEY_LAST];//currently pressed keys list
+    private static final boolean[] activeMouseBts = new boolean[MOUSEBTNS];//same as above list
+    private static final int[] buttons = new int[MOUSEBTNS];//same as keys
     public InputExperimental() {
         InputExperimental.update();
         keyboard = new GLFWKeyCallback() {
@@ -41,7 +42,7 @@ public class InputExperimental {
         return keys[key]==GLFW_PRESS;
     }
     public static boolean isKeyDown(int key){
-        return activeKeys[key];
+        return !isKeyPressed(key)&&activeKeys[key];//if key is
     }
     public static boolean isKeyUp(int key){
         return keys[key]==GLFW_RELEASE;
@@ -50,7 +51,7 @@ public class InputExperimental {
         return buttons[btn]==GLFW_PRESS;
     }
     public static boolean isMouseDown(int btn){
-        return activeMouseBts[btn];
+        return !isMousePressed(btn)&&activeMouseBts[btn];
     }
     public static boolean isMouseUp(int btn){
         return buttons[btn]==GLFW_RELEASE;
@@ -65,17 +66,23 @@ public class InputExperimental {
         return mouse;
     }
     public static void resetKeyboard(){
-        for(int i =0;i<349;i++){
+        for(int i =0;i<GLFW_KEY_LAST;i++){
             keys[i]=-1;
         }
     }
     public static void resetMouse(){
-        for(int i = 0;i<6;i++){
+        for(int i = 0;i<MOUSEBTNS;i++){
             buttons[i]=-1;
         }
     }
     public static void update(){
         resetKeyboard();
         resetMouse();
+    }
+    public static double getXPos(){
+        return xPos;
+    }
+    public static double getyPos(){
+        return yPos;
     }
 }
