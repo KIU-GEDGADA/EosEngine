@@ -1,7 +1,5 @@
 package graphics;
 
-import org.lwjgl.*;
-
 import static org.lwjgl.opengl.GL11.*;
 
 public class Renderer {

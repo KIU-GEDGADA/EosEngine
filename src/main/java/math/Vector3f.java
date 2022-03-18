@@ -35,16 +35,40 @@ public class Vector3f {
         return new Vector3f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
     }
 
+    public void add(Vector3f v){
+        this.x += v.x;
+        this.y += v.y;
+        this.z += v.z;
+    }
+
     public static Vector3f sub(Vector3f v1, Vector3f v2){
         return new Vector3f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+    }
+
+    public void sub(Vector3f v){
+        this.x -= v.x;
+        this.y -= v.y;
+        this.z -= v.z;
     }
 
     public static Vector3f mul(Vector3f v, double scalar){
         return new Vector3f(v.x * scalar, v.y * scalar, v.z * scalar);
     }
 
+    public void mul(double scalar){
+        this.x *= scalar;
+        this.y *= scalar;
+        this.z *= scalar;
+    }
+
     public static Vector3f div(Vector3f v, double scalar){
         return new Vector3f(v.x / scalar, v.y / scalar, v.z / scalar);
+    }
+
+    public void div(double scalar){
+        this.x /= scalar;
+        this.y /= scalar;
+        this.z /= scalar;
     }
 
     public static double dot(Vector3f v1, Vector3f v2){
@@ -60,7 +84,15 @@ public class Vector3f {
     }
 
     public static Vector3f normalize(Vector3f v){
-        return new Vector3f(v.x / v.length(), v.y / v.length(), v.z / v.length());
+        double length = v.length();
+        return new Vector3f(v.x / length, v.y / length, v.z / length);
+    }
+
+    public void normalize(){
+        double length = this.length();
+        this.x /= length;
+        this.y /= length;
+        this.z /= length;
     }
 
     public static double distance(Vector3f v1, Vector3f v2){
@@ -79,19 +111,44 @@ public class Vector3f {
         return sub(v, mul(normal, 2 * dot(v, normal)));
     }
 
-    public static Vector3f project(Vector3f v, Vector3f normal){
-        return mul(normal, dot(v, normal));
+    public static Vector3f project(Vector3f v1, Vector3f v2){
+        return mul(v2, dot(v1, v2) / v2.sqrLength());
     }
     
-    public static Vector3f move(Vector3f v, Vector3f direction, double distance){
-        return add(v, mul(direction, distance));
+    public void translate(Vector3f delta){
+        this.x += delta.x;
+        this.y += delta.y;
+        this.z += delta.z;
+    }
+
+    public void translate(double x, double y, double z){
+        this.x += x;
+        this.y += y;
+        this.z += z;
     }
     
+    public void negate(){
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+    }
+
     public static void orthonormalize(Vector3f normal, Vector3f tangent){
-        tangent.x = normal.y;
-        tangent.y = -normal.x;
-        tangent.z = 0;
-        tangent = normalize(tangent);
+        normal.normalize();
+        double u0 = dot(normal, tangent);
+        tangent.sub(mul(normal, u0));
+        tangent.normalize();
+    }
+
+    public static void orthonormalize(Vector3f normal, Vector3f tangent, Vector3f binomial){
+        normal.normalize();
+        double u0 = dot(normal, tangent);
+        tangent.sub(mul(normal, u0));
+        tangent.normalize();
+        double v0 = dot(tangent, binomial);
+        u0 = dot(normal, binomial);
+        binomial.sub(add(mul(tangent, v0), mul(normal, u0)));
+        binomial.normalize();
     }
 
     public static Vector3f random(){
