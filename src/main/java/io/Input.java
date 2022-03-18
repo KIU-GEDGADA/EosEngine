@@ -3,8 +3,8 @@ package io;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
-
 import static org.lwjgl.glfw.GLFW.*;
+
 public class Input {
     private static GLFWKeyCallback keyboard;
     private static GLFWCursorPosCallback mouse;
@@ -42,8 +42,8 @@ public class Input {
     public static boolean isKeyPressed(int key){
         return keys[key]==GLFW_PRESS;
     }
-    public static boolean isKeyDown(int key){
-        return !isKeyPressed(key)&&activeKeys[key];//if key is
+    public static boolean isKeyDown(int key) {
+        return !isKeyPressed(key) && activeKeys[key];//if key is NOT currently pressed but the corresponding boolean is true, key is held
     }
     public static boolean isKeyUp(int key){
         return keys[key]==GLFW_RELEASE;
