@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
 import static org.lwjgl.glfw.GLFW.*;
-public class InputExperimental {
+public class Input {
     private static GLFWKeyCallback keyboard;
     private static GLFWCursorPosCallback mouse;
     private static GLFWMouseButtonCallback mbtn;
@@ -16,7 +16,7 @@ public class InputExperimental {
     private static final boolean[] activeMouseBts = new boolean[MOUSEBTNS];//same as above list
     private static final int[] buttons = new int[MOUSEBTNS];//same as keys
     public static void init(){
-        InputExperimental.update();
+        Input.update();
         keyboard = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
