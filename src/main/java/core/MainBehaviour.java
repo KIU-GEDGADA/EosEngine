@@ -7,7 +7,7 @@ public interface MainBehaviour {
 
     void input(Window window);
 
-    void update(float interval);
+    void update(double interval);
 
     void update();
 
