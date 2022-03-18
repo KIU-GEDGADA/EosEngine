@@ -1,8 +1,9 @@
+package io;
+
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
-import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.*;
 public class InputExperimental {
     private static GLFWKeyCallback keyboard;
