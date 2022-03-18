@@ -9,12 +9,12 @@ public class InputExperimental {
     private static GLFWCursorPosCallback mouse;
     private static GLFWMouseButtonCallback mbtn;
     private static double xPos, yPos;
-    private static final int MOUSEBTNS =7;
+    private static final int MOUSEBTNS = 7;
     private static final int[] keys = new int[GLFW_KEY_LAST];//every key with its corresponding state, 1 or 0
     private static final boolean[] activeKeys = new boolean[GLFW_KEY_LAST];//currently pressed keys list
     private static final boolean[] activeMouseBts = new boolean[MOUSEBTNS];//same as above list
     private static final int[] buttons = new int[MOUSEBTNS];//same as keys
-    public InputExperimental() {
+    public static void init(){
         InputExperimental.update();
         keyboard = new GLFWKeyCallback() {
             @Override
@@ -37,7 +37,7 @@ public class InputExperimental {
                 buttons[button]=action;
             }
         };
-    };
+    }
     public static boolean isKeyPressed(int key){
         return keys[key]==GLFW_PRESS;
     }
@@ -56,13 +56,13 @@ public class InputExperimental {
     public static boolean isMouseUp(int btn){
         return buttons[btn]==GLFW_RELEASE;
     }
-    public GLFWKeyCallback getKeyboard(){
+    public static GLFWKeyCallback getKeyboard(){
         return keyboard;
     }
-    public GLFWMouseButtonCallback getMbtn(){
+    public static GLFWMouseButtonCallback getMbtn(){
         return mbtn;
     }
-    public GLFWCursorPosCallback getMouse(){
+    public static GLFWCursorPosCallback getMouse(){
         return mouse;
     }
     public static void resetKeyboard(){
