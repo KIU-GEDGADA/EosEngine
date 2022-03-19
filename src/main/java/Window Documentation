@@ -1,0 +1,28 @@
+Attributes:
+width, height - ints, determine the height and width of the window upon initialization
+name - name of the window upon initialization
+window - long coordinate of the window, used in glfw functions
+monitor - long coordinate of the monitor, used in glfw functions
+mode - glfw videomode of the window, can be changed with hints, used for resolution changing
+color - 4 element float array for rgba, 0- red, 1- green, 2-blue, 3- alpha(transparency)
+
+Constructors:
+    2 constructors - window and window with monitor, neither initializes the window, only sets the attributes
+
+    2 constructor functions - windowWithInit and windowWithInit with monitor - both set the attributes as well as initialize the glfw window
+
+Initialization:
+    2 functions - init and init with monitor, second recieves a string as an arguement and depending on its name assigns the monitor
+
+All constructors and functions that initialize set up a close key callback on escape
+to initialize the window in full screen for the primary monitor pass the arguement "primary" where arguement String monitor is accepted
+
+destroyWindow(): frees all callbacks of the window and terminates it, this does not terminate glfw or free error callbacks, only terminates the window
+
+windowed() - turns the window into windowed more
+
+windowedFullScreen() - maximizes the window but does not set it into fullscreen
+
+fullScreen() - sets the window into fullscreen
+
+loop() - main loop of the window, loops while the shouldclose callback is not activated
