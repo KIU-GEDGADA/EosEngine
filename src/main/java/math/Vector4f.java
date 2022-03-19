@@ -25,8 +25,8 @@ public class Vector4f {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
     }
 
-    public static boolean equals(Vector4f v1, Vector4f v2){
-        return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z && v1.w == v2.w;
+    public boolean equals(Vector4f v){
+        return this.x == v.x && this.y == v.y && this.z == v.z && this.w == v.w;
     }
 
     public String toString(){
