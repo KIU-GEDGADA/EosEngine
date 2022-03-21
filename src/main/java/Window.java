@@ -25,6 +25,7 @@ public class Window {
     long monitor;
     GLFWVidMode mode;
     float[] color = new float[4];
+    boolean isFullScreen = false;
 
     //normal constructor for the window
     public Window(int height, int width, String name,float[] color)
@@ -65,7 +66,7 @@ public class Window {
             this.width=width;
             this.name = name;
             this.color = color;
-            if(Objects.equals(monitor, "primary"))
+            if(monitor != NULL)
             {
                 mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             }
@@ -87,6 +88,17 @@ public class Window {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            if ( key == GLFW_KEY_W) {
+                fullScreen();
+            }
+            if(key == GLFW_KEY_S)
+            {
+                windowed(100, 100, 100, 100);
+            }
+            if(key == GLFW_KEY_Q)
+            {
+                fullScreenWindow();
+            }
         });
 
         // Make the OpenGL context current
@@ -134,6 +146,17 @@ public class Window {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            if ( key == GLFW_KEY_W) {
+                fullScreen();
+            }
+            if(key == GLFW_KEY_S)
+            {
+                windowed(100, 100, 100, 100);
+            }
+            if(key == GLFW_KEY_Q)
+            {
+                fullScreenWindow();
+            }
         });
 
         // Make the OpenGL context current
@@ -158,15 +181,17 @@ public class Window {
             glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
             //try...catch block in case window creation fails and a runtime exception needs to be handled
             try{
-                if(Objects.equals(monitor, "primary"))
+                if(monitor != NULL)
                 {
                     this.monitor = glfwGetPrimaryMonitor();
                     mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                     window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
+                    isFullScreen = true;
                 }
                 else
                 {
                     window = glfwCreateWindow(width, height, name, NULL, NULL);
+
                 }
                 if(window==NULL)
                 {
@@ -182,7 +207,19 @@ public class Window {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            if ( key == GLFW_KEY_W) {
+                fullScreen();
+            }
+            if(key == GLFW_KEY_S)
+            {
+                windowed(100, 100, 100, 100);
+            }
+            if(key == GLFW_KEY_Q)
+            {
+                fullScreenWindow();
+            }
         });
+
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
@@ -213,6 +250,7 @@ public class Window {
                 else
                 {
                     window = glfwCreateWindow(width, height, name, NULL, NULL);
+
                 }
                 if(window==NULL)
                 {
@@ -228,8 +266,18 @@ public class Window {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            if ( key == GLFW_KEY_W) {
+                fullScreen();
+            }
+            if(key == GLFW_KEY_S)
+            {
+                windowed(100, 100, 100, 100);
+            }
+            if(key == GLFW_KEY_Q)
+            {
+                fullScreenWindow();
+            }
         });
-
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);
         // Enable v-sync
@@ -257,9 +305,7 @@ public class Window {
 
     public void fullScreen()
     {
-        System.out.println("reached 1 ");
-        glfwSetWindowMonitor(window,monitor,0,0, mode.width(), mode.height(), mode.refreshRate());
-        System.out.println("reached 2 ");
+        glfwSetWindowMonitor(window,monitor,0,0, mode.width(), mode.height(), 0);
     }
 
     public void loop()
@@ -273,9 +319,19 @@ public class Window {
             glClearColor(color[0], color[1], color[2], color[3]);
             glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
             glfwSwapBuffers(window);
+
         }
+
+        destroyWindow();
 
     }
 
+    public static void main(String[] args)
+    {
+        glfwInit();
+        Window win = new Window(500,500,"test","primary",new float[]{1.0f,0.0f,0.0f,1.0f});
+        win.initializeWindow();
+        win.loop();
+    }
 }
 
