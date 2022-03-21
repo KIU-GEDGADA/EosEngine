@@ -1,7 +1,9 @@
 package math;
 
-public class VectorConvertors {
-    
+public final class VectorConvertors {
+
+    private VectorConvertors() {}
+
     public static Vector2f toVector2f(Vector3f v){
         return new Vector2f(v.x, v.y);
     }
