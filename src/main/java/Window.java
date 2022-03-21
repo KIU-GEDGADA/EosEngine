@@ -325,13 +325,5 @@ public class Window {
         destroyWindow();
 
     }
-
-    public static void main(String[] args)
-    {
-        glfwInit();
-        Window win = new Window(500,500,"test","primary",new float[]{1.0f,0.0f,0.0f,1.0f});
-        win.initializeWindow();
-        win.loop();
-    }
 }
 
