@@ -13,5 +13,4 @@ public interface MainBehaviour {
 
     void render(Window window);
 
-
 }

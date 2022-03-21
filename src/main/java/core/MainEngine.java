@@ -30,16 +30,18 @@ public class MainEngine implements Runnable {
     public void start() {
         gameLoopThread.start();
     }
+
     @Override
     public void run() {
         try {
-              init();
-              gameLoop();
-              clear();
+            init();
+            gameLoop();
+            clear();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
+
     public void clear() {
         renderer.clear();
         window.destroy();
@@ -52,9 +54,11 @@ public class MainEngine implements Runnable {
     protected void update(double interval) {
         behaviour.update(interval);
     }
+
     protected void update() {
         behaviour.update();
     }
+
     protected void render() {
         behaviour.render(window);
         window.update();
@@ -62,8 +66,8 @@ public class MainEngine implements Runnable {
 
     public void gameLoop() {
         double delta;
-        while(true) {
-            if(!window.isRunning()) break;
+        while (true) {
+            if (!window.isRunning()) break;
 
             delta = Time.getDeltaTime();
 
@@ -79,7 +83,7 @@ public class MainEngine implements Runnable {
             Time.updateCycle();
 
 
-            if(!window.isVSyncActivated()) Time.sync(TARGET_FPS);
+            if (!window.isVSyncActivated()) Time.sync(TARGET_FPS);
         }
 
     }
