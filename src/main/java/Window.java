@@ -13,9 +13,6 @@ import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 
-//3. Window Class
-//    * Trivial class to store window attributes: size, name, etc.
-//    * render/update/close or any other methods that can be useful to wrap LWJGL `Display`.
 
 public class Window {
     int height;
@@ -27,7 +24,6 @@ public class Window {
     float[] color = new float[4];
     boolean isFullScreen = false;
 
-    //normal constructor for the window
     public Window(int height, int width, String name,float[] color)
     {
         this.height=height;
@@ -49,7 +45,6 @@ public class Window {
         }
     }
 
-    //constructor that initialises the window alongside creating it
     public void WindowWithInit(int height, int width, String name,float[] color)
     {
 
@@ -71,7 +66,6 @@ public class Window {
                 mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             }
 
-            //try...catch block in case window creation fails and a runtime exception needs to be handled
             try{
                 window = glfwCreateWindow(width, height, name, NULL, NULL);
                 if(window==NULL)
@@ -81,13 +75,12 @@ public class Window {
             }catch (RuntimeException e)
             {
                 System.out.println(e.getMessage());
-                //TODO handle a failed window creation
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                glfwSetWindowShouldClose(window, true);
             if ( key == GLFW_KEY_W) {
                 fullScreen();
             }
@@ -101,9 +94,7 @@ public class Window {
             }
         });
 
-        // Make the OpenGL context current
         glfwMakeContextCurrent(window);
-        // Enable v-sync
         glfwSwapInterval(1);
 
         glfwShowWindow(window);
@@ -125,7 +116,6 @@ public class Window {
             this.name = name;
             this.color = color;
 
-            //try...catch block in case window creation fails and a runtime exception needs to be handled
             try {
                 if (Objects.equals(monitor, "primary")) {
                     this.monitor = glfwGetPrimaryMonitor();
@@ -139,13 +129,12 @@ public class Window {
                 }
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
-                //TODO handle a failed window creation
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                glfwSetWindowShouldClose(window, true);
             if ( key == GLFW_KEY_W) {
                 fullScreen();
             }
@@ -159,9 +148,7 @@ public class Window {
             }
         });
 
-        // Make the OpenGL context current
         glfwMakeContextCurrent(window);
-        // Enable v-sync
         glfwSwapInterval(1);
 
         glfwShowWindow(window);
@@ -179,7 +166,6 @@ public class Window {
             GLFWErrorCallback.createPrint(System.err).set();
             glfwDefaultWindowHints();
             glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
-            //try...catch block in case window creation fails and a runtime exception needs to be handled
             try{
                 if(monitor != NULL)
                 {
@@ -200,13 +186,12 @@ public class Window {
             }catch (RuntimeException e)
             {
                 System.out.println(e.getMessage());
-                //TODO handle a failed window creation
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                glfwSetWindowShouldClose(window, true);
             if ( key == GLFW_KEY_W) {
                 fullScreen();
             }
@@ -221,9 +206,7 @@ public class Window {
         });
 
 
-        // Make the OpenGL context current
         glfwMakeContextCurrent(window);
-        // Enable v-sync
         glfwSwapInterval(1);
 
         glfwShowWindow(window);
@@ -259,13 +242,12 @@ public class Window {
             }catch (RuntimeException e)
             {
                 System.out.println(e.getMessage());
-                //TODO handle a failed window creation
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                glfwSetWindowShouldClose(window, true);
             if ( key == GLFW_KEY_W) {
                 fullScreen();
             }
@@ -278,9 +260,7 @@ public class Window {
                 fullScreenWindow();
             }
         });
-        // Make the OpenGL context current
         glfwMakeContextCurrent(window);
-        // Enable v-sync
         glfwSwapInterval(1);
 
         glfwShowWindow(window);
