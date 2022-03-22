@@ -24,36 +24,29 @@ public class Window {
     float[] color = new float[4];
     boolean isFullScreen = false;
 
-    public Window(int height, int width, String name,float[] color)
-    {
+    public Window(int height, int width, String name,float[] color){
         this.height=height;
         this.width=width;
         this.name = name;
         this.color = color;
     }
 
-    public Window(int height, int width, String name, String monitor,float[] color)
-    {
+    public Window(int height, int width, String name, String monitor,float[] color){
         this.height=height;
         this.width=width;
         this.name = name;
         this.color = color;
-        if(Objects.equals(monitor, "primary"))
-        {
+        if(Objects.equals(monitor, "primary")){
             this.monitor = glfwGetPrimaryMonitor();
             mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         }
     }
 
-    public void WindowWithInit(int height, int width, String name,float[] color)
-    {
-
-        if(!glfwInit())
-        {
+    public void windowWithInit(int height, int width, String name, float[] color){
+        if(!glfwInit()){
             throw new IllegalStateException("GLFW not initialized or initialization failed");
         }
-        else
-        {
+        else{
             GLFWErrorCallback.createPrint(System.err).set();
             glfwDefaultWindowHints();
             glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
@@ -61,39 +54,31 @@ public class Window {
             this.width=width;
             this.name = name;
             this.color = color;
-            if(monitor != NULL)
-            {
+
+            if(monitor != NULL){
                 mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             }
-
             try{
                 window = glfwCreateWindow(width, height, name, NULL, NULL);
-                if(window==NULL)
-                {
+                if(window==NULL){
                     throw new IllegalStateException("Failed to create the GLFW window");
                 }
-            }catch (RuntimeException e)
-            {
+            }catch (RuntimeException e){
                 System.out.println(e.getMessage());
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true);
-            if ( key == GLFW_KEY_W) {
+            if(key == GLFW_KEY_W){
                 fullScreen();
-            }
-            if(key == GLFW_KEY_S)
-            {
+            }if(key == GLFW_KEY_S){
                 windowed(100, 100, 100, 100);
-            }
-            if(key == GLFW_KEY_Q)
-            {
+            }if(key == GLFW_KEY_Q){
                 fullScreenWindow();
             }
         });
-
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
@@ -101,13 +86,10 @@ public class Window {
 
     }
 
-    public void WindowWithInit(int height, int width, String name,float[] color, String monitor)
-    {
-        if(!glfwInit())
-        {
+    public void windowWithInit(int height, int width, String name, float[] color, String monitor){
+        if(!glfwInit()){
             throw new IllegalStateException("GLFW not initialized or initialization failed");
-        }
-        else {
+        }else{
             GLFWErrorCallback.createPrint(System.err).set();
             glfwDefaultWindowHints();
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -116,38 +98,32 @@ public class Window {
             this.name = name;
             this.color = color;
 
-            try {
-                if (Objects.equals(monitor, "primary")) {
+            try{
+                if(Objects.equals(monitor, "primary")){
                     this.monitor = glfwGetPrimaryMonitor();
                     mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                     window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
-                } else {
+                }else{
                     window = glfwCreateWindow(width, height, name, NULL, NULL);
-                }
-                if (window == NULL) {
+                }if(window == NULL){
                     throw new IllegalStateException("Failed to create the GLFW window");
                 }
-            } catch (RuntimeException e) {
+            }catch (RuntimeException e){
                 System.out.println(e.getMessage());
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
-            if ( key == GLFW_KEY_W) {
+            if(key == GLFW_KEY_W){
                 fullScreen();
-            }
-            if(key == GLFW_KEY_S)
-            {
+            }if(key == GLFW_KEY_S){
                 windowed(100, 100, 100, 100);
-            }
-            if(key == GLFW_KEY_Q)
-            {
+            }if(key == GLFW_KEY_Q){
                 fullScreenWindow();
             }
         });
-
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
@@ -155,108 +131,79 @@ public class Window {
 
     }
 
-    public void initializeWindow()
-    {
-        if(!glfwInit())
-        {
+    public void initializeWindow(){
+        if(!glfwInit()){
             throw new IllegalStateException("GLFW not initialized or initialization failed");
-        }
-        else
-        {
+        }else{
             GLFWErrorCallback.createPrint(System.err).set();
             glfwDefaultWindowHints();
             glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
             try{
-                if(monitor != NULL)
-                {
+                if(monitor != NULL){
                     this.monitor = glfwGetPrimaryMonitor();
                     mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                     window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
                     isFullScreen = true;
-                }
-                else
-                {
+                }else{
                     window = glfwCreateWindow(width, height, name, NULL, NULL);
 
-                }
-                if(window==NULL)
-                {
+                }if(window==NULL){
                     throw new IllegalStateException("Failed to create the GLFW window");
                 }
-            }catch (RuntimeException e)
-            {
+            }catch (RuntimeException e){
                 System.out.println(e.getMessage());
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
-            if ( key == GLFW_KEY_W) {
+            if(key == GLFW_KEY_W){
                 fullScreen();
-            }
-            if(key == GLFW_KEY_S)
-            {
+            }if(key == GLFW_KEY_S){
                 windowed(100, 100, 100, 100);
-            }
-            if(key == GLFW_KEY_Q)
-            {
+            }if(key == GLFW_KEY_Q){
                 fullScreenWindow();
             }
         });
-
-
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
         glfwShowWindow(window);
     }
 
-    public void initializeWindow(String monitor)
-    {
-        if(!glfwInit())
-        {
+    public void initializeWindow(String monitor){
+        if(!glfwInit()){
             throw new IllegalStateException("GLFW not initialized or initialization failed");
         }
-        else
-        {
+        else{
             GLFWErrorCallback.createPrint(System.err).set();
             glfwDefaultWindowHints();
             glfwWindowHint(GLFW_VISIBLE,GLFW_FALSE);
             try{
-                if(Objects.equals(monitor, "primary"))
-                {
+                if(Objects.equals(monitor, "primary")){
                     this.monitor = glfwGetPrimaryMonitor();
                     mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                     window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
-                }
-                else
-                {
+                }else{
                     window = glfwCreateWindow(width, height, name, NULL, NULL);
 
-                }
-                if(window==NULL)
-                {
+                }if(window==NULL){
                     throw new IllegalStateException("Failed to create the GLFW window");
                 }
-            }catch (RuntimeException e)
-            {
+            }catch (RuntimeException e){
                 System.out.println(e.getMessage());
             }
         }
 
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
+            if(key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
-            if ( key == GLFW_KEY_W) {
+            if(key == GLFW_KEY_W) {
                 fullScreen();
-            }
-            if(key == GLFW_KEY_S)
-            {
+            }if(key == GLFW_KEY_S){
                 windowed(100, 100, 100, 100);
-            }
-            if(key == GLFW_KEY_Q)
-            {
+            }if(key == GLFW_KEY_Q){
                 fullScreenWindow();
             }
         });
@@ -267,13 +214,12 @@ public class Window {
     }
 
     public void destroyWindow()
-    { 
-        // Free the window callbacks and destroy the window
+    {
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
     }
 
-    public void windowed(int width, int height,int x, int y)
+    public void windowed(int width, int height, int x, int y)
     {
         glfwSetWindowMonitor(window,NULL,x,y, width, height, mode.refreshRate());
     }
@@ -292,18 +238,14 @@ public class Window {
     {
         GL.createCapabilities();
 
-        while (!glfwWindowShouldClose(window))
-        {
+        while (!glfwWindowShouldClose(window)){
             glfwPollEvents();
 
             glClearColor(color[0], color[1], color[2], color[3]);
             glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
             glfwSwapBuffers(window);
-
         }
-
         destroyWindow();
-
     }
 }
 
