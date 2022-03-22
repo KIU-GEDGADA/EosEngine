@@ -24,14 +24,14 @@ public class Window {
     float[] color = new float[4];
     boolean isFullScreen = false;
 
-    public Window(int height, int width, String name,float[] color){
+    public Window(int height, int width, String name, float[] color){
         this.height=height;
         this.width=width;
         this.name = name;
         this.color = color;
     }
 
-    public Window(int height, int width, String name, String monitor,float[] color){
+    public Window(int height, int width, String name, String monitor, float[] color){
         this.height=height;
         this.width=width;
         this.name = name;
