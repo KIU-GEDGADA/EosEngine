@@ -13,10 +13,15 @@ public class Matrix4x4 {
 
     public static Matrix4x4 identity() {
         Matrix4x4 m = new Matrix4x4();
-        m.setCell(0, 0, 1);
-        m.setCell(1, 1, 1);
-        m.setCell(2, 2, 1);
-        m.setCell(3, 3, 1);
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < 4; j++) {
+                if(i == j) {
+                    m.setCell(i, j, 1);
+                } else {
+                    m.setCell(i, j, 0);
+                }
+            }
+        }
         return m;
     }
 
@@ -121,9 +126,9 @@ public class Matrix4x4 {
                     cells[3][1], cells[3][2], cells[3][3])
                     * detInv);
             m.setCell(0, 1, -determinant3x3(
-                    cells[1][0], cells[1][2], cells[1][3],
-                    cells[2][0], cells[2][2], cells[2][3],
-                    cells[3][0], cells[3][2], cells[3][3])
+                    cells[0][1], cells[0][2], cells[0][3],
+                    cells[2][1], cells[2][2], cells[2][3],
+                    cells[3][1], cells[3][2], cells[3][3])
                     * detInv);
             m.setCell(0, 2, determinant3x3(
                     cells[1][0], cells[1][1], cells[1][3],
@@ -211,14 +216,14 @@ public class Matrix4x4 {
     }
 
     public String toString() {
-        StringBuilder s = new StringBuilder();
+        String s = "";
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                s.append(cells[i][j]).append(" ");
+                s += cells[i][j] + " ";
             }
-            s.append("\n");
+            s += "\n";
         }
-        return s.toString();
+        return s;
     }
 
     public void setIdentity() {
