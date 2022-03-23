@@ -1,3 +1,5 @@
+import core.MainBehaviour;
+import core.MainEngine;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -117,6 +119,8 @@ public class TestClass {
     }
 
     public static void main(String[] args) {
-        new TestClass().run();
+        //new TestClass().run();
+        Game game = new Game();
+        new MainEngine("TestGame",300, 300, game).start();
     }
 }
