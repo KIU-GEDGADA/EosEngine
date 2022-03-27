@@ -1,7 +1,7 @@
 package math;
 
 public class Quaternion {
-    double w, x, y, z;
+    private double w, x, y, z;
 
     public Quaternion(double w, double x, double y, double z) {
         this.w = w;
