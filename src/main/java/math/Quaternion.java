@@ -26,11 +26,11 @@ public class Quaternion {
         return Math.sqrt(Math.pow(w, 2) + Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
     }
 
-    public Quaternion normalized() {
+    public Quaternion normalize() {
         return new Quaternion(w / length(), x / length(), y / length(), z / length());
     }
 
-    public Quaternion mulByScalar(double k) {
+    public Quaternion mul(double k) {
         return new Quaternion(w * k, x * k, y * k, z * k);
     }
 
@@ -62,7 +62,7 @@ public class Quaternion {
         return new Quaternion(w - r.getW(), x - r.getX(), y - r.getY(), z - r.getZ());
     }
 
-    public double dotProduct(Quaternion r) {
+    public double dot(Quaternion r) {
         return w * r.getW() + x * r.getX() + y * r.getY() + z * r.getZ();
     }
 
