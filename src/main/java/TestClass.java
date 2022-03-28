@@ -1,5 +1,6 @@
 import core.MainBehaviour;
 import core.MainEngine;
+import core.Window;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -119,8 +120,13 @@ public class TestClass {
     }
 
     public static void main(String[] args) {
-        //new TestClass().run();
+        //Creating new game object
         Game game = new Game();
-        new MainEngine("TestGame",300, 300, game).start();
+        //Creating new window
+        Window window = new Window(600, 600, "TestGame", new float[]{0.1f, 0.1f, 0.1f, 0.1f});
+        //Starting new mainEngine
+        new MainEngine(window, game).start();
+        //Starting window loop
+        window.loop();
     }
 }

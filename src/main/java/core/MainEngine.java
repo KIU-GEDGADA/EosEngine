@@ -1,7 +1,10 @@
 package core;
 
 import graphics.Renderer;
+import io.Input;
 import utils.Time;
+
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 public class MainEngine implements Runnable {
 
@@ -13,10 +16,10 @@ public class MainEngine implements Runnable {
     protected Renderer renderer;
     protected Window window;
 
-    public MainEngine(String windowName, int width, int height, MainBehaviour mainBehaviour) {
+    public MainEngine(Window window, MainBehaviour mainBehaviour) {
         gameLoopThread = new Thread(this, "Game_Loop_Thread");
         renderer = new Renderer();
-        window = null; //new core.Window(windowName, width, height); UNCOMMENT THIS
+        this.window = window;
         this.behaviour = mainBehaviour;
     }
 
@@ -24,6 +27,8 @@ public class MainEngine implements Runnable {
         renderer.init();
         Time.init();
         behaviour.init();
+        //    window.initializeWindow();
+        Input.init();
 
     }
 
@@ -44,46 +49,40 @@ public class MainEngine implements Runnable {
 
     public void clear() {
         renderer.clear();
-        window.destroy();
-    }
-
-    protected void input() {
-        behaviour.input(window);
+        window.destroyWindow();
     }
 
     protected void update(double interval) {
+
+        /*Updating Inputs */
+        Input.update();
+
         behaviour.update(interval);
+
+        /*Updating Time */
+        Time.updateFps();
+        Time.updateCycle();
+
     }
 
-    protected void update() {
-        behaviour.update();
-    }
 
     protected void render() {
         behaviour.render(window);
-        window.update();
     }
 
     public void gameLoop() {
         double delta;
-        while (true) {
-            if (!window.isRunning()) break;
+        while (window.isRunning()) {
 
             delta = Time.getDeltaTime();
 
-            /* Input Handling */
-            input();
 
             /* Rendering and actually updating Game */
             update(delta);
             render();
 
-            /*Updating Time */
-            Time.updateFps();
-            Time.updateCycle();
 
-
-            if (!window.isVSyncActivated()) Time.sync(TARGET_FPS);
+            Time.sync(TARGET_FPS);
         }
 
     }

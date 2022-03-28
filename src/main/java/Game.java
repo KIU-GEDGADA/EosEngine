@@ -3,6 +3,7 @@ import core.Window;
 
 public class Game implements MainBehaviour {
     private double k;
+
     @Override
     public void init() throws Exception {
         k = 0;
