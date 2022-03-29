@@ -1,3 +1,6 @@
+import core.MainBehaviour;
+import core.MainEngine;
+import core.Window;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -117,6 +120,30 @@ public class TestClass {
     }
 
     public static void main(String[] args) {
-        new TestClass().run();
+        // new TestClass().run();
+        MainBehaviour game = new MainBehaviour() {
+            private float counter;
+
+            @Override
+            public void init() throws Exception {
+                counter = 0;
+            }
+
+            @Override
+            public void update(double interval) {
+                counter += interval;
+                System.out.println(counter);
+            }
+
+            @Override
+            public void render(Window window) {
+
+            }
+        };
+
+        Window window = new Window(500, 500, "TestGame", new float[]{0.1f, 0.1f, 0.1f, 0.1f});
+        window.initializeWindow();
+        new MainEngine(window, game).start();
+        window.loop();
     }
 }
