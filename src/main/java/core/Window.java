@@ -15,14 +15,14 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 
 public class Window {
-    int height;
-    int width;
-    long window;
-    long monitor;
-    boolean isFullScreen = false;
-    String name;
-    GLFWVidMode mode;
-    Vector4f color;
+    private int height;
+    private int width;
+    private long window;
+    private long monitor;
+    private boolean isFullScreen;
+    private String name;
+    private GLFWVidMode mode;
+    private Vector4f color;
 
     public Window(int height, int width, String name, Vector4f color) {
         this.height = height;
@@ -40,6 +40,38 @@ public class Window {
             this.monitor = glfwGetPrimaryMonitor();
             mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         }
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public boolean isFullScreen() {
+        return isFullScreen;
+    }
+
+    public void setFullScreen(boolean fullScreen) {
+        isFullScreen = fullScreen;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void windowWithInit(int height, int width, String name, Vector4f color) {
