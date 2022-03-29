@@ -1,7 +1,9 @@
 package core;
 
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
+import math.Vector4f;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
 
 import java.util.Objects;
 
@@ -15,21 +17,21 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
     int height;
     int width;
-    String name;
     long window;
     long monitor;
-    GLFWVidMode mode;
-    float[] color = new float[4];
     boolean isFullScreen = false;
+    String name;
+    GLFWVidMode mode;
+    Vector4f color;
 
-    public Window(int height, int width, String name, float[] color) {
+    public Window(int height, int width, String name, Vector4f color) {
         this.height = height;
         this.width = width;
         this.name = name;
         this.color = color;
     }
 
-    public Window(int height, int width, String name, String monitor, float[] color) {
+    public Window(int height, int width, String name, String monitor, Vector4f color) {
         this.height = height;
         this.width = width;
         this.name = name;
@@ -40,7 +42,7 @@ public class Window {
         }
     }
 
-    public void windowWithInit(int height, int width, String name, float[] color) {
+    public void windowWithInit(int height, int width, String name, Vector4f color) {
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW not initialized or initialization failed");
         } else {
@@ -85,7 +87,7 @@ public class Window {
 
     }
 
-    public void windowWithInit(int height, int width, String name, float[] color, String monitor) {
+    public void windowWithInit(int height, int width, String name, Vector4f color, String monitor) {
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW not initialized or initialization failed");
         } else {
@@ -243,7 +245,7 @@ public class Window {
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
 
-            glClearColor(color[0], color[1], color[2], color[3]);
+            glClearColor(color.x, color.y, color.z, color.w);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glfwSwapBuffers(window);
         }

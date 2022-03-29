@@ -1,6 +1,7 @@
 import core.MainBehaviour;
 import core.MainEngine;
 import core.Window;
+import math.Vector4f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -130,7 +131,7 @@ public class TestClass {
             }
 
             @Override
-            public void update(double interval) {
+            public void update(float interval) {
                 counter += interval;
                 System.out.println(counter);
             }
@@ -141,7 +142,7 @@ public class TestClass {
             }
         };
 
-        Window window = new Window(500, 500, "TestGame", new float[]{0.1f, 0.1f, 0.1f, 0.1f});
+        Window window = new Window(500, 500, "TestGame", new Vector4f(0.1f, 0.1f, 0.1f, 1.0f));
         window.initializeWindow();
         new MainEngine(window, game).start();
         window.loop();

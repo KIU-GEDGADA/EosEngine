@@ -47,7 +47,7 @@ public class MainEngine implements Runnable {
         window.destroyWindow();
     }
 
-    protected void update(double interval) {
+    protected void update(float interval) {
         behaviour.update(interval);
 
 
@@ -62,7 +62,7 @@ public class MainEngine implements Runnable {
     }
 
     public void gameLoop() {
-        double delta;
+        float delta;
         while (window.isRunning()) {
 
             delta = Time.getDeltaTime();

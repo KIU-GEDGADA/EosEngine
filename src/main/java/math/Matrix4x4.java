@@ -1,13 +1,13 @@
 package math;
 
 public class Matrix4x4 {
-    private double[][] cells;
+    private float[][] cells;
 
     public Matrix4x4() {
-        cells = new double[4][4];
+        cells = new float[4][4];
     }
 
-    public Matrix4x4(double[][] cells) {
+    public Matrix4x4(float[][] cells) {
         this.cells = cells;
     }
 
@@ -21,31 +21,31 @@ public class Matrix4x4 {
         return new Matrix4x4();
     }
 
-    private static double determinant3x3(double m00, double m01, double m02,
-                                         double m10, double m11, double m12,
-                                         double m20, double m21, double m22) {
+    private static float determinant3x3(float m00, float m01, float m02,
+                                        float m10, float m11, float m12,
+                                        float m20, float m21, float m22) {
         return m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20);
     }
 
-    public void setCell(int i, int j, double value) throws IllegalArgumentException {
+    public void setCell(int i, int j, float value) throws IllegalArgumentException {
         if (i < 0 || i > 3 || j < 0 || j > 3) {
             throw new IllegalArgumentException("Index out of bounds");
         }
         cells[i][j] = value;
     }
 
-    public double getCell(int i, int j) throws IllegalArgumentException {
+    public float getCell(int i, int j) throws IllegalArgumentException {
         if (i < 0 || i > 3 || j < 0 || j > 3) {
             throw new IllegalArgumentException("Index out of bounds");
         }
         return cells[i][j];
     }
 
-    public double[][] getMatrix() {
+    public float[][] getMatrix() {
         return cells;
     }
 
-    public void setMatrix(double[][] m) throws IllegalArgumentException {
+    public void setMatrix(float[][] m) throws IllegalArgumentException {
         if (m.length != 4 || m[0].length != 4) {
             throw new IllegalArgumentException("Matrix must be 4x4");
         }
@@ -73,7 +73,7 @@ public class Matrix4x4 {
         return result;
     }
 
-    public void multiply(double scalar) {
+    public void multiply(float scalar) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 cells[i][j] *= scalar;
@@ -89,8 +89,8 @@ public class Matrix4x4 {
         }
     }
 
-    public double determinant() {
-        double det = 0;
+    public float determinant() {
+        float det = 0;
         det += cells[0][0] * (cells[1][1] * cells[2][2] * cells[3][3] + cells[1][2] * cells[2][3] * cells[3][1]
                 + cells[1][3] * cells[2][1] * cells[3][2] - cells[1][3] * cells[2][2] * cells[3][1]
                 - cells[1][1] * cells[2][3] * cells[3][2] - cells[1][2] * cells[2][1] * cells[3][3]);
@@ -108,7 +108,7 @@ public class Matrix4x4 {
 
     public Matrix4x4 inverse() throws IllegalArgumentException {
         Matrix4x4 m = new Matrix4x4();
-        double detInv = 1.0f / determinant();
+        float detInv = 1.0f / determinant();
         if (detInv == 0.0f) {
             throw new IllegalArgumentException("Matrix is not invertible");
         } else {

@@ -4,63 +4,64 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public class Time {
 
-    private static final double INTERVAL = 1.0f;
+    private static final float INTERVAL = 1.0f;
 
-    private static double presentTime;
-    private static double pastTime;
-    private static double updateCounter;
+    private static float presentTime;
+    private static float pastTime;
+    private static float updateCounter;
     private static int fpsCounter;
     private static int fps;
 
-    private Time(){}
+    private Time() {
+    }
 
-    public static double getPresentTime() {
+    public static float getPresentTime() {
         return presentTime;
     }
 
-    public static double getPastTime() {
+    public static float getPastTime() {
         return pastTime;
     }
 
-    public static void init(){
-        pastTime = glfwGetTime();
+    public static void init() {
+        pastTime = (float) glfwGetTime();
     }
 
-    public static double getDeltaTime(){
-        presentTime = glfwGetTime();
-        double deltaTime = presentTime - pastTime;
+    public static float getDeltaTime() {
+        presentTime = (float) glfwGetTime();
+        float deltaTime = presentTime - pastTime;
         pastTime = presentTime;
         updateCounter += deltaTime;
         return deltaTime;
     }
 
-    public static void updateFps(){
+    public static void updateFps() {
         fpsCounter++;
     }
 
-    public static void updateCycle(){
-        if (updateCounter >= INTERVAL){
+    public static void updateCycle() {
+        if (updateCounter >= INTERVAL) {
             fps = fpsCounter;
             fpsCounter = 0;
             updateCounter -= INTERVAL;
         }
     }
 
-    public static int getFps(){
+    public static int getFps() {
         return fps > 0 ? fps : fpsCounter;
     }
 
-    public static void sync(int FPS){
-        double actualTime = 1.0f / FPS;
-        presentTime = glfwGetTime();
-        while(presentTime - pastTime < actualTime){
+    public static void sync(int FPS) {
+        float actualTime = 1.0f / FPS;
+        presentTime = (float) glfwGetTime();
+        while (presentTime - pastTime < actualTime) {
             Thread.yield();
             try {
                 Thread.sleep(1);
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            presentTime = glfwGetTime();
+            presentTime = (float) glfwGetTime();
         }
     }
 }
