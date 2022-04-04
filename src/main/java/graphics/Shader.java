@@ -158,8 +158,4 @@ public class Shader {
 
         glUseProgram(0);
     }
-
-    public static void main(String[] args){
-            Shader test = new Shader("Shaders/default.glsl");
-    }
 }
