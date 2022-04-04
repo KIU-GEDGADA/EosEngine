@@ -1,4 +1,6 @@
-package math;
+package graphics;
+
+import math.Vector3f;
 
 import java.util.Arrays;
 
