@@ -143,4 +143,8 @@ public class Vector4f {
         this.w = -this.w;
     }
 
+    public float[] coordinateArray() {
+        return new float[] {x, y, z, w};
+    }
+
 }
