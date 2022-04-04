@@ -139,4 +139,8 @@ public class Vector2f {
         this.y = -this.y;
     }
 
+    public float[] coordinateArray() {
+        return new float[] {x, y};
+    }
+
 }

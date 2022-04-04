@@ -187,4 +187,8 @@ public class Vector3f {
         this.z = -this.z;
     }
 
+    public float[] coordinateArray() {
+        return new float[] {x, y, z};
+    }
+
 }
