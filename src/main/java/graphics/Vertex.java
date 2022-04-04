@@ -1,22 +1,21 @@
 package graphics;
 
 import math.Vector3f;
-
-import java.util.Arrays;
+import math.Vector4f;
 
 public class Vertex {
 
     private Vector3f position;
-    private float[] colors;
+    private Vector4f colors;
 
     public Vertex() {
-        position = Vector3f.zero();
-        colors = new float[4];
+        this.position = Vector3f.zero();
+        this.colors = new Vector4f(0, 0, 0, 0);
     }
 
     public Vertex(Vector3f position) {
         this.position = position;
-        this.colors = new float[4];
+        this.colors = new Vector4f(0, 0, 0, 0);
     }
 
     public Vertex(Vertex vertex) {
@@ -24,10 +23,9 @@ public class Vertex {
         this.colors = vertex.colors;
     }
 
-    public Vertex(Vector3f position, float[] colors) {
+    public Vertex(Vector3f position, Vector4f colors) {
         this.position = position;
         this.colors = colors;
-
     }
 
     public Vector3f getPosition() {
@@ -38,19 +36,19 @@ public class Vertex {
         this.position = position;
     }
 
-    public float[] getColors() {
+    public Vector4f getColors() {
         return colors;
     }
 
-    public void setColors(float[] colors) {
+    public void setColors(Vector4f colors) {
         this.colors = colors;
     }
 
     public String toString() {
-        return "Position: " + position.toString() + ", Colors: " + Arrays.toString(colors);
+        return "Position: " + position.toString() + ", Colors: " + colors.toString();
     }
 
     public boolean equals(Vertex vertex) {
-        return this.position.equals(vertex.position) && Arrays.equals(this.colors, vertex.colors);
+        return this.position.equals(vertex.position) && this.colors.equals(vertex.colors);
     }
 }
