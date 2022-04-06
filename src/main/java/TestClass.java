@@ -111,10 +111,7 @@ public class TestClass {
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             glfwSwapBuffers(window); // swap the color buffers
-            System.out.println(Time.getDeltaTime());
-            if (Input.isKeyDown(GLFW_KEY_SPACE)) {
-                System.out.println("AAAAAAAAAAA");
-            }
+
             Input.update();
             Time.updateFps();
             Time.updateCycle();
