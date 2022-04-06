@@ -6,8 +6,6 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
-import java.util.Objects;
-
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -39,7 +37,7 @@ public class Window {
         this.width = width;
         this.name = name;
         this.color = color;
-        if (Objects.equals(monitor, "primary")) {
+        if (monitor.equals("primary")) {
             this.monitor = glfwGetPrimaryMonitor();
             mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         }
@@ -196,7 +194,7 @@ public class Window {
 
     private void initializeComponents(String monitor, int width, int height, String name) {
         try {
-            if (Objects.equals(monitor, "primary")) {
+            if (monitor.equals("primary")) {
                 this.monitor = glfwGetPrimaryMonitor();
                 mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
                 window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
