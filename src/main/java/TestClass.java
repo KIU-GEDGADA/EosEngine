@@ -8,7 +8,9 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+
 import java.nio.*;
+import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -35,7 +37,7 @@ public class TestClass {
 
         // Terminate GLFW and free the error callback
         glfwTerminate();
-        glfwSetErrorCallback(null).free();
+        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
 
     private void init() {
@@ -73,6 +75,7 @@ public class TestClass {
             GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
             // Center the window
+            assert vidmode != null;
             glfwSetWindowPos(
                     window,
                     (vidmode.width() - pWidth.get(0)) / 2,
@@ -88,7 +91,7 @@ public class TestClass {
         // Make the window visible
         glfwShowWindow(window);
 
-        Time.init();
+        // Time.init();
     }
 
     private void loop() {
@@ -119,7 +122,7 @@ public class TestClass {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
-            System.out.println(String.format("FPS: %d", Time.getFps()));
+            System.out.printf("FPS: %d%n", Time.getFps());
         }
     }
 
@@ -136,8 +139,9 @@ public class TestClass {
             @Override
             public void update() {
                 if (Input.isKeyDown(GLFW_KEY_SPACE))
-                    System.out.println("hehehe");
-
+                    System.out.println("Space button pushed");
+                counter += Time.getDeltaTime();
+                //   System.out.println("Time Passed: " + counter);
             }
 
             @Override
@@ -145,6 +149,13 @@ public class TestClass {
 
             }
         };
-        new MainEngine(500, 500, "TestGame", new Vector4f(0.1f, 0.1f, 0.1f, 1.0f), false, game).start();
+        new MainEngine(
+                500,
+                500,
+                "TestGame",
+                new Vector4f(0.1f, 0.1f, 0.1f, 0.1f),
+                false,
+                game
+        ).start();
     }
 }
