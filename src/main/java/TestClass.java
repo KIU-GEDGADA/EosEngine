@@ -1,6 +1,7 @@
 import core.MainBehaviour;
 import core.MainEngine;
 import core.Window;
+import io.Input;
 import math.Vector4f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -38,6 +39,7 @@ public class TestClass {
     }
 
     private void init() {
+        Input.init();
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -57,10 +59,7 @@ public class TestClass {
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-        });
+        glfwSetKeyCallback(window, Input.getKeyboard());
 
         // Get the thread stack and push a new frame
         try (MemoryStack stack = stackPush()) {
@@ -110,9 +109,13 @@ public class TestClass {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             glfwSwapBuffers(window); // swap the color buffers
             System.out.println(Time.getDeltaTime());
+            if (Input.isKeyDown(GLFW_KEY_SPACE)) {
+                System.out.println("AAAAAAAAAAA");
+            }
+            Input.update();
             Time.updateFps();
             Time.updateCycle();
-            Time.sync(60);
+            //  Time.sync(60);
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
@@ -121,7 +124,7 @@ public class TestClass {
     }
 
     public static void main(String[] args) {
-        // new TestClass().run();
+        //   new TestClass().run();
         MainBehaviour game = new MainBehaviour() {
             private float counter;
 
@@ -131,9 +134,10 @@ public class TestClass {
             }
 
             @Override
-            public void update(float interval) {
-                counter += interval;
-                System.out.println(counter);
+            public void update() {
+                if (Input.isKeyDown(GLFW_KEY_SPACE))
+                    System.out.println("hehehe");
+
             }
 
             @Override
@@ -141,10 +145,6 @@ public class TestClass {
 
             }
         };
-
-        Window window = new Window(500, 500, "TestGame", new Vector4f(0.1f, 0.1f, 0.1f, 1.0f));
-        window.initializeWindow();
-        new MainEngine(window, game).start();
-        window.loop();
+        new MainEngine(500, 500, "TestGame", new Vector4f(0.1f, 0.1f, 0.1f, 1.0f), false, game).start();
     }
 }

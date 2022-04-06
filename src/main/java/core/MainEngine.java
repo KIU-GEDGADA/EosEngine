@@ -1,7 +1,10 @@
 package core;
 
 import graphics.Renderer;
+import io.Input;
+import math.Vector4f;
 import utils.Time;
+import utils.TimeTest;
 
 public class MainEngine implements Runnable {
 
@@ -12,23 +15,28 @@ public class MainEngine implements Runnable {
     protected MainBehaviour behaviour;
     protected Renderer renderer;
     protected Window window;
+    protected TimeTest timer;
 
-    public MainEngine(Window window, MainBehaviour mainBehaviour) {
+
+    public MainEngine(int height, int width, String name, Vector4f color, boolean isvSync, MainBehaviour mainBehaviour) {
         gameLoopThread = new Thread(this, "Game_Loop_Thread");
         renderer = new Renderer();
-        this.window = window;
+        this.window = new Window(height, width, name, color, isvSync);
         this.behaviour = mainBehaviour;
+        timer = new TimeTest();
     }
 
     public void init() throws Exception {
+        window.initializeWindow();
+        timer.init();
         renderer.init();
-        Time.init();
         behaviour.init();
 
     }
 
     public void start() {
         gameLoopThread.start();
+        //   windowThread.start();
     }
 
     @Override
@@ -44,35 +52,49 @@ public class MainEngine implements Runnable {
 
     public void clear() {
         renderer.clear();
-        window.destroyWindow();
     }
 
     protected void update(float interval) {
-        behaviour.update(interval);
-
+        behaviour.update();
 
         /*Updating Time */
-        Time.updateFps();
-        Time.updateCycle();
+        //   Time.getDeltaTime();
+        //  Time.updateCycle();
 
+        /* Input handling */
+        Input.update();
     }
 
     protected void render() {
         behaviour.render(window);
+        window.update();
     }
 
-    public void gameLoop() {
-        float delta;
+    public void gameLoop() throws InterruptedException {
+        int counter = 0;
         while (window.isRunning()) {
+            float deltaTime =(float) timer.getDeltaTime();
 
-            delta = Time.getDeltaTime();
+             System.out.println("Thread sleeps");
+           //  gameLoopThread.sleep(1000);
 
+            counter++;
             /* Rendering and actually updating Game */
-            update(delta);
+            while (timer.checkCycle()) {
+                update(deltaTime);
+                timer.updateFps();
+                timer.updateCycle();
+            }
+
             render();
 
+            System.out.printf("FPS: %d%n", counter);
 
-            Time.sync(TARGET_FPS);
+
+            if (!window.isvSync()) {
+                timer.sync(TARGET_FPS);
+            }
+            counter = 0;
         }
 
     }

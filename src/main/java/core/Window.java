@@ -1,9 +1,11 @@
 package core;
 
+import io.Input;
 import math.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import utils.Time;
 
 import java.util.Objects;
 
@@ -23,12 +25,14 @@ public class Window {
     private String name;
     private GLFWVidMode mode;
     private Vector4f color;
+    private boolean isvSync;
 
-    public Window(int height, int width, String name, Vector4f color) {
+    public Window(int height, int width, String name, Vector4f color, boolean isvSync) {
         this.height = height;
         this.width = width;
         this.name = name;
         this.color = color;
+        this.isvSync = isvSync;
     }
 
     public Window(int height, int width, String name, String monitor, Vector4f color) {
@@ -41,6 +45,15 @@ public class Window {
             mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         }
     }
+
+    public void setvSync(boolean vSync) {
+        this.isvSync = vSync;
+    }
+
+    public boolean isvSync() {
+        return isvSync;
+    }
+
 
     public int getHeight() {
         return height;
@@ -99,19 +112,7 @@ public class Window {
             }
         }
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true);
-            if (key == GLFW_KEY_W) {
-                fullScreen();
-            }
-            if (key == GLFW_KEY_S) {
-                windowed(100, 100, 100, 100);
-            }
-            if (key == GLFW_KEY_Q) {
-                fullScreenWindow();
-            }
-        });
+        setupCallback();
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
@@ -147,19 +148,7 @@ public class Window {
             }
         }
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true);
-            if (key == GLFW_KEY_W) {
-                fullScreen();
-            }
-            if (key == GLFW_KEY_S) {
-                windowed(100, 100, 100, 100);
-            }
-            if (key == GLFW_KEY_Q) {
-                fullScreenWindow();
-            }
-        });
+        setupCallback();
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
@@ -168,6 +157,7 @@ public class Window {
     }
 
     public void initializeWindow() {
+        Input.init();
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW not initialized or initialization failed");
         } else {
@@ -192,6 +182,14 @@ public class Window {
             }
         }
 
+        setupCallback();
+
+
+        glfwShowWindow(window);
+        GL.createCapabilities();
+    }
+
+    private void setupCallback() {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
                 glfwSetWindowShouldClose(window, true);
@@ -205,10 +203,12 @@ public class Window {
                 fullScreenWindow();
             }
         });
+        glfwSetKeyCallback(window, Input.getKeyboard());
+        glfwSetMouseButtonCallback(window, Input.getMbtn());
+        glfwSetCursorPosCallback(window, Input.getMouse());
         glfwMakeContextCurrent(window);
-        glfwSwapInterval(1);
-
-        glfwShowWindow(window);
+        if (isvSync) glfwSwapInterval(1);
+        else glfwSwapInterval(0);
     }
 
     public void initializeWindow(String monitor) {
@@ -235,19 +235,7 @@ public class Window {
             }
         }
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true);
-            if (key == GLFW_KEY_W) {
-                fullScreen();
-            }
-            if (key == GLFW_KEY_S) {
-                windowed(100, 100, 100, 100);
-            }
-            if (key == GLFW_KEY_Q) {
-                fullScreenWindow();
-            }
-        });
+        setupCallback();
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
@@ -271,21 +259,24 @@ public class Window {
         glfwSetWindowMonitor(window, monitor, 0, 0, mode.width(), mode.height(), 0);
     }
 
-    public void loop() {
-        GL.createCapabilities();
-
-        while (!glfwWindowShouldClose(window)) {
-            glfwPollEvents();
-
-            glClearColor(color.x, color.y, color.z, color.w);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glfwSwapBuffers(window);
+    public void update() {
+        if (glfwWindowShouldClose(window)) {
+            destroyWindow();
+            return;
         }
-        destroyWindow();
+
+        glClearColor(color.x, color.y, color.z, color.w);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glfwSwapBuffers(window);
+
+
+        glfwPollEvents();
+
     }
 
     protected boolean isRunning() {
         return !glfwWindowShouldClose(window);
     }
+
 }
 

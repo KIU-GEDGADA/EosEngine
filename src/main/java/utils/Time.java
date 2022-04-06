@@ -27,7 +27,7 @@ public class Time {
         pastTime = (float) glfwGetTime();
     }
 
-    public static float getDeltaTime() {
+    public static synchronized float getDeltaTime() {
         presentTime = (float) glfwGetTime();
         float deltaTime = presentTime - pastTime;
         pastTime = presentTime;
@@ -35,11 +35,11 @@ public class Time {
         return deltaTime;
     }
 
-    public static void updateFps() {
+    public static synchronized void updateFps() {
         fpsCounter++;
     }
 
-    public static void updateCycle() {
+    public static synchronized void updateCycle() {
         if (updateCounter >= INTERVAL) {
             fps = fpsCounter;
             fpsCounter = 0;
@@ -64,4 +64,5 @@ public class Time {
             presentTime = (float) glfwGetTime();
         }
     }
+
 }
