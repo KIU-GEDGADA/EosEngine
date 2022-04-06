@@ -8,7 +8,7 @@ import utils.Time;
 public class MainEngine implements Runnable {
 
 
-    public static final int TARGET_FPS = 120;
+    public static final int TARGET_FPS = 60;
 
     private final Thread gameLoopThread;
     protected MainBehaviour behaviour;
