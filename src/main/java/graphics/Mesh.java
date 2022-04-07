@@ -10,7 +10,6 @@ import static org.lwjgl.opengl.GL33.*;
 public class Mesh {
     private int vertexArrayObject;
     private int vertexBufferObject;
-    private int vertexCount;
     private int elementArrayObject;
     private Shader shader;
     private int elementCount;
@@ -31,10 +30,9 @@ public class Mesh {
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elements.length);
         elementBuffer.put(elements).flip();
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,elementArrayObject);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,elementArrayObject,GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayObject);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementArrayObject, GL_STATIC_DRAW);
 
-        vertexCount = vertices.length / 3;
         elementCount = elements.length;
         glBindVertexArray(0);
     }
@@ -45,12 +43,12 @@ public class Mesh {
         int positionsSize = 3;
         int colorSize = 4;
         int floatSizeInBytes = 4;
-        int vertexSizeInBytes =  (positionsSize + colorSize) * floatSizeInBytes;
+        int vertexSizeInBytes = (positionsSize + colorSize) * floatSizeInBytes;
 
-        glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeInBytes, 0 );
+        glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeInBytes, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeInBytes, positionsSize*floatSizeInBytes);
+        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeInBytes, positionsSize * floatSizeInBytes);
         glEnableVertexAttribArray(1);
 
         shader.use();
@@ -58,7 +56,7 @@ public class Mesh {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        glDrawElements(GL_TRIANGLES, elementCount,GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, 0);
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
@@ -73,7 +71,7 @@ public class Mesh {
         shader.detach();
     }
 
-    public void stop(){
+    public void stop() {
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
 
@@ -81,8 +79,8 @@ public class Mesh {
         shader.detach();
     }
 
-    public void setShader(Shader shader){
-        try{
+    public void setShader(Shader shader) {
+        try {
             stop();
         } catch (Exception e) {
             System.out.println("Shader could not be stopped or not running");
@@ -90,10 +88,6 @@ public class Mesh {
         }
         this.shader = shader;
         this.shader.use();
-    }
-
-    public int getVertexCount() {
-        return vertexCount;
     }
 
     public int getVertexArrayObject() {
@@ -108,8 +102,8 @@ public class Mesh {
         return elementCount;
     }
 
-    public int getElementArrayObject(){
-        return  elementArrayObject;
+    public int getElementArrayObject() {
+        return elementArrayObject;
     }
 
     public FloatBuffer flipBuffer(Vertex[] vertices) {
