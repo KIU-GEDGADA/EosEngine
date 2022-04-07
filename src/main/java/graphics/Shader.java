@@ -20,13 +20,6 @@ public class Shader {
     private String fragmentSource;
     private String filePath;
 
-    private float[] vertexArray;
-    private int[] elementArray;
-
-    private int vaoID;
-    private int vboID;
-    private int eboID;
-
     public Shader(String filePath){
         this.filePath = filePath;
         try{
@@ -101,62 +94,11 @@ public class Shader {
         }
     }
 
-    public void setVertexArray(float[] vertexArray){
-        this.vertexArray = vertexArray;
-    }
-
-    public void setElementArray(int[] elementArray){
-        this.elementArray = elementArray;
-    }
-
-    public void init(){
-        vaoID = glGenVertexArrays();
-        glBindVertexArray(vaoID);
-
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
-        vertexBuffer.put(vertexArray).flip();
-
-        vboID = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER,vboID);
-        glBufferData(GL_ARRAY_BUFFER,vertexBuffer,GL_STATIC_DRAW);
-
-        IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
-        elementBuffer.put(elementArray).flip();
-
-        eboID = glGenBuffers();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,eboID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,eboID,GL_STATIC_DRAW);
-
-        int positionsSize = 3;
-        int colorSize = 4;
-        int floatSizeInBytes = 4;
-        int vertexSizeInBytes =  (positionsSize + colorSize) * floatSizeInBytes;
-        glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeInBytes, 0 );
-        glEnableVertexAttribArray(0);
-
-        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeInBytes, positionsSize*floatSizeInBytes);
-        glEnableVertexAttribArray(1);
-
-
-    }
-
     public void use(){
         glUseProgram(shaderProgrammeID);
-        glBindVertexArray(vaoID);
-
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-
-        glDrawElements(GL_TRIANGLES, elementArray.length,GL_UNSIGNED_INT, 0);
-
     }
 
     public void detach(){
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
-
-        glBindVertexArray(0);
-
         glUseProgram(0);
     }
 }
