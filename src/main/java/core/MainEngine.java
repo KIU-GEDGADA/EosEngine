@@ -1,28 +1,32 @@
 package core;
 
 import graphics.Renderer;
+import io.Input;
+import math.Vector4f;
 import utils.Time;
 
 public class MainEngine implements Runnable {
 
 
-    public static final int TARGET_FPS = 60;
+    public static final int TARGET_FPS = 30;
 
     private final Thread gameLoopThread;
     protected MainBehaviour behaviour;
     protected Renderer renderer;
     protected Window window;
 
-    public MainEngine(Window window, MainBehaviour mainBehaviour) {
+
+    public MainEngine(int height, int width, String name, Vector4f color, boolean isVSync, MainBehaviour mainBehaviour) {
         gameLoopThread = new Thread(this, "Game_Loop_Thread");
         renderer = new Renderer();
-        this.window = window;
+        this.window = new Window(height, width, name, color, isVSync);
         this.behaviour = mainBehaviour;
     }
 
     public void init() throws Exception {
+        window.initializeWindow();
+        Time.init(TARGET_FPS);
         renderer.init();
-        Time.init();
         behaviour.init();
 
     }
@@ -44,35 +48,42 @@ public class MainEngine implements Runnable {
 
     public void clear() {
         renderer.clear();
-        window.destroyWindow();
     }
 
-    protected void update(float interval) {
-        behaviour.update(interval);
-
+    protected void update() {
+        behaviour.update();
 
         /*Updating Time */
         Time.updateFps();
         Time.updateCycle();
 
+        /* Input handling */
+        Input.update();
     }
 
     protected void render() {
         behaviour.render(window);
+        window.update();
     }
 
     public void gameLoop() {
-        float delta;
         while (window.isRunning()) {
 
-            delta = Time.getDeltaTime();
+            /* Updating delta Time for correct interval Calculation */
+            Time.updateDeltaTime();
 
             /* Rendering and actually updating Game */
-            update(delta);
+            while (Time.checkCycle()) {
+                update();
+            }
+
             render();
 
+            System.out.println(Time.getFps());
 
-            Time.sync(TARGET_FPS);
+            if (!window.isVSync()) {
+                Time.sync();
+            }
         }
 
     }

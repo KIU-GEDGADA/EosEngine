@@ -4,7 +4,7 @@ public interface MainBehaviour {
 
     void init() throws Exception;
 
-    void update(float interval);
+    void update();
 
     void render(Window window);
 
