@@ -100,10 +100,10 @@ public class Mesh {
     }
 
     public FloatBuffer flippedBuffer(Vertex[] vertices) {
-        FloatBuffer buffer = FloatBuffer.allocate(vertices.length * 3);
+        FloatBuffer buffer = FloatBuffer.allocate(vertices.length * 7);
         for (Vertex vertex : vertices) {
             buffer.put(vertex.getPosition().coordinateArray());
-            //buffer.put(vertex.getColor().coordinateArray());
+            buffer.put(vertex.getColor().coordinateArray());
         }
         buffer.flip();
         return buffer;
