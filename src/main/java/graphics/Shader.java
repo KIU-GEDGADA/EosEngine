@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL33.*;
 
 public class Shader {
 
@@ -18,13 +18,13 @@ public class Shader {
         this.filePath = filePath;
         try {
             String source = new String(Files.readAllBytes(Paths.get(filePath)));
-            String[] splitString = source.split("(#type)( )+([a-zA-Z]+)");
+            String[] splitString = source.split("(//type)( )+([a-zA-Z]+)");
 
-            int index = source.indexOf("#type") + 6;
+            int index = source.indexOf("//type") + 6;
             int endOfLine = source.indexOf("\r\n", index);
             String firstPattern = source.substring(index, endOfLine).trim();
 
-            index = source.indexOf("#type", endOfLine) + 6;
+            index = source.indexOf("//type", endOfLine) + 6;
             endOfLine = source.indexOf("\r\n", index);
             String secondPattern = source.substring(index, endOfLine).trim();
 
@@ -53,7 +53,6 @@ public class Shader {
     public void compileAndLink() {
         int vertexID;
         int fragmentID;
-        int shaderProgramID;
 
         vertexID = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexID, vertexSource);
@@ -75,16 +74,17 @@ public class Shader {
             assert false : "";
         }
 
-        shaderProgramID = glCreateProgram();
-        glAttachShader(shaderProgramID, vertexID);
-        glAttachShader(shaderProgramID, fragmentID);
-        glLinkProgram(shaderProgramID);
+        this.shaderProgrammeID = glCreateProgram();
+        glAttachShader(this.shaderProgrammeID, vertexID);
+        glAttachShader(this.shaderProgrammeID, fragmentID);
+        glLinkProgram(this.shaderProgrammeID);
 
-        if (glGetProgrami(shaderProgramID, GL_LINK_STATUS) == GL_FALSE) {
+        if (glGetProgrami(this.shaderProgrammeID, GL_LINK_STATUS) == GL_FALSE) {
             System.out.println("ERROR: " + filePath + " shaders could not be linked");
-            System.out.println(glGetProgramInfoLog(shaderProgramID, glGetProgrami(fragmentID, GL_INFO_LOG_LENGTH)));
+            System.out.println(glGetProgramInfoLog(this.shaderProgrammeID, glGetProgrami(fragmentID, GL_INFO_LOG_LENGTH)));
             assert false : "";
         }
+        System.out.println("Shader " + filePath + " compiled and linked successfully");
     }
 
     public void use() {

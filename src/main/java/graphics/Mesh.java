@@ -1,22 +1,28 @@
 package graphics;
 
-import org.lwjgl.BufferUtils;
-
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL33.*;
 
 public class Mesh {
+    int positionSize = 3;
+    int colorSize = 4;
+    int floatSizeInBytes = 4;
+    int vertexSizeInBytes = (positionSize + colorSize) * floatSizeInBytes;
+
     private int vertexArrayObject;
     private int vertexBufferObject;
     private int elementArrayObject;
+    private int vertexCount;
     private Shader shader;
-    private int elementCount;
 
     public Mesh(Vertex[] vertices, int[] elements, Shader shader) {
         this.shader = shader;
-        shader.compileAndLink();
+        this.shader.compileAndLink();
+        this.shader.use();
+
+        vertexCount = elements.length;
 
         vertexArrayObject = glGenVertexArrays();
         vertexBufferObject = glGenBuffers();
@@ -24,44 +30,31 @@ public class Mesh {
 
         glBindVertexArray(vertexArrayObject);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-        for (Vertex vertex : vertices) {
-            glBufferData(GL_ARRAY_BUFFER, flipBuffer(vertices), GL_STATIC_DRAW);
-        }
-        IntBuffer elementBuffer = BufferUtils.createIntBuffer(elements.length);
-        elementBuffer.put(elements).flip();
-
+        glBufferData(GL_ARRAY_BUFFER, flippedBuffer(vertices), GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayObject);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementArrayObject, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, flippedBuffer(elements), GL_STATIC_DRAW);
+        glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeInBytes, 0);
+        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeInBytes, positionSize * floatSizeInBytes);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
 
-        elementCount = elements.length;
         glBindVertexArray(0);
     }
 
     public void render() {
         glBindVertexArray(vertexArrayObject);
 
-        int positionsSize = 3;
-        int colorSize = 4;
-        int floatSizeInBytes = 4;
-        int vertexSizeInBytes = (positionsSize + colorSize) * floatSizeInBytes;
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementArrayObject);
 
-        glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeInBytes, 0);
-        glEnableVertexAttribArray(0);
+        glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
 
-        glVertexAttribPointer(1, colorSize, GL_FLOAT, false, vertexSizeInBytes, positionsSize * floatSizeInBytes);
-        glEnableVertexAttribArray(1);
 
-        shader.use();
-
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-
-        glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_INT, 0);
-
-        glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindVertexArray(0);
+        System.out.println("Rendered");
     }
 
     public void clear() {
@@ -98,18 +91,28 @@ public class Mesh {
         return vertexBufferObject;
     }
 
-    public int getElementCount() {
-        return elementCount;
+    public int getVertexCount() {
+        return vertexCount;
     }
 
     public int getElementArrayObject() {
         return elementArrayObject;
     }
 
-    public FloatBuffer flipBuffer(Vertex[] vertices) {
+    public FloatBuffer flippedBuffer(Vertex[] vertices) {
         FloatBuffer buffer = FloatBuffer.allocate(vertices.length * 3);
         for (Vertex vertex : vertices) {
             buffer.put(vertex.getPosition().coordinateArray());
+            //buffer.put(vertex.getColor().coordinateArray());
+        }
+        buffer.flip();
+        return buffer;
+    }
+
+    public IntBuffer flippedBuffer(int[] elements) {
+        IntBuffer buffer = IntBuffer.allocate(elements.length);
+        for (int element : elements) {
+            buffer.put(element);
         }
         buffer.flip();
         return buffer;

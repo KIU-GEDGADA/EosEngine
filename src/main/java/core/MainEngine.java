@@ -1,7 +1,11 @@
 package core;
 
+import graphics.Mesh;
 import graphics.Renderer;
+import graphics.Shader;
+import graphics.Vertex;
 import io.Input;
+import math.Vector3f;
 import math.Vector4f;
 import utils.Time;
 
@@ -24,11 +28,10 @@ public class MainEngine implements Runnable {
     }
 
     public void init() throws Exception {
-        window.initializeWindow();
+        window.init();
+        behaviour.init();
         Time.init(TARGET_FPS);
         renderer.init();
-        behaviour.init();
-
     }
 
     public void start() {
@@ -48,6 +51,7 @@ public class MainEngine implements Runnable {
 
     public void clear() {
         renderer.clear();
+        behaviour.clear();
     }
 
     protected void update() {
@@ -56,14 +60,15 @@ public class MainEngine implements Runnable {
         /*Updating Time */
         Time.updateFps();
         Time.updateCycle();
-
+        //mesh.clear();
         /* Input handling */
         Input.update();
+        window.update();
     }
 
     protected void render() {
         behaviour.render(window);
-        window.update();
+        //mesh.render();
     }
 
     public void gameLoop() {

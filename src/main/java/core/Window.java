@@ -43,12 +43,12 @@ public class Window {
         }
     }
 
-    public void setVSync(boolean vSync) {
-        this.isVSync = vSync;
-    }
-
     public boolean isVSync() {
         return isVSync;
+    }
+
+    public void setVSync(boolean vSync) {
+        this.isVSync = vSync;
     }
 
     public int getHeight() {
@@ -83,65 +83,63 @@ public class Window {
         this.name = name;
     }
 
-    protected void windowWithInit(int height, int width, String name, Vector4f color) {
-        Input.init();
-        if (!glfwInit()) {
-            throw new IllegalStateException("GLFW not initialized or initialization failed");
-        } else {
-            GLFWErrorCallback.createPrint(System.err).set();
-            glfwDefaultWindowHints();
-            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-            this.height = height;
-            this.width = width;
-            this.name = name;
-            this.color = color;
+//    protected void windowWithInit(int height, int width, String name, Vector4f color) {
+//        Input.init();
+//        if (!glfwInit()) {
+//            throw new IllegalStateException("GLFW not initialized or initialization failed");
+//        } else {
+//
+//            this.height = height;
+//            this.width = width;
+//            this.name = name;
+//            this.color = color;
+//
+//            if (monitor != NULL) {
+//                mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+//            }
+//            try {
+//                window = glfwCreateWindow(width, height, name, NULL, NULL);
+//                if (window == NULL) {
+//                    throw new IllegalStateException("Failed to create the GLFW window");
+//                }
+//            } catch (RuntimeException e) {
+//                System.out.println(e.getMessage());
+//            }
+//        }
+//
+//        setupCallback();
+//        glfwMakeContextCurrent(window);
+//        glfwSwapInterval(1);
+//
+//        glfwShowWindow(window);
+//
+//    }
+//
+//    protected void windowWithInit(int height, int width, String name, Vector4f color, String monitor) {
+//        Input.init();
+//        if (!glfwInit()) {
+//            throw new IllegalStateException("GLFW not initialized or initialization failed");
+//        } else {
+//            GLFWErrorCallback.createPrint(System.err).set();
+//            glfwDefaultWindowHints();
+//            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+//            this.height = height;
+//            this.width = width;
+//            this.name = name;
+//            this.color = color;
+//
+//            initializeComponents(monitor, width, height, name);
+//        }
+//
+//        setupCallback();
+//        glfwMakeContextCurrent(window);
+//        glfwSwapInterval(1);
+//
+//        glfwShowWindow(window);
+//
+//    }
 
-            if (monitor != NULL) {
-                mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-            }
-            try {
-                window = glfwCreateWindow(width, height, name, NULL, NULL);
-                if (window == NULL) {
-                    throw new IllegalStateException("Failed to create the GLFW window");
-                }
-            } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        setupCallback();
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(1);
-
-        glfwShowWindow(window);
-
-    }
-
-    protected void windowWithInit(int height, int width, String name, Vector4f color, String monitor) {
-        Input.init();
-        if (!glfwInit()) {
-            throw new IllegalStateException("GLFW not initialized or initialization failed");
-        } else {
-            GLFWErrorCallback.createPrint(System.err).set();
-            glfwDefaultWindowHints();
-            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-            this.height = height;
-            this.width = width;
-            this.name = name;
-            this.color = color;
-
-            initializeComponents(monitor, width, height, name);
-        }
-
-        setupCallback();
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(1);
-
-        glfwShowWindow(window);
-
-    }
-
-    protected void initializeWindow() {
+    protected void init() {
         Input.init();
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW not initialized or initialization failed");
@@ -166,15 +164,20 @@ public class Window {
                 System.out.println(e.getMessage());
             }
         }
-
-        setupCallback();
-
-
-        glfwShowWindow(window);
+        GLFWErrorCallback.createPrint(System.err).set();
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwMakeContextCurrent(this.window);
         GL.createCapabilities();
+        glfwShowWindow(window);
+        setupCallback();
     }
 
-    protected void initializeWindow(String monitor) {
+    protected void init(String monitor) {
         Input.init();
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW not initialized or initialization failed");
@@ -184,12 +187,17 @@ public class Window {
             glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
             initializeComponents(monitor, width, height, name);
         }
-
-        setupCallback();
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(1);
-
+        GLFWErrorCallback.createPrint(System.err).set();
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwMakeContextCurrent(this.window);
+        GL.createCapabilities();
         glfwShowWindow(window);
+        setupCallback();
     }
 
     private void initializeComponents(String monitor, int width, int height, String name) {

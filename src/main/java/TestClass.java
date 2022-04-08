@@ -1,29 +1,80 @@
 import core.MainBehaviour;
 import core.MainEngine;
 import core.Window;
+import graphics.Mesh;
+import graphics.Shader;
+import graphics.Vertex;
 import io.Input;
+import math.Vector3f;
 import math.Vector4f;
-import org.lwjgl.*;
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
+import org.lwjgl.Version;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
+import utils.Time;
 
-
-import java.nio.*;
+import java.nio.IntBuffer;
 import java.util.Objects;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
-
-import utils.Time;
+import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class TestClass {
 
     // The window handle
     private long window;
+
+    public static void main(String[] args) {
+        //   new TestClass().run();
+        MainBehaviour game = new MainBehaviour() {
+            Vertex[] vertices;
+            Mesh mesh;
+            int[] indices;
+            Shader shader;
+
+            @Override
+            public void init() throws Exception {
+                vertices = new Vertex[]{
+                        new Vertex(new Vector3f(-1f, -1f, 0f), new Vector4f(1f, 0f, 0f, 1f)),
+                        new Vertex(new Vector3f(0f, 1f, 0f), new Vector4f(0f, 1f, 0f, 1f)),
+                        new Vertex(new Vector3f(1f, -1f, 0f), new Vector4f(0f, 0f, 1f, 1f)),
+                };
+                indices = new int[]{
+                        0, 1, 2
+                };
+                shader = new Shader("res/shaders/default.glsl");
+                mesh = new Mesh(vertices, indices, shader);
+            }
+
+            @Override
+            public void update() {
+                if (Input.isKeyDown(GLFW_KEY_SPACE))
+                    System.out.println("Space button pushed");
+            }
+
+            @Override
+            public void render(Window window) {
+                mesh.render();
+            }
+
+            @Override
+            public void clear() {
+                mesh.clear();
+            }
+        };
+        new MainEngine(
+                500,
+                500,
+                "TestGame",
+                new Vector4f(0.5f, 0.5f, 0.5f, 1f),
+                false,
+                game
+        ).start();
+    }
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -121,38 +172,5 @@ public class TestClass {
             glfwPollEvents();
             System.out.printf("FPS: %d%n", Time.getFps());
         }
-    }
-
-    public static void main(String[] args) {
-        //   new TestClass().run();
-        MainBehaviour game = new MainBehaviour() {
-            private float counter;
-
-            @Override
-            public void init() throws Exception {
-                counter = 0;
-            }
-
-            @Override
-            public void update() {
-                if (Input.isKeyDown(GLFW_KEY_SPACE))
-                    System.out.println("Space button pushed");
-                counter += Time.getDeltaTime();
-                //   System.out.println("Time Passed: " + counter);
-            }
-
-            @Override
-            public void render(Window window) {
-
-            }
-        };
-        new MainEngine(
-                500,
-                500,
-                "TestGame",
-                new Vector4f(0.1f, 0.1f, 0.1f, 0.1f),
-                false,
-                game
-        ).start();
     }
 }
