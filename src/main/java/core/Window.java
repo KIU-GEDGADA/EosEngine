@@ -1,281 +1,128 @@
 package core;
 
+import enums.WindowState;
 import io.Input;
-import math.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
-
+import static org.lwjgl.opengl.GL20.*;
 
 public class Window {
-    private int height;
-    private int width;
+
+    private final int width;
+    private final int height;
+    private final String title;
+    private final boolean vSync;
     private long window;
     private long monitor;
-    private boolean isFullScreen;
-    private String name;
     private GLFWVidMode mode;
-    private Vector4f color;
-    private boolean isVSync;
+    private WindowState state;
 
-    public Window(int height, int width, String name, Vector4f color, boolean isVSync) {
-        this.height = height;
+    public Window(int width, int height, String title, boolean vSync) {
         this.width = width;
-        this.name = name;
-        this.color = color;
-        this.isVSync = isVSync;
-    }
-
-    public Window(int height, int width, String name, String monitor, Vector4f color) {
         this.height = height;
-        this.width = width;
-        this.name = name;
-        this.color = color;
-        if (monitor.equals("primary")) {
-            this.monitor = glfwGetPrimaryMonitor();
-            mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        }
+        this.title = title;
+        this.vSync = vSync;
     }
 
-    public boolean isVSync() {
-        return isVSync;
-    }
-
-    public void setVSync(boolean vSync) {
-        this.isVSync = vSync;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public boolean isFullScreen() {
-        return isFullScreen;
-    }
-
-    public void setFullScreen(boolean fullScreen) {
-        isFullScreen = fullScreen;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-//    protected void windowWithInit(int height, int width, String name, Vector4f color) {
-//        Input.init();
-//        if (!glfwInit()) {
-//            throw new IllegalStateException("GLFW not initialized or initialization failed");
-//        } else {
-//
-//            this.height = height;
-//            this.width = width;
-//            this.name = name;
-//            this.color = color;
-//
-//            if (monitor != NULL) {
-//                mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-//            }
-//            try {
-//                window = glfwCreateWindow(width, height, name, NULL, NULL);
-//                if (window == NULL) {
-//                    throw new IllegalStateException("Failed to create the GLFW window");
-//                }
-//            } catch (RuntimeException e) {
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//
-//        setupCallback();
-//        glfwMakeContextCurrent(window);
-//        glfwSwapInterval(1);
-//
-//        glfwShowWindow(window);
-//
-//    }
-//
-//    protected void windowWithInit(int height, int width, String name, Vector4f color, String monitor) {
-//        Input.init();
-//        if (!glfwInit()) {
-//            throw new IllegalStateException("GLFW not initialized or initialization failed");
-//        } else {
-//            GLFWErrorCallback.createPrint(System.err).set();
-//            glfwDefaultWindowHints();
-//            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-//            this.height = height;
-//            this.width = width;
-//            this.name = name;
-//            this.color = color;
-//
-//            initializeComponents(monitor, width, height, name);
-//        }
-//
-//        setupCallback();
-//        glfwMakeContextCurrent(window);
-//        glfwSwapInterval(1);
-//
-//        glfwShowWindow(window);
-//
-//    }
-
-    protected void init() {
-        Input.init();
+    public void init() {
         if (!glfwInit()) {
-            throw new IllegalStateException("GLFW not initialized or initialization failed");
-        } else {
-            GLFWErrorCallback.createPrint(System.err).set();
-            glfwDefaultWindowHints();
-            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-            try {
-                if (monitor != NULL) {
-                    this.monitor = glfwGetPrimaryMonitor();
-                    mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-                    window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
-                    isFullScreen = true;
-                } else {
-                    window = glfwCreateWindow(width, height, name, NULL, NULL);
-
-                }
-                if (window == NULL) {
-                    throw new IllegalStateException("Failed to create the GLFW window");
-                }
-            } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
-            }
+            throw new IllegalStateException("Unable to initialize GLFW");
         }
         GLFWErrorCallback.createPrint(System.err).set();
         glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-        glfwMakeContextCurrent(this.window);
-        GL.createCapabilities();
-        glfwShowWindow(window);
-        setupCallback();
-    }
-
-    protected void init(String monitor) {
-        Input.init();
-        if (!glfwInit()) {
-            throw new IllegalStateException("GLFW not initialized or initialization failed");
-        } else {
-            GLFWErrorCallback.createPrint(System.err).set();
-            glfwDefaultWindowHints();
-            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-            initializeComponents(monitor, width, height, name);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        this.monitor = glfwGetPrimaryMonitor();
+        this.mode = glfwGetVideoMode(monitor);
+        window = glfwCreateWindow(width, height, title, 0, 0);
+        setMode(WindowState.WINDOWED);
+        if (window == 0) {
+            throw new RuntimeException("Failed to create the GLFW window");
         }
-        GLFWErrorCallback.createPrint(System.err).set();
-        glfwDefaultWindowHints();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwShowWindow(this.window);
         glfwMakeContextCurrent(this.window);
+        glfwSwapInterval(vSync ? 1 : 0);
         GL.createCapabilities();
-        glfwShowWindow(window);
-        setupCallback();
+
+        setupCallbacks();
     }
 
-    private void initializeComponents(String monitor, int width, int height, String name) {
-        try {
-            if (monitor.equals("primary")) {
-                this.monitor = glfwGetPrimaryMonitor();
-                mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-                window = glfwCreateWindow(width, height, name, glfwGetPrimaryMonitor(), NULL);
-            } else {
-                window = glfwCreateWindow(width, height, name, NULL, NULL);
-
-            }
-            if (window == NULL) {
-                throw new IllegalStateException("Failed to create the GLFW window");
-            }
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void setupCallback() {
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-                glfwSetWindowShouldClose(window, true);
-            if (key == GLFW_KEY_W) {
-                fullScreen();
-            }
-            if (key == GLFW_KEY_S) {
-                windowed(100, 100, 100, 100);
-            }
-            if (key == GLFW_KEY_Q) {
-                fullScreenWindow();
-            }
-        });
+    private void setupCallbacks() {
         glfwSetKeyCallback(window, Input.getKeyboard());
         glfwSetMouseButtonCallback(window, Input.getMbtn());
         glfwSetCursorPosCallback(window, Input.getMouse());
-        glfwMakeContextCurrent(window);
-        if (isVSync) glfwSwapInterval(1);
-        else glfwSwapInterval(0);
     }
 
-    protected void destroyWindow() {
+    public void update() {
+        if (Input.isKeyPressed(GLFW_KEY_F11)) {
+            if (state == WindowState.WINDOWED) {
+                this.setMode(WindowState.FULLSCREEN);
+            } else {
+                this.setMode(WindowState.WINDOWED);
+            }
+        }
+    }
+
+    public void render() {
+        glfwSwapBuffers(window);
+    }
+
+    public void clear() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    public void destroy() {
+        glfwSetErrorCallback(null).free();
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
+        glfwTerminate();
     }
 
-    public void windowed(int width, int height, int x, int y) {
-        glfwSetWindowMonitor(window, NULL, x, y, width, height, mode.refreshRate());
-    }
-
-    public void fullScreenWindow() {
-        glfwSetWindowMonitor(window, NULL, 0, 0, mode.width(), mode.height(), mode.refreshRate());
-    }
-
-    public void fullScreen() {
-        glfwSetWindowMonitor(window, monitor, 0, 0, mode.width(), mode.height(), 0);
-    }
-
-    protected void update() {
-        if (!isRunning()) {
-            destroyWindow();
-            return;
+    public void setMode(WindowState windowMode) {
+        switch (windowMode) {
+            case FULLSCREEN:
+                glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+                glfwSetWindowMonitor(window, monitor, (mode.width() - width) / 2, (mode.height() - height) / 2, width, height, mode.refreshRate());
+                glfwSetWindowSize(window, mode.width(), mode.height());
+                this.state = WindowState.FULLSCREEN;
+                break;
+            case WINDOWED:
+                glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+                glfwSetWindowMonitor(window, 0, (mode.width() - width) / 2, (mode.height() - height) / 2, width, height, mode.refreshRate());
+                glfwSetWindowSize(window, width, height);
+                this.state = WindowState.WINDOWED;
+                glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+                break;
+            case BORDERLESS:
+                glfwSetWindowMonitor(window, 0, 0, 0, mode.width(), mode.height(), mode.refreshRate());
+                glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+                this.state = WindowState.BORDERLESS;
+                break;
+            case HIDDEN:
+                glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+                this.state = WindowState.HIDDEN;
+                break;
+            case SHOWN:
+                glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+                this.state = WindowState.SHOWN;
+                break;
         }
-
-
-        glClearColor(color.x, color.y, color.z, color.w);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glfwSwapBuffers(window);
-
-
-        glfwPollEvents();
-
     }
 
-    protected boolean isRunning() {
+    public boolean isRunning() {
         return !glfwWindowShouldClose(window);
     }
 
+    public boolean isVSync() {
+        return vSync;
+    }
+
+    public long getWindow() {
+        return window;
+    }
 }
 

@@ -2,7 +2,7 @@ package utils;
 
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
-public class Time {
+public class TimeUtils {
 
     private static float INTERVAL;
 
@@ -16,7 +16,7 @@ public class Time {
     private static int fpsCounter;
     private static int fps;
 
-    private Time() {
+    private TimeUtils() {
     }
 
     public static float getPresentTime() {
@@ -49,7 +49,7 @@ public class Time {
     }
 
     public static void updateFps() {
-        frameCounter += Time.getDeltaTime();
+        frameCounter += TimeUtils.getDeltaTime();
         fpsCounter++;
     }
 
@@ -58,7 +58,7 @@ public class Time {
     }
 
     public static void updateCycle() {
-        if (frameCounter >= 1.0) {
+        if (frameCounter >= 1.0f) {
             frameCounter = 0;
             fps = fpsCounter;
             fpsCounter = 0;
