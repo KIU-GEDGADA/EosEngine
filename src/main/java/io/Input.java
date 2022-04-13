@@ -12,10 +12,10 @@ public class Input {
     private static GLFWMouseButtonCallback mbtn;
     private static double xPos, yPos;
     private static final int MOUSEBTNS = 7;
-    private static final int[] keys = new int[GLFW_KEY_LAST];//every key with its corresponding state, 1 or 0
-    private static final boolean[] activeKeys = new boolean[GLFW_KEY_LAST];//currently pressed keys list
-    private static final boolean[] activeMouseBts = new boolean[MOUSEBTNS];//same as above list
-    private static final int[] buttons = new int[MOUSEBTNS];//same as keys
+    private static final int[] keys = new int[GLFW_KEY_LAST];
+    private static final boolean[] activeKeys = new boolean[GLFW_KEY_LAST];
+    private static final boolean[] activeMouseBts = new boolean[MOUSEBTNS];
+    private static final int[] buttons = new int[MOUSEBTNS];
 
     public static void init() {
         Input.update();
@@ -93,13 +93,14 @@ public class Input {
     public static void update() {
         resetKeyboard();
         resetMouse();
+        glfwPollEvents();
     }
 
     public static double getXPos() {
         return xPos;
     }
 
-    public static double getyPos() {
+    public static double getYPos() {
         return yPos;
     }
 }

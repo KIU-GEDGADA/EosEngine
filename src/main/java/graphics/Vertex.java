@@ -1,54 +1,21 @@
 package graphics;
 
-import math.Vector3f;
-import math.Vector4f;
+import math.*;
 
 public class Vertex {
+    public static final int VERTEX_SIZE = 3;
+    public static final int COLOR_SIZE = 4;
 
-    private Vector3f position;
-    private Vector4f colors;
+    public Vector3f position;
+    public Color color;
 
-    public Vertex() {
-        this.position = Vector3f.zero();
-        this.colors = new Vector4f(0, 0, 0, 0);
-    }
-
-    public Vertex(Vector3f position) {
+    public Vertex(Vector3f position, Color color) {
         this.position = position;
-        this.colors = new Vector4f(0, 0, 0, 0);
+        this.color = color;
     }
 
-    public Vertex(Vertex vertex) {
-        this.position = vertex.position;
-        this.colors = vertex.colors;
-    }
-
-    public Vertex(Vector3f position, Vector4f colors) {
-        this.position = position;
-        this.colors = colors;
-    }
-
-    public Vector3f getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector3f position) {
-        this.position = position;
-    }
-
-    public Vector4f getColors() {
-        return colors;
-    }
-
-    public void setColors(Vector4f colors) {
-        this.colors = colors;
-    }
-
-    public String toString() {
-        return "Position: " + position.toString() + ", Colors: " + colors.toString();
-    }
-
-    public boolean equals(Vertex vertex) {
-        return this.position.equals(vertex.position) && this.colors.equals(vertex.colors);
+    public Vertex(float x, float y, float z, Color color) {
+        this.position = new Vector3f(x, y, z);
+        this.color = color;
     }
 }
