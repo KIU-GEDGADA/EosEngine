@@ -18,4 +18,9 @@ public class Vertex {
         this.position = new Vector3f(x, y, z);
         this.color = color;
     }
+
+    public Vertex(Vector3f position) {
+        this.position = position;
+        this.color = Color.GREY;
+    }
 }

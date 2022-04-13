@@ -34,4 +34,8 @@ public class Color {
     public float[] toArray() {
         return new float[]{red, green, blue, alpha};
     }
+
+    public static Color WHITE = new Color(1.0f, 1.0f, 1.0f);
+    public static Color BLACK = new Color(0.0f, 0.0f, 0.0f);
+    public static Color GREY = new Color(0.5f, 0.5f, 0.5f);
 }
