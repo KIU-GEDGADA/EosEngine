@@ -10,8 +10,13 @@ import static org.lwjgl.opengl.GL33.*;
 public class Mesh {
     public Vertex[] vertices;
 
+    private int VAO;
     private int VBO;
+    private int CBO;
+
     private FloatBuffer vertexBuffer;
+    private FloatBuffer colorBuffer;
+
     private final int vertexCount;
 
     public Mesh(Vertex[] vertices){
@@ -20,42 +25,61 @@ public class Mesh {
     }
 
     public void init(){
+        VAO = glGenVertexArrays();
+        glBindVertexArray(VAO);
+        FloatBuffer[] buffers = flipBuffer(vertices);
+        vertexBuffer = buffers[0];
+        colorBuffer = buffers[1];
+
         this.VBO = glGenBuffers();
         System.out.println("Mesh VBO: " + VBO + " created.");
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
+
+        this.CBO = glGenBuffers();
+        System.out.println("Mesh CBO: " + CBO + " created.");
+        glBindBuffer(GL_ARRAY_BUFFER, CBO);
+        glBufferData(GL_ARRAY_BUFFER, colorBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
+
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        glBindVertexArray(0);
     }
 
     public void bind(){
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        vertexBuffer = flipBuffer(vertices);
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+        glBindVertexArray(VAO);
     }
 
     public void render(){
-        glEnableVertexAttribArray(0);
         bind();
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, Vertex.SIZE * 4, 0);
         glDrawArrays(GL_TRIANGLES, 0, vertexCount);
         unbind();
-        glDisableVertexAttribArray(0);
     }
 
     public void unbind(){
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
     }
 
     public void destroy(){
-        vertexBuffer.clear();
+        unbind();
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(VBO);
+        glDeleteBuffers(CBO);
+        glDeleteVertexArrays(VAO);
     }
 
-    public static FloatBuffer flipBuffer(Vertex[] vertices) {
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.SIZE);
+    public static FloatBuffer[] flipBuffer(Vertex[] vertices) {
+        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.VERTEX_SIZE);
+        FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.COLOR_SIZE);
         for (Vertex vertex : vertices) {
-            buffer.put(vertex.position.x);
-            buffer.put(vertex.position.y);
-            buffer.put(vertex.position.z);
+            vertexBuffer.put(vertex.position.coordinateArray());
+            colorBuffer.put(vertex.color.toArray());
         }
-        buffer.flip();
-        return buffer;
+        vertexBuffer.flip();
+        colorBuffer.flip();
+        return new FloatBuffer[]{vertexBuffer, colorBuffer};
     }
 }
