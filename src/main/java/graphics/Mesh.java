@@ -4,7 +4,7 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL33.*;
 
 
 public class Mesh {
@@ -26,7 +26,7 @@ public class Mesh {
 
     public void bind(){
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        vertexBuffer = flippedBuffer(vertices);
+        vertexBuffer = flipBuffer(vertices);
         glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
     }
 
@@ -48,7 +48,7 @@ public class Mesh {
         glDeleteBuffers(VBO);
     }
 
-    public static FloatBuffer flippedBuffer(Vertex[] vertices) {
+    public static FloatBuffer flipBuffer(Vertex[] vertices) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.SIZE);
         for (Vertex vertex : vertices) {
             buffer.put(vertex.position.x);

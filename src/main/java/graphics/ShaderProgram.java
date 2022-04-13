@@ -2,7 +2,7 @@ package graphics;
 
 import java.util.ArrayList;
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL33.*;
 
 public class ShaderProgram {
     private final ArrayList<Shader> attachedShaders = new ArrayList<>();

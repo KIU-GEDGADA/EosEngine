@@ -10,7 +10,7 @@ import graphics.Vertex;
 import io.Input;
 import math.Vector3f;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Preview {
     public static void main(String[] args) {

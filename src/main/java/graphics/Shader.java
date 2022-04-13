@@ -3,11 +3,8 @@ package graphics;
 import utils.FileUtils;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL32C.GL_GEOMETRY_SHADER;
+import static org.lwjgl.opengl.GL33.*;
 
 public class Shader {
     private final String filePath;
