@@ -3,10 +3,7 @@
 import core.Engine;
 import core.Entity;
 import core.Window;
-import graphics.Mesh;
-import graphics.Shader;
-import graphics.ShaderProgram;
-import graphics.Vertex;
+import graphics.*;
 import io.Input;
 import math.Vector3f;
 
@@ -16,6 +13,9 @@ public class Preview {
     public static void main(String[] args) {
         Window w = new Window(800, 600, "Preview", false);
         Entity e = new Entity() {
+            Color r = new Color(1f, 0.0f, 0.0f, 1.0f);
+            Color g = new Color(0.0f, 1f, 0.0f, 1.0f);
+            Color b = new Color(0.0f, 0.0f, 1f, 1.0f);
             Vertex v1;
             Vertex v2;
             Vertex v3;
@@ -26,12 +26,13 @@ public class Preview {
 
             @Override
             public void init() {
-                v1 = new Vertex(new Vector3f(-0.5f, -0.5f, 0f));
-                v2 = new Vertex(new Vector3f(0.5f, -0.5f, 0f));
-                v3 = new Vertex(new Vector3f(0f, 0.5f, 0f));
-                vs = new Shader("res/shaders/v2vs.glsl");
+
+                v1 = new Vertex(new Vector3f(-0.5f, -0.5f, 0f), r);
+                v2 = new Vertex(new Vector3f(0.5f, -0.5f, 0f), g);
+                v3 = new Vertex(new Vector3f(0f, 0.5f, 0f), b);
+                vs = new Shader("res/shaders/v3vs.glsl");
                 vs.compile();
-                fs = new Shader("res/shaders/v2fs.glsl");
+                fs = new Shader("res/shaders/v3fs.glsl");
                 fs.compile();
                 sp = new ShaderProgram();
                 sp.init();
