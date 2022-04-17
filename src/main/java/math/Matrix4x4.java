@@ -191,16 +191,6 @@ public class Matrix4x4 {
         return m;
     }
 
-    public boolean equals() {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (cells[i][j] != cells[i][j]) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     public String toString() {
         String s = "";
@@ -227,6 +217,19 @@ public class Matrix4x4 {
                 cells[i][j] = 0;
             }
         }
+    }
+    public boolean equals(Object obj){
+        if(obj instanceof Matrix4x4){
+            for(int i=0;i<4;i++){
+                for(int j=0;j<4;j++){
+                    if(this.getCell(i,j)!=((Matrix4x4) obj).getCell(i,j)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }
