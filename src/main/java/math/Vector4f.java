@@ -84,7 +84,7 @@ public class Vector4f {
         return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
-    public Vector4f normalize(Vector4f v) {
+    public static Vector4f normalize(Vector4f v) {
         float length = v.length();
         return new Vector4f(v.x / length, v.y / length, v.z / length, v.w / length);
     }
