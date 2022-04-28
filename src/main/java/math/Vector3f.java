@@ -130,10 +130,12 @@ public class Vector3f {
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    public boolean equals(Vector3f v) {
-        return this.x == v.x && this.y == v.y && this.z == v.z;
+    public boolean equals(Object v) {
+        if(v instanceof Vector3f) {
+            return this.x == ((Vector3f) v).x && this.y == ((Vector3f) v).y && this.z == ((Vector3f) v).z;
+        }
+        return false;
     }
-
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
