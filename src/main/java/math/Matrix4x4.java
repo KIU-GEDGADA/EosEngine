@@ -11,11 +11,6 @@ public class Matrix4x4 {
         this.cells = cells;
     }
 
-    public static Matrix4x4 identity() {
-        Matrix4x4 m = new Matrix4x4();
-        m.setIdentity();
-        return m;
-    }
 
     public static Matrix4x4 zero() {
         return new Matrix4x4();
