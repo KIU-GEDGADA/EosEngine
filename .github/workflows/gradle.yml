@@ -31,3 +31,7 @@ jobs:
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
         run: gradle build
+      - name: Test The Project
+        run: gradle test
+      - name: Run The Project
+        run: gradle run
