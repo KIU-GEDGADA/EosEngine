@@ -7,6 +7,8 @@ import math.Vector4f;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL33.*;
@@ -16,7 +18,7 @@ public class ShaderProgram {
 
     private int shaderProgramID;
 
-    private Map<String, Integer> uniforms;
+    private Map<String, Integer> uniforms = new HashMap<String,Integer>();
 
     public ShaderProgram() {
 
