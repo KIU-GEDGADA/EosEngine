@@ -79,7 +79,9 @@ public class Matrix4x4 {
     public void negate() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                cells[i][j] = -cells[i][j];
+                if(cells[i][j]!=0) {
+                    cells[i][j] = -cells[i][j];
+                }
             }
         }
     }
