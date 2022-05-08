@@ -63,13 +63,13 @@ public class Vector4fTest {
     @Test
     void testNonStaticDiv(){
         Vector4f firstVecHalved = new Vector4f(0.5f,0.5f,0.5f,0.5f);
-        v1.div(2);
+        v1.div(4);
         assertEquals(firstVecHalved,v1);
     }
     @Test
     void testStaticDiv(){
         Vector4f firstVecHalved = new Vector4f(0.5f,0.5f,0.5f,0.5f);
-        assertEquals(firstVecHalved,Vector4f.div(v1,2));
+        assertEquals(firstVecHalved,Vector4f.div(v1,4));
     }
     @Test
     void testScale(){
