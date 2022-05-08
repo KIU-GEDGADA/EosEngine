@@ -1,22 +1,28 @@
 package math;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class Matrix4x4Test {
-    Matrix4x4 m1 = new Matrix4x4(new float[][]{
-            {1,0,0,1},
-            {2,0,1,0},
-            {3,0,5,0},
-            {0,1,2,2}
-    });
-    Matrix4x4 m2 = new Matrix4x4(new float[][]{
-            {3,1,1,0},
-            {5,0,0,1},
-            {4,0,1,5},
-            {3,1,5,6}
-    });
+    Matrix4x4 m1;
+    Matrix4x4 m2;
+    @BeforeEach
+    void init(){
+        m1 = new Matrix4x4(new float[][]{
+                {1,0,0,1},
+                {2,0,1,0},
+                {3,0,5,0},
+                {0,1,2,2}
+        });
+        m2 = new Matrix4x4(new float[][]{
+                {3,1,1,0},
+                {5,0,0,1},
+                {4,0,1,5},
+                {3,1,5,6}
+        });
+    }
     @Test
     void testMultiply(){
         Matrix4x4 testMultMatrix = new Matrix4x4(new float[][]{
