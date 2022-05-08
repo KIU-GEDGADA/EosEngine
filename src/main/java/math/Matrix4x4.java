@@ -188,13 +188,14 @@ public class Matrix4x4 {
     }
 
     public boolean equals(Object obj){
+        float epsilon = 0.000001f;
         if(obj instanceof Matrix4x4){
             for(int i=0;i<4;i++){
                 for(int j=0;j<4;j++){
                     if((((Matrix4x4) obj).getCell(i,j)==-0f&&this.getCell(i,j)==0f)||((Matrix4x4) obj).getCell(i,j)==0f&&this.getCell(i,j)==-0f){
                         //do nothing
                     }
-                    else if(this.getCell(i,j)!=((Matrix4x4) obj).getCell(i,j)){
+                    else if(Math.abs(this.getCell(i,j)-((Matrix4x4) obj).getCell(i,j))>epsilon){
                         return false;
                     }
                 }
