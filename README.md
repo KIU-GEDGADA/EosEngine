@@ -1,4 +1,3 @@
-![Project Tests](https://github.com/KIU-GEDGADA/EosEngine/actions/workflows/Tests.yml/badge.svg?branch=CIPipelineBranch)
 ![Project Tests](https://github.com/KIU-GEDGADA/EosEngine/actions/workflows/Tests.yml/badge.svg)
 
 

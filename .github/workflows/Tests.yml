@@ -9,9 +9,9 @@ name: Project Tests
 
 on:
   push:
-    branches: [ CIPipelineBranch ]
+    branches: [ master ]
   pull_request:
-    branches: [ CIPipelineBranch ]
+    branches: [ master ]
 
 permissions:
   contents: read
