@@ -22,7 +22,7 @@ class Vector2fTest {
         //Adding 0 to 1
         var result = Vector2f.add(new Vector2f(0, 0), new Vector2f(0, 1));
         //  assertTrue(result.equals(new Vector2f(0, 1)));
-        assertEquals(result.x, new Vector2f(-1, 1).x);
+        assertEquals(result.x, new Vector2f(0, 1).x);
         assertEquals(result.y, new Vector2f(0, 1).y);
 
 
