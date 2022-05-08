@@ -3,14 +3,15 @@ package core;
 import io.Input;
 import utils.TimeUtils;
 
+import java.util.ArrayList;
+
 public class Engine{
 
     public Window window;
-    public Entity entity;
+    public ArrayList<Entity> entities = new ArrayList<Entity>();
 
-    public Engine(Window window, Entity entity){
+    public Engine(Window window){
         this.window = window;
-        this.entity = entity;
     }
 
     public void start(){
@@ -23,7 +24,10 @@ public class Engine{
         TimeUtils.init(60);
         Input.init();
         window.init();
-        entity.init();
+        for (Entity entity : entities) {
+            entity.init();
+        }
+        Renderer.initAll();
     }
 
     public void loop() {
@@ -53,18 +57,26 @@ public class Engine{
         TimeUtils.updateFps();
         TimeUtils.updateCycle();
         window.update();
-        entity.update();
+        for (Entity entity : entities) {
+            entity.update();
+        }
         return true;
     }
 
     private void render() {
         window.clear();
-        entity.render();
+        for (Entity entity : entities) {
+            entity.render();
+        }
+        Renderer.renderAll();
         window.render();
     }
 
     public void stop(){
-        entity.destroy();
+        for (Entity entity : entities) {
+            entity.destroy();
+        }
         window.destroy();
+        Renderer.removeAll();
     }
 }
