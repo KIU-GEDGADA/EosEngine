@@ -14,6 +14,9 @@ switch (OperatingSystem.current()) {
     case OperatingSystem.WINDOWS:
         project.ext.lwjglNatives = "natives-windows"
         break
+    case OperatingSystem.MAC_OS:
+        project.ext.lwjglNatives = System.getProperty("os.arch").startsWith("aarch64") ? "natives-macos-arm64" : "natives-macos"
+        break
 }
 
 group 'org.kiu-gedgada'
@@ -43,7 +46,6 @@ dependencies {
     implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-opengles"
     implementation "org.lwjgl:lwjgl-openvr"
-    implementation "org.lwjgl:lwjgl-openxr"
     implementation "org.lwjgl:lwjgl-opus"
     implementation "org.lwjgl:lwjgl-par"
     implementation "org.lwjgl:lwjgl-rpmalloc"
@@ -66,7 +68,6 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-opengles::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-openvr::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-openxr::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-opus::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-par::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-rpmalloc::$lwjglNatives"
@@ -76,7 +77,6 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-vma::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-xxhash::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-zstd::$lwjglNatives"
-    implementation "org.joml:joml:${jomlVersion}"
 }
 
 test {
