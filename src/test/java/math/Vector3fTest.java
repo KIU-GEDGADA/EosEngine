@@ -19,19 +19,19 @@ public class Vector3fTest {
 
 
     @Test
-    void add() {
+    void testStaticAdd() {
         Vector3f additionTestVector = new Vector3f(9, 5, 11);
         assertEquals(additionTestVector, Vector3f.add(v1, v2));
     }
 
     @Test
-    void sub() {
+    void testStaticSub() {
         Vector3f subtractionTestVector = new Vector3f(5, 1, 7);
         assertEquals(subtractionTestVector, Vector3f.sub(v2, v1));
     }
 
     @Test
-    void length() {
+    void testLength() {
         float correctLength = 3;
         assertEquals(correctLength, v3.length());
     }
