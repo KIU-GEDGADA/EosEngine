@@ -1,4 +1,5 @@
-![Tests](https://github.com/KIU-GEDGADA/EosEngine/actions/workflows/Tests.yml/badge.svg)
+![Project Tests](https://github.com/KIU-GEDGADA/EosEngine/actions/workflows/Tests.yml/badge.svg?branch=CIPipelineBranch)
+![Project Tests](https://github.com/KIU-GEDGADA/EosEngine/actions/workflows/Tests.yml/badge.svg)
 
 
 ![EosEngine Light](/branding/EosEngineLogo-Light.png#gh-dark-mode-only)
