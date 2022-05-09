@@ -74,8 +74,10 @@ public class Vector4f {
     }
 
     public boolean equals(Object v) {
+        float epsilon = 0.0001f;
         if(v instanceof Vector4f) {
-            return this.x == ((Vector4f) v).x && this.y == ((Vector4f) v).y && this.z == ((Vector4f) v).z && this.w == ((Vector4f) v).w;
+            return Math.abs(this.x - ((Vector4f) v).x)<epsilon && Math.abs(this.y - ((Vector4f) v).y)<epsilon
+                    && Math.abs(this.z - ((Vector4f) v).z)<epsilon && Math.abs(this.w - ((Vector4f) v).w)<epsilon;
         }
         return false;
     }
