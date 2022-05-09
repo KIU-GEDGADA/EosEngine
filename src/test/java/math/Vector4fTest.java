@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.lwjgl.openvr.VREventWebConsole;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Vector4fTest {
@@ -17,7 +18,7 @@ public class Vector4fTest {
     }
 
     @Test
-    void testNormalize() {
+    void testStaticNormalize() {
         Vector4f testNormalizedVector = new Vector4f(0.5f, 0.5f, 0.5f, 0.5f);
         assertEquals(testNormalizedVector, Vector4f.normalize(v1));
     }
@@ -80,5 +81,42 @@ public class Vector4fTest {
     void testDistance(){
         assertEquals(2,Vector4f.distance(v1,v2));
     }
-
+    @Test
+    void testLerp(){
+        Vector4f lerpTestVector = new Vector4f(2.5f,2.5f,2.5f,2.5f);
+        assertEquals(lerpTestVector,Vector4f.lerp(v2,v1,0.5f));
+    }
+    @Test
+    void testProject(){
+        assertEquals(v1,Vector4f.project(v1,v2));
+    }
+    @Test
+    void testNonStaticNormalize(){
+        Vector4f normalizeTestVector = new Vector4f(0.5f,0.5f,0.5f,0.5f);
+        v1.normalize();
+        assertEquals(normalizeTestVector,v1);
+    }
+    @Test
+    void testNegate(){
+        Vector4f negateTestVector = new Vector4f(-2,-2,-2,-2);
+        v1.negate();
+        assertEquals(negateTestVector,v1);
+    }
+    @Test
+    void testTranslateOne(){
+        Vector4f translateTestVector = new Vector4f(2.5f,3f,4f,5f);
+        v1.translate(new Vector4f(0.5f,1f,2f,3f));
+        assertEquals(translateTestVector,v1);
+    }
+    @Test
+    void testTranslateTwo(){
+        Vector4f translateTestVector = new Vector4f(2.5f,3f,4f,5f);
+        v1.translate(0.5f,1f,2f,3f);
+        assertEquals(translateTestVector,v1);
+    }
+    @Test
+    void testCoordinateArray(){
+        float[] testArray= new float[]{2,2,2,2};
+        assertArrayEquals(testArray,v1.coordinateArray());
+    }
 }
