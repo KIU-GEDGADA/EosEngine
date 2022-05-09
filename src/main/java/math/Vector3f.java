@@ -131,8 +131,9 @@ public class Vector3f {
     }
 
     public boolean equals(Object v) {
+        float epsilon = 0.00001f;
         if(v instanceof Vector3f) {
-            return this.x == ((Vector3f) v).x && this.y == ((Vector3f) v).y && this.z == ((Vector3f) v).z;
+            return Math.abs(this.x - ((Vector3f) v).x)<epsilon && Math.abs(this.y - ((Vector3f) v).y)<epsilon && Math.abs(this.z - ((Vector3f) v).z)<epsilon;
         }
         return false;
     }
