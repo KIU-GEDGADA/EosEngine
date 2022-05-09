@@ -1,3 +1,6 @@
+![Project Tests](https://github.com/KIU-GEDGADA/EosEngine/actions/workflows/Tests.yml/badge.svg)
+
+
 ![EosEngine Light](/branding/EosEngineLogo-Light.png#gh-dark-mode-only)
 ![EosEngine Dark](/branding/EosEngineLogo-Dark.png#gh-light-mode-only)
 # EosEngine
