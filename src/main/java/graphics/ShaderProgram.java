@@ -4,6 +4,7 @@ import math.Matrix4x4;
 import math.Vector2f;
 import math.Vector3f;
 import math.Vector4f;
+import utils.MathUtils;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -141,7 +142,7 @@ public class ShaderProgram {
     }
     public void setUniformm4f(String name, Matrix4x4 value){
         int location = uniforms.get(name);
-        FloatBuffer buffer = FloatBuffer.wrap(value.flatten());
+        FloatBuffer buffer = MathUtils.matrixToFloatBuffer(value);
         if(location != -1){
             glUniform4fv(location,buffer);
         }
