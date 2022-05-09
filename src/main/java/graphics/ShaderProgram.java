@@ -148,6 +148,13 @@ public class ShaderProgram {
         }
     }
 
+    public void setTexture(String name, int slot){
+        int location = uniforms.get(name);
+        if(location != -1){
+            glUniform1i(location,slot);
+        }
+    }
+
     public void destroy(){
         unbind();
         detachAll();
