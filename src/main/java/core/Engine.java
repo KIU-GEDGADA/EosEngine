@@ -78,9 +78,7 @@ public class Engine {
 
     private void render() {
         window.clear();
-        for (Entity entity : entities) {
-            entity.render();
-        }
+        entities.forEach(Entity::render);
         Renderer.renderAll();
         window.render();
     }
