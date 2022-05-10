@@ -3,6 +3,9 @@ import graphics.*;
 import io.Input;
 import math.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 public class Preview {
@@ -20,26 +23,17 @@ public class Preview {
         Vertex[] vertices2 = {v1, v2, v4};
         int[] indices1 = {2, 1, 0};
         int[] indices2 = {0, 1, 2};
-        Item item1 = new Item("Mesh 1", new Mesh(vertices1, indices1));
+        Shader vs = new Shader("res/shaders/v3vs.glsl");
+        Shader fs = new Shader("res/shaders/v3fs.glsl");
+        List<Shader> shaders = new ArrayList<>();
+        shaders.add(vs);
+        shaders.add(fs);
+        Item item1 = new Item("Mesh 1", new Mesh(vertices1, indices1), shaders);
         Item item2 = new Item("Mesh 2", new Mesh(vertices2, indices2));
         Entity e = new Entity() {
-            Shader vs;
-            Shader fs;
-            ShaderProgram sp;
-
 
             @Override
             public void init() {
-                vs = new Shader("res/shaders/v3vs.glsl");
-                vs.compile();
-                fs = new Shader("res/shaders/v3fs.glsl");
-                fs.compile();
-                sp = new ShaderProgram();
-                sp.init();
-                sp.attachShader(vs);
-                sp.attachShader(fs);
-                sp.link();
-                Renderer.setShader(sp);
             }
 
             @Override
