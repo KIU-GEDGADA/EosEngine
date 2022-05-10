@@ -4,29 +4,44 @@ import io.Input;
 import utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Engine{
+public class Engine {
 
-    public Window window;
-    public ArrayList<Entity> entities = new ArrayList<Entity>();
+    private Window window;
+    private List<Entity> entities = new ArrayList<>();
 
-    public Engine(Window window){
+    public Engine(Window window) {
         this.window = window;
     }
 
-    public void start(){
+    public Window getWindow() {
+        return window;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
+    }
+
+    public void start() {
         init();
         loop();
         stop();
     }
 
-    public void init(){
+    public void init() {
         TimeUtils.init(60);
         Input.init();
         window.init();
-        for (Entity entity : entities) {
-            entity.init();
-        }
+        entities.forEach(Entity::init);
         Renderer.initAll();
     }
 
@@ -38,7 +53,7 @@ public class Engine{
 
             /* Rendering and actually updating Game */
             while (TimeUtils.checkCycle()) {
-                if(update()){
+                if (update()) {
                     render();
                 }
             }
@@ -53,13 +68,11 @@ public class Engine{
         }
     }
 
-    private boolean update(){
+    private boolean update() {
         TimeUtils.updateFps();
         TimeUtils.updateCycle();
         window.update();
-        for (Entity entity : entities) {
-            entity.update();
-        }
+        entities.forEach(Entity::update);
         return true;
     }
 
@@ -72,11 +85,11 @@ public class Engine{
         window.render();
     }
 
-    public void stop(){
-        for (Entity entity : entities) {
-            entity.destroy();
-        }
+    public void stop() {
+        entities.forEach(Entity::destroy);
         window.destroy();
         Renderer.removeAll();
     }
+
+
 }

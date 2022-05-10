@@ -1,5 +1,3 @@
-//import core.Renderer;
-
 import core.*;
 import graphics.*;
 import io.Input;
@@ -60,7 +58,7 @@ public class Preview {
             }
         };
         Engine ee = new Engine(w);
-        ee.entities.add(e);
+        ee.getEntities().add(e);
         Renderer.addItem(item1);
         Renderer.addItem(item2);
         ee.start();

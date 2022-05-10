@@ -3,18 +3,17 @@ package core;
 import graphics.ShaderProgram;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Renderer {
-    private static final ArrayList<Item> items = new ArrayList<Item>();
+    private static final List<Item> items = new ArrayList<>();
     private static ShaderProgram shaderProgram;
 
     private Renderer() {
     }
 
     public static void initAll() {
-        for (Item item : items) {
-            item.init();
-        }
+        items.forEach(Item::init);
     }
 
     public static void addItem(Item item) {;
@@ -24,9 +23,7 @@ public class Renderer {
     }
 
     public static void removeItem(Item item) {
-        if(items.contains(item)) {
-            items.remove(item);
-        }
+        items.remove(item);
     }
 
     public static void renderAll() {
@@ -34,9 +31,7 @@ public class Renderer {
             System.out.println("No items to render");
         }
         shaderProgram.bind();
-        for (Item item : items) {
-            item.render();
-        }
+        items.forEach(Item::render);
         shaderProgram.unbind();
     }
 
