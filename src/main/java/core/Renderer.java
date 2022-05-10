@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Renderer {
     private static final List<Item> items = new ArrayList<>();
-    private static ShaderProgram shaderProgram;
 
     private Renderer() {
     }
@@ -30,16 +29,11 @@ public class Renderer {
         if(items.size() < 1) {
             System.out.println("No items to render");
         }
-        shaderProgram.bind();
         items.forEach(Item::render);
-        shaderProgram.unbind();
     }
 
     public static void removeAll() {
         items.clear();
     }
 
-    public static void setShader(ShaderProgram shaderProgram) {
-        Renderer.shaderProgram = shaderProgram;
-    }
 }
