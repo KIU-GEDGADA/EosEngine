@@ -1,24 +1,36 @@
 package core;
 
 import graphics.Mesh;
+import graphics.Shader;
+import graphics.ShaderProgram;
 import math.Transform;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Item implements Entity {
 
+    private List<Shader> shaders;
+    private ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
     private String description;
     private Mesh mesh;
     private Transform transform;
 
-    public Item(String name, String description, Mesh mesh) {
+    public Item(String name, Mesh mesh, List<Shader> shaders) {
         this.name = name;
-        this.description = description;
+        this.description = "None.";
         this.mesh = mesh;
+        this.shaders = shaders;
         this.transform = new Transform();
     }
 
     public Item(String name, Mesh mesh) {
-        this(name, "None.", mesh);
+        this(name, mesh, new ArrayList<>());
+    }
+
+    public List<Shader> getShaders() {
+        return shaders;
     }
 
     public String getName() {
@@ -56,6 +68,27 @@ public class Item implements Entity {
     @Override
     public void init() {
         mesh.init();
+        shaderProgram.init();
+        compileShaders();
+        shaders.forEach(shaderProgram::attachShader);
+        if (shaderProgram.getAttachedShaders().size() > 0) {
+            shaderProgram.link();
+        }
+    }
+
+    private void compileShaders() {
+        shaders.forEach(Shader::compile);
+    }
+
+    private void addShader(Shader shader) {
+        if (!shaders.contains(shader)) {
+            shader.compile();
+            shaders.add(shader);
+        }
+    }
+
+    private void removeShader(Shader shader) {
+        shaders.remove(shader);
     }
 
     @Override
@@ -65,7 +98,9 @@ public class Item implements Entity {
 
     @Override
     public void render() {
+        shaderProgram.bind();
         mesh.render();
+        shaderProgram.unbind();
     }
 
     @Override
