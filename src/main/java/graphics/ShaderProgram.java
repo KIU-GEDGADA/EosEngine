@@ -7,24 +7,26 @@ import math.Vector4f;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL33.*;
 
 public class ShaderProgram {
-    private final ArrayList<Shader> attachedShaders = new ArrayList<>();
-
+    private final List<Shader> attachedShaders = new ArrayList<>();
     private int shaderProgramID;
-
-    private Map<String, Integer> uniforms = new HashMap<String,Integer>();
+    private final Map<String, Integer> uniforms = new HashMap<>();
 
     public ShaderProgram() {
 
     }
 
-    public void init(){
+    public List<Shader> getAttachedShaders() {
+        return attachedShaders;
+    }
+
+    public void init() {
         this.shaderProgramID = glCreateProgram();
     }
 
@@ -49,8 +51,8 @@ public class ShaderProgram {
         }
     }
 
-    private boolean detachAll(){
-        for(Shader shader : attachedShaders){
+    private boolean detachAll() {
+        for (Shader shader : attachedShaders) {
             glDetachShader(shaderProgramID, shader.getShaderID());
         }
         return true;
@@ -83,55 +85,60 @@ public class ShaderProgram {
         glUseProgram(0);
     }
 
-    public void addUniform(String uniform){
-        int location = glGetUniformLocation(shaderProgramID,uniform);
-        if(location != -1){
-            uniforms.put(uniform,location);
+    public void addUniform(String uniform) {
+        int location = glGetUniformLocation(shaderProgramID, uniform);
+        if (location != -1) {
+            uniforms.put(uniform, location);
         }
     }
-    public void removeUniform(String uniform){
-        int location = glGetUniformLocation(shaderProgramID,uniform);
-        if(location == -1){
+
+    public void removeUniform(String uniform) {
+        int location = glGetUniformLocation(shaderProgramID, uniform);
+        if (location == -1) {
             uniforms.remove(uniform);
         }
     }
 
-    public Map<String, Integer> getUniforms(){
+    public Map<String, Integer> getUniforms() {
         return uniforms;
     }
 
-    public void setUniformi(String name, int value){
+    public void setUniformi(String name, int value) {
         int location = uniforms.get(name);
-        if(location != -1){
-            glUniform1i(location,value);
+        if (location != -1) {
+            glUniform1i(location, value);
         }
     }
-    public void setUniformf(String name, float value){
+
+    public void setUniformf(String name, float value) {
         int location = uniforms.get(name);
-        if(location != -1){
-            glUniform1f(location,value);
+        if (location != -1) {
+            glUniform1f(location, value);
         }
     }
-    public void setUniformv2f(String name, Vector2f value){
+
+    public void setUniformv2f(String name, Vector2f value) {
         int location = uniforms.get(name);
-        if(location != -1){
+        if (location != -1) {
             glUniform2f(location,
                     value.coordinateArray()[0],
                     value.coordinateArray()[1]);
         }
     }
-    public void setUniformv3f(String name, Vector3f value){
+
+    public void setUniformv3f(String name, Vector3f value) {
         int location = uniforms.get(name);
-        if(location != -1){
+        if (location != -1) {
             glUniform3f(location,
                     value.coordinateArray()[0],
                     value.coordinateArray()[1],
                     value.coordinateArray()[2]);
         }
     }
-    public void setUniformv4f(String name, Vector4f value){
+
+    public void setUniformv4f(String name, Vector4f value) {
         int location = uniforms.get(name);
-        if(location != -1){
+        if (location != -1) {
             glUniform4f(location,
                     value.coordinateArray()[0],
                     value.coordinateArray()[1],
@@ -139,15 +146,16 @@ public class ShaderProgram {
                     value.coordinateArray()[3]);
         }
     }
-    public void setUniformm4f(String name, Matrix4x4 value){
+
+    public void setUniformm4f(String name, Matrix4x4 value) {
         int location = uniforms.get(name);
         FloatBuffer buffer = FloatBuffer.wrap(value.flatten());
-        if(location != -1){
-            glUniform4fv(location,buffer);
+        if (location != -1) {
+            glUniform4fv(location, buffer);
         }
     }
 
-    public void destroy(){
+    public void destroy() {
         unbind();
         detachAll();
         glDeleteProgram(shaderProgramID);
