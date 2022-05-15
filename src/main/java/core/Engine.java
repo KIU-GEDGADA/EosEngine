@@ -42,7 +42,7 @@ public class Engine {
         Input.init();
         window.init();
         entities.forEach(Entity::init);
-        Renderer.initAll();
+        Renderer.init();
     }
 
     public void loop() {
@@ -79,7 +79,7 @@ public class Engine {
     private void render() {
         window.clear();
         entities.forEach(Entity::render);
-        Renderer.renderAll();
+        Renderer.render();
         window.render();
     }
 
