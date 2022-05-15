@@ -11,7 +11,7 @@ public class Renderer {
     private Renderer() {
     }
 
-    public static void initAll() {
+    public static void init() {
         items.forEach(Item::init);
     }
 
@@ -25,7 +25,7 @@ public class Renderer {
         items.remove(item);
     }
 
-    public static void renderAll() {
+    public static void render() {
         if(items.size() < 1) {
             System.out.println("No items to render");
         }
