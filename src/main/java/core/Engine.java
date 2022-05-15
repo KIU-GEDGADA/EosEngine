@@ -48,19 +48,23 @@ public class Engine {
     public void loop() {
         while (window.isRunning()) {
 
+            boolean can_render = false;
+
             /* Updating delta Time for correct interval Calculation */
             TimeUtils.updateDeltaTime();
-
             /* Rendering and actually updating Game */
             while (TimeUtils.checkCycle()) {
-                if (update()) {
-                    render();
-                }
+                can_render = update();
+            }
+            if (can_render) {
+                render();
+                TimeUtils.updateFps();
             }
 
             Input.update();
 
-            System.out.println(TimeUtils.getFps());
+            System.out.println("FPS: " + TimeUtils.getFps());
+
 
             if (!window.isVSync()) {
                 TimeUtils.sync();
@@ -69,7 +73,6 @@ public class Engine {
     }
 
     private boolean update() {
-        TimeUtils.updateFps();
         TimeUtils.updateCycle();
         window.update();
         entities.forEach(Entity::update);
