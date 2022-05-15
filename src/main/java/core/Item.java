@@ -8,18 +8,16 @@ import math.Transform;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item implements Entity {
+public class Item {
 
-    private List<Shader> shaders;
-    private ShaderProgram shaderProgram = new ShaderProgram();
+    private final List<Shader> shaders;
+    private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
-    private String description;
     private Mesh mesh;
     private Transform transform;
 
     public Item(String name, Mesh mesh, List<Shader> shaders) {
         this.name = name;
-        this.description = "None.";
         this.mesh = mesh;
         this.shaders = shaders;
         this.transform = new Transform();
@@ -41,14 +39,6 @@ public class Item implements Entity {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Mesh getMesh() {
         return mesh;
     }
@@ -65,7 +55,6 @@ public class Item implements Entity {
         this.transform = transform;
     }
 
-    @Override
     public void init() {
         mesh.init();
         shaderProgram.init();
@@ -91,19 +80,12 @@ public class Item implements Entity {
         shaders.remove(shader);
     }
 
-    @Override
-    public void update() {
-
-    }
-
-    @Override
     public void render() {
         shaderProgram.bind();
         mesh.render();
         shaderProgram.unbind();
     }
 
-    @Override
     public void destroy() {
         mesh.destroy();
     }
