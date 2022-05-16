@@ -192,8 +192,10 @@ public class Matrix4x4 {
         if(obj instanceof Matrix4x4){
             for(int i=0;i<4;i++){
                 for(int j=0;j<4;j++){
-                    if(!((((Matrix4x4) obj).getCell(i,j)==-0f&&this.getCell(i,j)==0f)||((Matrix4x4) obj).getCell(i,j)==0f&&this.getCell(i,j)==-0f)){
-                        return false;
+                    if(Math.abs(this.getCell(i,j)-((Matrix4x4) obj).getCell(i,j))>epsilon){
+                        if(!((((Matrix4x4) obj).getCell(i,j)==-0f&&this.getCell(i,j)==0f)||((Matrix4x4) obj).getCell(i,j)==0f&&this.getCell(i,j)==-0f)){
+                            return false;
+                        }
                     }
                 }
             }
