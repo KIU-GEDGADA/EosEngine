@@ -16,12 +16,6 @@ public class Matrix4x4 {
         return new Matrix4x4();
     }
 
-    private static float determinant3x3(float m00, float m01, float m02,
-                                        float m10, float m11, float m12,
-                                        float m20, float m21, float m22) {
-        return m00 * (m11 * m22 - m12 * m21) + m01 * (m12 * m20 - m10 * m22) + m02 * (m10 * m21 - m11 * m20);
-    }
-
     public void setCell(int i, int j, float value) throws IllegalArgumentException {
         if (i < 0 || i > 3 || j < 0 || j > 3) {
             throw new IllegalArgumentException("Index out of bounds");
@@ -87,7 +81,9 @@ public class Matrix4x4 {
     public void negate() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
+                if(cells[i][j]!=0){
                 cells[i][j] = -cells[i][j];
+                }
             }
         }
     }
@@ -115,99 +111,105 @@ public class Matrix4x4 {
         if (detInv == 0.0f) {
             throw new IllegalArgumentException("Matrix is not invertible");
         } else {
-            m.setCell(0, 0, determinant3x3(
+            m.setCell(0, 0, MatrixHelper.determinant3x3(
                     cells[1][1], cells[1][2], cells[1][3],
                     cells[2][1], cells[2][2], cells[2][3],
                     cells[3][1], cells[3][2], cells[3][3])
                     * detInv);
-            m.setCell(0, 1, -determinant3x3(
-                    cells[0][1], cells[0][2], cells[0][3],
-                    cells[2][1], cells[2][2], cells[2][3],
-                    cells[3][1], cells[3][2], cells[3][3])
+            m.setCell(0, 1, -MatrixHelper.determinant3x3(
+                    cells[1][0], cells[1][2], cells[1][3],
+                    cells[2][0], cells[2][2], cells[2][3],
+                    cells[3][0], cells[3][2], cells[3][3])
                     * detInv);
-            m.setCell(0, 2, determinant3x3(
+            m.setCell(0, 2, MatrixHelper.determinant3x3(
                     cells[1][0], cells[1][1], cells[1][3],
                     cells[2][0], cells[2][1], cells[2][3],
                     cells[3][0], cells[3][1], cells[3][3])
                     * detInv);
-            m.setCell(0, 3, -determinant3x3(
+            m.setCell(0, 3, -MatrixHelper.determinant3x3(
                     cells[1][0], cells[1][1], cells[1][2],
                     cells[2][0], cells[2][1], cells[2][2],
                     cells[3][0], cells[3][1], cells[3][2])
                     * detInv);
-            m.setCell(1, 0, -determinant3x3(
+            m.setCell(1, 0, -MatrixHelper.determinant3x3(
                     cells[0][1], cells[0][2], cells[0][3],
                     cells[2][1], cells[2][2], cells[2][3],
                     cells[3][1], cells[3][2], cells[3][3])
                     * detInv);
-            m.setCell(1, 1, determinant3x3(
+            m.setCell(1, 1, MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][2], cells[0][3],
                     cells[2][0], cells[2][2], cells[2][3],
                     cells[3][0], cells[3][2], cells[3][3])
                     * detInv);
-            m.setCell(1, 2, -determinant3x3(
+            m.setCell(1, 2, -MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][1], cells[0][3],
                     cells[2][0], cells[2][1], cells[2][3],
                     cells[3][0], cells[3][1], cells[3][3])
                     * detInv);
-            m.setCell(1, 3, determinant3x3(
+            m.setCell(1, 3, MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][1], cells[0][2],
                     cells[2][0], cells[2][1], cells[2][2],
                     cells[3][0], cells[3][1], cells[3][2])
                     * detInv);
-            m.setCell(2, 0, determinant3x3(
+            m.setCell(2, 0, MatrixHelper.determinant3x3(
                     cells[0][1], cells[0][2], cells[0][3],
                     cells[1][1], cells[1][2], cells[1][3],
                     cells[3][1], cells[3][2], cells[3][3])
                     * detInv);
-            m.setCell(2, 1, -determinant3x3(
+            m.setCell(2, 1, -MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][2], cells[0][3],
                     cells[1][0], cells[1][2], cells[1][3],
                     cells[3][0], cells[3][2], cells[3][3])
                     * detInv);
-            m.setCell(2, 2, determinant3x3(
+            m.setCell(2, 2, MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][1], cells[0][3],
                     cells[1][0], cells[1][1], cells[1][3],
                     cells[3][0], cells[3][1], cells[3][3])
                     * detInv);
-            m.setCell(2, 3, -determinant3x3(
+            m.setCell(2, 3, -MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][1], cells[0][2],
                     cells[1][0], cells[1][1], cells[1][2],
                     cells[3][0], cells[3][1], cells[3][2])
                     * detInv);
-            m.setCell(3, 0, -determinant3x3(
+            m.setCell(3, 0, -MatrixHelper.determinant3x3(
                     cells[0][1], cells[0][2], cells[0][3],
                     cells[1][1], cells[1][2], cells[1][3],
                     cells[2][1], cells[2][2], cells[2][3])
                     * detInv);
-            m.setCell(3, 1, determinant3x3(
+            m.setCell(3, 1, MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][2], cells[0][3],
                     cells[1][0], cells[1][2], cells[1][3],
                     cells[2][0], cells[2][2], cells[2][3])
                     * detInv);
-            m.setCell(3, 2, -determinant3x3(
+            m.setCell(3, 2, -MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][1], cells[0][3],
                     cells[1][0], cells[1][1], cells[1][3],
                     cells[2][0], cells[2][1], cells[2][3])
                     * detInv);
-            m.setCell(3, 3, determinant3x3(
+            m.setCell(3, 3, MatrixHelper.determinant3x3(
                     cells[0][0], cells[0][1], cells[0][2],
                     cells[1][0], cells[1][1], cells[1][2],
                     cells[2][0], cells[2][1], cells[2][2])
                     * detInv);
         }
-        return m;
+        return m.transpose();
     }
 
-    public boolean equals() {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (cells[i][j] != cells[i][j]) {
-                    return false;
+    public boolean equals(Object obj){
+        float epsilon = 0.000001f;
+        if(obj instanceof Matrix4x4){
+            for(int i=0;i<4;i++){
+                for(int j=0;j<4;j++){
+                    if(Math.abs(this.getCell(i,j)-((Matrix4x4) obj).getCell(i,j))>epsilon){
+                        if(!((((Matrix4x4) obj).getCell(i,j)==-0f&&this.getCell(i,j)==0f)||((Matrix4x4) obj).getCell(i,j)==0f&&this.getCell(i,j)==-0f)){
+                            return false;
+                        }
+                    }
                 }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public String toString() {
