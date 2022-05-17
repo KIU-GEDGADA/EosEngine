@@ -38,7 +38,7 @@ public class Preview {
                 vs.compile();
                 fs = new Shader("res/shaders/tv1fs.glsl");
                 fs.compile();
-                tex = new Texture("res/textures/clickyspace1.png");
+                tex = new Texture("res/textures/Kick Them Out1.png");
                 sp = new ShaderProgram();
                 sp.init();
                 sp.attachShader(vs);
