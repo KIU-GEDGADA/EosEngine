@@ -34,14 +34,6 @@ public class Matrix4x4 {
         return cells;
     }
 
-    public float[] flatten(){
-        float[] flat = new float[16];
-        for(int i = 0; i < cells.length; i++){
-            System.arraycopy(cells[i],0,flat,i*4,4);
-        }
-        return flat;
-    }
-
     public void setMatrix(float[][] m) throws IllegalArgumentException {
         if (m.length != 4 || m[0].length != 4) {
             throw new IllegalArgumentException("Matrix must be 4x4");
