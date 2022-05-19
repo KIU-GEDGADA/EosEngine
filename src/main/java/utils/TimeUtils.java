@@ -46,10 +46,10 @@ public class TimeUtils {
         deltaTime = presentTime - pastTime;
         pastTime = presentTime;
         updateCounter += deltaTime;
+        frameCounter += deltaTime;
     }
 
     public static void updateFps() {
-        frameCounter += TimeUtils.getDeltaTime();
         fpsCounter++;
     }
 
@@ -58,13 +58,14 @@ public class TimeUtils {
     }
 
     public static void updateCycle() {
+        updateCounter -= INTERVAL;
         if (frameCounter >= 1.0f) {
             frameCounter = 0;
             fps = fpsCounter;
             fpsCounter = 0;
         }
-        updateCounter -= INTERVAL;
     }
+
 
     public static void sync() {
         presentTime = (float) glfwGetTime();

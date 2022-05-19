@@ -73,15 +73,20 @@ public class Vector4f {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
     }
 
-    public boolean equals(Vector4f v) {
-        return this.x == v.x && this.y == v.y && this.z == v.z && this.w == v.w;
+    public boolean equals(Object v) {
+        float epsilon = 0.0001f;
+        if(v instanceof Vector4f) {
+            return Math.abs(this.x - ((Vector4f) v).x)<epsilon && Math.abs(this.y - ((Vector4f) v).y)<epsilon
+                    && Math.abs(this.z - ((Vector4f) v).z)<epsilon && Math.abs(this.w - ((Vector4f) v).w)<epsilon;
+        }
+        return false;
     }
 
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 
-    public Vector4f normalize(Vector4f v) {
+    public static Vector4f normalize(Vector4f v) {
         float length = v.length();
         return new Vector4f(v.x / length, v.y / length, v.z / length, v.w / length);
     }
