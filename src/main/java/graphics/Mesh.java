@@ -18,6 +18,8 @@ public class Mesh {
     private int IBO;
     private int UVBO;
 
+    private boolean usingTexture = false;
+
     public Mesh(Vertex[] vertices, int[] indices) {
         this.vertices = vertices;
         this.indices = indices;
@@ -50,15 +52,20 @@ public class Mesh {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW);
 
-        this.UVBO = glGenBuffers();
-        System.out.println("Mesh UVBO:" + UVBO + " created.");
-        glBindBuffer(GL_TEXTURE_BUFFER,UVBO);
-        glBufferData(GL_ARRAY_BUFFER,uvBuffer,GL_STATIC_DRAW);
-        glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
+        if(usingTexture){
+            this.UVBO = glGenBuffers();
+            System.out.println("Mesh UVBO:" + UVBO + " created.");
+            glBindBuffer(GL_TEXTURE_BUFFER,UVBO);
+            glBufferData(GL_ARRAY_BUFFER,uvBuffer,GL_STATIC_DRAW);
+            glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
+        }
 
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
+
+        if(usingTexture){
+            glEnableVertexAttribArray(2);
+        }
 
         glBindVertexArray(0);
     }
@@ -80,7 +87,9 @@ public class Mesh {
     public void destroy(){
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
-        glDisableVertexAttribArray(2);
+        if(usingTexture){
+            glDisableVertexAttribArray(2);
+        }
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glDeleteBuffers(VBO);
@@ -93,15 +102,20 @@ public class Mesh {
     private FloatBuffer[] flipBuffer(Vertex[] vertices) {
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.VERTEX_SIZE);
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.COLOR_SIZE);
-        FloatBuffer uvBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.UVCords_SIZE);
+        FloatBuffer uvBuffer = BufferUtils.createFloatBuffer(vertices.length * Vertex.UVCORDS_SIZE);
         for (Vertex vertex : vertices) {
             vertexBuffer.put(vertex.position.coordinateArray());
             colorBuffer.put(vertex.color.toArray());
-            uvBuffer.put(vertex.UVCoordinates.coordinateArray());
+            if(vertex.UVCoordinates != null){
+                uvBuffer.put(vertex.UVCoordinates.coordinateArray());
+                usingTexture = true;
+            }
         }
         vertexBuffer.flip();
         colorBuffer.flip();
-        uvBuffer.flip();
+        if(usingTexture){
+            uvBuffer.flip();
+        }
         return new FloatBuffer[]{vertexBuffer, colorBuffer,uvBuffer};
     }
 

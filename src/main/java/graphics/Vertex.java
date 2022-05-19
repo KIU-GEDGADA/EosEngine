@@ -5,11 +5,11 @@ import math.*;
 public class Vertex {
     public static final int VERTEX_SIZE = 3;
     public static final int COLOR_SIZE = 4;
-    public static final int UVCords_SIZE = 2;
+    public static final int UVCORDS_SIZE = 2;
 
     public Vector3f position;
     public Color color;
-    public Vector2f UVCoordinates;
+    public Vector2f UVCoordinates = null;
 
     public Vertex(Vector3f position, Color color) {
         this.position = position;

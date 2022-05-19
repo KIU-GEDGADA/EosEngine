@@ -3,45 +3,68 @@ package core;
 import io.Input;
 import utils.TimeUtils;
 
-public class Engine{
+import java.util.ArrayList;
+import java.util.List;
 
-    public Window window;
-    public Entity entity;
+public class Engine {
 
-    public Engine(Window window, Entity entity){
+    private Window window;
+    private List<Entity> entities = new ArrayList<>();
+
+    public Engine(Window window) {
         this.window = window;
-        this.entity = entity;
     }
 
-    public void start(){
+    public Window getWindow() {
+        return window;
+    }
+
+    public void setWindow(Window window) {
+        this.window = window;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
+    }
+
+    public void start() {
         init();
         loop();
         stop();
     }
 
-    public void init(){
+    public void init() {
         TimeUtils.init(60);
         Input.init();
         window.init();
-        entity.init();
+        entities.forEach(Entity::init);
+        Renderer.init();
     }
 
     public void loop() {
         while (window.isRunning()) {
 
+            boolean can_render = false;
+
             /* Updating delta Time for correct interval Calculation */
             TimeUtils.updateDeltaTime();
-
             /* Rendering and actually updating Game */
             while (TimeUtils.checkCycle()) {
-                if(update()){
-                    render();
-                }
+                can_render = update();
+            }
+            if (can_render) {
+                render();
+                TimeUtils.updateFps();
             }
 
             Input.update();
 
-            System.out.println(TimeUtils.getFps());
+            System.out.println("FPS: " + TimeUtils.getFps());
+
 
             if (!window.isVSync()) {
                 TimeUtils.sync();
@@ -49,22 +72,25 @@ public class Engine{
         }
     }
 
-    private boolean update(){
-        TimeUtils.updateFps();
+    private boolean update() {
         TimeUtils.updateCycle();
         window.update();
-        entity.update();
+        entities.forEach(Entity::update);
         return true;
     }
 
     private void render() {
         window.clear();
-        entity.render();
+        entities.forEach(Entity::render);
+        Renderer.render();
         window.render();
     }
 
-    public void stop(){
-        entity.destroy();
+    public void stop() {
+        entities.forEach(Entity::destroy);
         window.destroy();
+        Renderer.removeAll();
     }
+
+
 }
