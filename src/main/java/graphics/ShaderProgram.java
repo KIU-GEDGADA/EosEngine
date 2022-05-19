@@ -157,6 +157,9 @@ public class ShaderProgram {
     }
 
     public void setTexture(String name, int slot){
+        if(uniforms == null){
+            System.out.println("Uniforms not set");
+        }
         int location = uniforms.get(name);
         if(location != -1){
             glUniform1i(location,slot);
