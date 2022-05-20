@@ -83,7 +83,7 @@ public class Item {
         shaders.forEach(shaderProgram::attachShader);
         if (shaderProgram.getAttachedShaders().size() > 0) {
             shaderProgram.link();
-            if (mesh.usingTexture || texture != null) {
+            if (mesh.usingTexture && texture != null) {
                 shaderProgram.addUniform("tex");
                 shaderProgram.setTexture("tex", 0);
                 glActiveTexture(GL_TEXTURE0);
@@ -108,11 +108,11 @@ public class Item {
 
     public void render() {
         shaderProgram.bind();
-        if (mesh.usingTexture || texture != null) {
+        if (mesh.usingTexture && texture != null) {
             texture.bind();
         }
         mesh.render();
-        if (mesh.usingTexture || texture != null) {
+        if (mesh.usingTexture && texture != null) {
             texture.unbind();
         }
         shaderProgram.unbind();
