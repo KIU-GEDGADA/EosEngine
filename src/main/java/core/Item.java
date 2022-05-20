@@ -9,7 +9,6 @@ import math.Transform;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13C.glActiveTexture;
 
@@ -30,8 +29,8 @@ public class Item {
         this.texture = texture;
     }
 
-    public Item(String name, Mesh mesh, Texture texture) {
-        this(name, mesh, new ArrayList<>(), texture);
+    public Item(String name, Mesh mesh, List<Shader> shaders) {
+        this(name, mesh, new ArrayList<>(), null);
     }
 
     public Texture getTexture() {
@@ -78,13 +77,17 @@ public class Item {
         mesh.init();
         shaderProgram.init();
         compileShaders();
-        texture.init();
+        if (texture != null) {
+            texture.init();
+        }
         shaders.forEach(shaderProgram::attachShader);
         if (shaderProgram.getAttachedShaders().size() > 0) {
             shaderProgram.link();
-            shaderProgram.addUniform("tex");
-            shaderProgram.setTexture("tex", 0);
-            glActiveTexture(GL_TEXTURE0);
+            if (mesh.usingTexture || texture != null) {
+                shaderProgram.addUniform("tex");
+                shaderProgram.setTexture("tex", 0);
+                glActiveTexture(GL_TEXTURE0);
+            }
         }
     }
 
@@ -105,9 +108,13 @@ public class Item {
 
     public void render() {
         shaderProgram.bind();
-        texture.bind();
+        if (mesh.usingTexture || texture != null) {
+            texture.bind();
+        }
         mesh.render();
-        texture.unbind();
+        if (mesh.usingTexture || texture != null) {
+            texture.unbind();
+        }
         shaderProgram.unbind();
     }
 
