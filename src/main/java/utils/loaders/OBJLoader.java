@@ -82,11 +82,11 @@ public class OBJLoader {
         String[] tokens = token.split("/");
         int size = tokens.length;
         int pos = -1, tex = -1, norm = -1;
-        pos = Integer.parseInt(tokens[0]) - 1;
+        pos = Integer.parseInt(tokens[0].strip()) - 1;
         if (size > 1) {
-            tex = Integer.parseInt(tokens[1]) - 1;
+            tex = Integer.parseInt(tokens[1].strip()) - 1;
             if (size > 2) {
-                norm = Integer.parseInt(tokens[2]) - 1;
+                norm = Integer.parseInt(tokens[2].strip()) - 1;
             }
         }
         faces.add(new Vector3f(pos, tex, norm));
