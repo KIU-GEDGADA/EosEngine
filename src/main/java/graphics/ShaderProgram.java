@@ -104,21 +104,21 @@ public class ShaderProgram {
         return uniforms;
     }
 
-    public void setUniformi(String name, int value) {
+    public void setUniform(String name, int value) {
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform1i(location, value);
         }
     }
 
-    public void setUniformf(String name, float value) {
+    public void setUniform(String name, float value) {
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform1f(location, value);
         }
     }
 
-    public void setUniformv2f(String name, Vector2f value) {
+    public void setUniform(String name, Vector2f value) {
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform2f(location,
@@ -127,7 +127,7 @@ public class ShaderProgram {
         }
     }
 
-    public void setUniformv3f(String name, Vector3f value) {
+    public void setUniform(String name, Vector3f value) {
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform3f(location,
@@ -137,7 +137,7 @@ public class ShaderProgram {
         }
     }
 
-    public void setUniformv4f(String name, Vector4f value) {
+    public void setUniform(String name, Vector4f value) {
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform4f(location,
@@ -148,7 +148,7 @@ public class ShaderProgram {
         }
     }
 
-    public void setUniformm4f(String name, Matrix4x4 value) {
+    public void setUniform(String name, Matrix4x4 value) {
         int location = uniforms.get(name);
         FloatBuffer buffer = MathUtils.matrixToFloatBuffer(value);
         if (location != -1) {
@@ -156,13 +156,13 @@ public class ShaderProgram {
         }
     }
 
-    public void setTexture(String name, int slot){
-        if(uniforms == null){
+    public void setTexture(String name, int slot) {
+        if (uniforms.isEmpty()) {
             System.out.println("Uniforms not set");
         }
         int location = uniforms.get(name);
-        if(location != -1){
-            glUniform1i(location,slot);
+        if (location != -1) {
+            glUniform1i(location, slot);
         }
     }
 
