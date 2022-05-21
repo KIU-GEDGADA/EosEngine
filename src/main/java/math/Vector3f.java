@@ -132,66 +132,83 @@ public class Vector3f {
 
     public boolean equals(Object v) {
         float epsilon = 0.00001f;
-        if(v instanceof Vector3f) {
-            return Math.abs(this.x - ((Vector3f) v).x)<epsilon && Math.abs(this.y - ((Vector3f) v).y)<epsilon && Math.abs(this.z - ((Vector3f) v).z)<epsilon;
+        if (v instanceof Vector3f) {
+            return Math.abs(this.x - ((Vector3f) v).x) < epsilon && Math.abs(this.y - ((Vector3f) v).y) < epsilon && Math.abs(this.z - ((Vector3f) v).z) < epsilon;
         }
         return false;
     }
+
     public String toString() {
         return "(" + x + ", " + y + ", " + z + ")";
     }
 
-    public void add(Vector3f v) {
+    public Vector3f add(Vector3f v) {
         this.x += v.x;
         this.y += v.y;
         this.z += v.z;
+
+        return this;
     }
 
-    public void sub(Vector3f v) {
+    public Vector3f sub(Vector3f v) {
         this.x -= v.x;
         this.y -= v.y;
         this.z -= v.z;
+
+        return this;
     }
 
-    public void mul(float scalar) {
+    public Vector3f mul(float scalar) {
         this.x *= scalar;
         this.y *= scalar;
         this.z *= scalar;
+
+        return this;
     }
 
-    public void div(float scalar) {
+    public Vector3f div(float scalar) {
         this.x /= scalar;
         this.y /= scalar;
         this.z /= scalar;
+
+        return this;
     }
 
-    public void normalize() {
+    public Vector3f normalize() {
         float length = this.length();
         this.x /= length;
         this.y /= length;
         this.z /= length;
+
+        return this;
     }
 
-    public void translate(Vector3f delta) {
+    public Vector3f translate(Vector3f delta) {
         this.x += delta.x;
         this.y += delta.y;
         this.z += delta.z;
+
+        return this;
     }
 
-    public void translate(float x, float y, float z) {
+    public Vector3f translate(float x, float y, float z) {
         this.x += x;
         this.y += y;
         this.z += z;
+
+        return this;
     }
 
-    public void negate() {
+    public Vector3f negate() {
         this.x = -this.x;
         this.y = -this.y;
         this.z = -this.z;
+
+        return this;
     }
 
     public float[] coordinateArray() {
-        return new float[] {x, y, z};
+        return new float[]{x, y, z};
     }
 
 }
