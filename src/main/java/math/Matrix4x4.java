@@ -16,11 +16,13 @@ public class Matrix4x4 {
         return new Matrix4x4();
     }
 
-    public void setCell(int i, int j, float value) throws IllegalArgumentException {
+    public Matrix4x4 setCell(int i, int j, float value) throws IllegalArgumentException {
         if (i < 0 || i > 3 || j < 0 || j > 3) {
             throw new IllegalArgumentException("Index out of bounds");
         }
         cells[i][j] = value;
+
+        return this;
     }
 
     public float getCell(int i, int j) throws IllegalArgumentException {
@@ -34,19 +36,21 @@ public class Matrix4x4 {
         return cells;
     }
 
-    public float[] flatten(){
+    public float[] flatten() {
         float[] flat = new float[16];
-        for(int i = 0; i < cells.length; i++){
-            System.arraycopy(cells[i],0,flat,i*4,4);
+        for (int i = 0; i < cells.length; i++) {
+            System.arraycopy(cells[i], 0, flat, i * 4, 4);
         }
         return flat;
     }
 
-    public void setMatrix(float[][] m) throws IllegalArgumentException {
+    public Matrix4x4 setMatrix(float[][] m) throws IllegalArgumentException {
         if (m.length != 4 || m[0].length != 4) {
             throw new IllegalArgumentException("Matrix must be 4x4");
         }
         cells = m;
+
+        return this;
     }
 
     public Matrix4x4 transpose() {
@@ -70,22 +74,24 @@ public class Matrix4x4 {
         return result;
     }
 
-    public void multiply(float scalar) {
+    public Matrix4x4 multiply(float scalar) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 cells[i][j] *= scalar;
             }
         }
+        return this;
     }
 
-    public void negate() {
+    public Matrix4x4 negate() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                if(cells[i][j]!=0){
-                cells[i][j] = -cells[i][j];
+                if (cells[i][j] != 0) {
+                    cells[i][j] = -cells[i][j];
                 }
             }
         }
+        return this;
     }
 
     public float determinant() {
@@ -195,13 +201,13 @@ public class Matrix4x4 {
         return m.transpose();
     }
 
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         float epsilon = 0.000001f;
-        if(obj instanceof Matrix4x4){
-            for(int i=0;i<4;i++){
-                for(int j=0;j<4;j++){
-                    if(Math.abs(this.getCell(i,j)-((Matrix4x4) obj).getCell(i,j))>epsilon){
-                        if(!((((Matrix4x4) obj).getCell(i,j)==-0f&&this.getCell(i,j)==0f)||((Matrix4x4) obj).getCell(i,j)==0f&&this.getCell(i,j)==-0f)){
+        if (obj instanceof Matrix4x4) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (Math.abs(this.getCell(i, j) - ((Matrix4x4) obj).getCell(i, j)) > epsilon) {
+                        if (!((((Matrix4x4) obj).getCell(i, j) == -0f && this.getCell(i, j) == 0f) || ((Matrix4x4) obj).getCell(i, j) == 0f && this.getCell(i, j) == -0f)) {
                             return false;
                         }
                     }
@@ -223,20 +229,22 @@ public class Matrix4x4 {
         return s;
     }
 
-    public void setIdentity() {
+    public Matrix4x4 setIdentity() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 cells[i][j] = (i == j) ? 1 : 0;
             }
         }
+        return this;
     }
 
-    public void setZero() {
+    public Matrix4x4 setZero() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 cells[i][j] = 0;
             }
         }
+        return this;
     }
 
 }
