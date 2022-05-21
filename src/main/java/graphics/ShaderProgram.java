@@ -150,9 +150,8 @@ public class ShaderProgram {
 
     public void setUniform(String name, Matrix4x4 value) {
         int location = uniforms.get(name);
-        FloatBuffer buffer = MathUtils.matrixToFloatBuffer(value);
         if (location != -1) {
-            glUniform4fv(location, buffer);
+            glUniformMatrix4fv(location, false, MathUtils.flatten2DArray(value.getMatrix()));
         }
     }
 

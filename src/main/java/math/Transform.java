@@ -8,9 +8,17 @@ public class Transform {
     private Vector3f scale;
 
     public Transform() {
-        position = new Vector3f();
-        rotation = new Vector3f();
+        position = Vector3f.zero();
+        rotation = Vector3f.zero();
         scale = Vector3f.one();
+    }
+
+    public Vector3f getRotation() {
+        return rotation;
+    }
+
+    public Vector3f getScale() {
+        return scale;
     }
 
     public Vector3f getPosition() {

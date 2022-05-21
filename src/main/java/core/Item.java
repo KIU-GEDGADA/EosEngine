@@ -88,6 +88,7 @@ public class Item {
                 shaderProgram.setTexture("tex", 0);
                 glActiveTexture(GL_TEXTURE0);
             }
+            shaderProgram.addUniform("transformationMatrix");
         }
     }
 
@@ -108,6 +109,7 @@ public class Item {
 
     public void render() {
         shaderProgram.bind();
+        shaderProgram.setUniform("transformationMatrix", transform.getTransformation());
         if (mesh.usingTexture && texture != null) {
             texture.bind();
         }
