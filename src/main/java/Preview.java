@@ -10,7 +10,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 
 public class Preview {
     public static void main(String[] args) {
-        Window w = new Window(800, 600, "Preview", false);
+        Window w = new Window(1000, 1000, "Preview", false);
         Vertex v1;
         Vertex v2;
         Vertex v3;
@@ -29,7 +29,9 @@ public class Preview {
         shaders.add(vs);
         shaders.add(fs);
         Item item1 = new Item("Mesh 1", new Mesh(vertices1, indices1), shaders);
-        Item item2 = new Item("Mesh 2", new Mesh(vertices2, indices2));
+        Item item2 = new Item("Mesh 2", new Mesh(vertices2, indices2), shaders);
+        Item item3 = new Item("Cube", new Mesh("res/models/gordon.obj", false), shaders);
+
         Entity e = new Entity() {
 
             @Override
@@ -53,8 +55,7 @@ public class Preview {
         };
         Engine ee = new Engine(w);
         ee.getEntities().add(e);
-        Renderer.addItem(item1);
-        Renderer.addItem(item2);
+        Renderer.addItem(item3);
         ee.start();
     }
 }

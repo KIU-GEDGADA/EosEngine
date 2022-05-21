@@ -73,6 +73,7 @@ public class Window {
 
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
     }
 
     public void destroy() {

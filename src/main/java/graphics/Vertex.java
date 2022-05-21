@@ -1,10 +1,9 @@
 package graphics;
 
-import math.*;
+import math.Vector2f;
+import math.Vector3f;
 
 public class Vertex {
-    public static final int VERTEX_SIZE = 3;
-    public static final int COLOR_SIZE = 4;
 
     public Vector3f position;
     public Color color;
@@ -14,13 +13,13 @@ public class Vertex {
         this.color = color;
     }
 
+    public Vertex(Vector3f position) {
+        this.position = position;
+        this.color = Color.RED;
+    }
+
     public Vertex(float x, float y, float z, Color color) {
         this.position = new Vector3f(x, y, z);
         this.color = color;
-    }
-
-    public Vertex(Vector3f position) {
-        this.position = position;
-        this.color = Color.GREY;
     }
 }
