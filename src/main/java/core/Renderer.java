@@ -14,8 +14,8 @@ public class Renderer {
     public static void init() {
         items.forEach(Item::init);
     }
-
-    public static void addItem(Item item) {;
+  
+    public static void addItem(Item item) {
         if(!items.contains(item)) {
             items.add(item);
         }
