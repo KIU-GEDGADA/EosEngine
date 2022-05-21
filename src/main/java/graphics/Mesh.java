@@ -64,7 +64,6 @@ public class Mesh {
         FloatBuffer[] buffers = DataBufferUtils.flipVertices(vertices);
         FloatBuffer vertexBuffer = buffers[0];
         FloatBuffer colorBuffer = buffers[1];
-        FloatBuffer texBuffer = DataBufferUtils.flipCoordinates(textureCoordinates);
         IntBuffer indexBuffer = DataBufferUtils.flipIndices(indices);
 
         this.VBO = glGenBuffers();
@@ -82,6 +81,7 @@ public class Mesh {
             this.UVBO = glGenBuffers();
             System.out.println("Mesh UVBO: " + UVBO + " created.");
             glBindBuffer(GL_TEXTURE_BUFFER, UVBO);
+            FloatBuffer texBuffer = DataBufferUtils.flipCoordinates(textureCoordinates);
             glBufferData(GL_ARRAY_BUFFER, texBuffer, GL_STATIC_DRAW);
             glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
         } else {
