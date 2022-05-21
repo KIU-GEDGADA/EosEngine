@@ -30,7 +30,7 @@ public class Item {
     }
 
     public Item(String name, Mesh mesh, List<Shader> shaders) {
-        this(name, mesh, new ArrayList<>(), null);
+        this(name, mesh, shaders, null);
     }
 
     public Texture getTexture() {
