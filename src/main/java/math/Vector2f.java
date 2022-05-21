@@ -98,49 +98,65 @@ public class Vector2f {
         return "(" + x + ", " + y + ")";
     }
 
-    public void add(Vector2f v) {
+    public Vector2f add(Vector2f v) {
         this.x += v.x;
         this.y += v.y;
+
+        return this;
     }
 
-    public void sub(Vector2f v) {
+    public Vector2f sub(Vector2f v) {
         this.x -= v.x;
         this.y -= v.y;
+
+        return this;
     }
 
-    public void mul(float scalar) {
+    public Vector2f mul(float scalar) {
         this.x *= scalar;
         this.y *= scalar;
+
+        return this;
     }
 
-    public void div(float scalar) {
+    public Vector2f div(float scalar) {
         this.x /= scalar;
         this.y /= scalar;
+
+        return this;
     }
 
-    public void normalize() {
+    public Vector2f normalize() {
         float length = this.length();
         this.x /= length;
         this.y /= length;
+
+        return this;
     }
 
-    public void translate(Vector2f delta) {
+    public Vector2f translate(Vector2f delta) {
         this.x += delta.x;
         this.y += delta.y;
+
+        return this;
     }
 
-    public void translate(float x, float y) {
+    public Vector2f translate(float x, float y) {
         this.x += x;
         this.y += y;
+
+        return this;
     }
 
-    public void negate() {
+    public Vector2f negate() {
         this.x = -this.x;
         this.y = -this.y;
+
+        return this;
     }
 
     public float[] coordinateArray() {
-        return new float[] {x, y};
+        return new float[]{x, y};
     }
 
 }

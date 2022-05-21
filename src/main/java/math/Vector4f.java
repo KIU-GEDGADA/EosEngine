@@ -75,9 +75,9 @@ public class Vector4f {
 
     public boolean equals(Object v) {
         float epsilon = 0.0001f;
-        if(v instanceof Vector4f) {
-            return Math.abs(this.x - ((Vector4f) v).x)<epsilon && Math.abs(this.y - ((Vector4f) v).y)<epsilon
-                    && Math.abs(this.z - ((Vector4f) v).z)<epsilon && Math.abs(this.w - ((Vector4f) v).w)<epsilon;
+        if (v instanceof Vector4f) {
+            return Math.abs(this.x - ((Vector4f) v).x) < epsilon && Math.abs(this.y - ((Vector4f) v).y) < epsilon
+                    && Math.abs(this.z - ((Vector4f) v).z) < epsilon && Math.abs(this.w - ((Vector4f) v).w) < epsilon;
         }
         return false;
     }
@@ -91,65 +91,81 @@ public class Vector4f {
         return new Vector4f(v.x / length, v.y / length, v.z / length, v.w / length);
     }
 
-    public void normalize() {
+    public Vector4f normalize() {
         float length = this.length();
         this.x /= length;
         this.y /= length;
         this.z /= length;
         this.w /= length;
+
+        return this;
     }
 
-    public void add(Vector4f v) {
+    public Vector4f add(Vector4f v) {
         this.x += v.x;
         this.y += v.y;
         this.z += v.z;
         this.w += v.w;
+
+        return this;
     }
 
-    public void sub(Vector4f v) {
+    public Vector4f sub(Vector4f v) {
         this.x -= v.x;
         this.y -= v.y;
         this.z -= v.z;
         this.w -= v.w;
+
+        return this;
     }
 
-    public void mul(float scalar) {
+    public Vector4f mul(float scalar) {
         this.x *= scalar;
         this.y *= scalar;
         this.z *= scalar;
         this.w *= scalar;
+
+        return this;
     }
 
-    public void div(float scalar) {
+    public Vector4f div(float scalar) {
         this.x /= scalar;
         this.y /= scalar;
         this.z /= scalar;
         this.w /= scalar;
+
+        return this;
     }
 
-    public void translate(Vector4f delta) {
+    public Vector4f translate(Vector4f delta) {
         this.x += delta.x;
         this.y += delta.y;
         this.z += delta.z;
         this.w += delta.w;
+
+        return this;
     }
 
-    public void translate(float x, float y, float z, float w) {
+    public Vector4f translate(float x, float y, float z, float w) {
         this.x += x;
         this.y += y;
         this.z += z;
         this.w += w;
+
+        return this;
     }
 
-    public void negate() {
+    public Vector4f negate() {
         this.x = -this.x;
         this.y = -this.y;
         this.z = -this.z;
         this.w = -this.w;
+
+        return this;
     }
 
     public float[] coordinateArray() {
-        return new float[] {x, y, z, w};
+        return new float[]{x, y, z, w};
     }
 
 }

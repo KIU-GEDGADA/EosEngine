@@ -5,7 +5,11 @@ layout (location=1) in vec4 aColor;
 
 out vec4 fColor;
 
-void main(){
+uniform mat4 transformationMatrix;
+
+
+
+void main() {
     fColor = aColor;
-    gl_Position = vec4(aPos,1.0);
+    gl_Position = transformationMatrix * vec4(aPos,  1.0f);
 }
