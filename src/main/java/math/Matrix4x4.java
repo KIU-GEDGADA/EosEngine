@@ -235,6 +235,7 @@ public class Matrix4x4 {
                 cells[i][j] = (i == j) ? 1 : 0;
             }
         }
+
         return this;
     }
 
@@ -244,6 +245,7 @@ public class Matrix4x4 {
                 cells[i][j] = 0;
             }
         }
+
         return this;
     }
 
