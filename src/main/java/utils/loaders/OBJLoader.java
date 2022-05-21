@@ -22,31 +22,31 @@ public class OBJLoader {
             String[] tokens = line.split(" ");
             if (!line.startsWith("#") || !line.startsWith("o") || !line.startsWith("s")) {
                 switch (tokens[0]) {
-                    case "v" -> {
+                    case "v":
                         Vertex vertex = new Vertex(Vector3f.div(new Vector3f(
                                 Float.parseFloat(tokens[1]),
                                 Float.parseFloat(tokens[2]),
                                 Float.parseFloat(tokens[3])), 2.0f));
                         vertexList.add(vertex);
-                    }
-                    case "vt" -> {
+                        break;
+                    case "vt":
                         Vector2f textureCoordinate = new Vector2f(
                                 Float.parseFloat(tokens[1]),
                                 Float.parseFloat(tokens[2]));
                         textureCoordinatesList.add(textureCoordinate);
-                    }
-                    case "vn" -> {
+                        break;
+                    case "vn":
                         Vector3f normal = new Vector3f(
                                 Float.parseFloat(tokens[1]),
                                 Float.parseFloat(tokens[2]),
                                 Float.parseFloat(tokens[3]));
                         normalsList.add(normal);
-                    }
-                    case "f" -> {
+                        break;
+                    case "f":
                         processFace(tokens[1], facesList);
                         processFace(tokens[2], facesList);
                         processFace(tokens[3], facesList);
-                    }
+                        break;
                 }
             }
         }
