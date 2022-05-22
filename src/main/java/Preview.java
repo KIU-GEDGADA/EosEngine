@@ -3,11 +3,11 @@ import graphics.*;
 import io.Input;
 import math.Vector2f;
 import math.Vector3f;
+import utils.MathUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Preview {
     public static void main(String[] args) {
@@ -17,6 +17,7 @@ public class Preview {
             Item item1;
             Item item2;
             Texture texture1;
+
             @Override
             public void init() {
                 Vertex v1 = new Vertex(new Vector3f(-0.5f, 0.5f, 0f), Color.RED);
@@ -34,23 +35,75 @@ public class Preview {
 
                 texture1 = new Texture("res/textures/texture.png");
 
-                item1 = new Item("Mesh 1", new Model(new Mesh(vertices1, texCoords1, new Vector3f[]{}, indices1)), shaders);
-
-                item2 = new Item("Cube", new Model(new Mesh("res/models/cube.obj")), shaders);
+                item2 = new Item("Cube", new Model(new Mesh("res/models/gordon.obj")), shaders, texture1);
                 item2.getTransform().getScale().div(2f);
-                //item1.getModel().setTexture(texture1);
+                //item2.getModel().setTexture(texture1);
 
-                Renderer.addItem(item1);
-                //Renderer.addItem(item2);
+                Renderer.addItem(item2);
             }
 
             @Override
             public void update() {
 
-                if (item1.getTransform().getRotation().z < -360f) {
-                    item1.getTransform().getRotation().z = 0f;
+                if (Input.isKeyDown(GLFW_KEY_R)) {
+                    if (Input.isKeyDown(GLFW_KEY_UP)) {
+                        item2.getTransform().getRotation().x += 5f;
+                        MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
+                    } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                        item2.getTransform().getRotation().x -= 5f;
+                        MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
+                    } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                        item2.getTransform().getRotation().y += 5f;
+                        MathUtils.clamp(item2.getTransform().getRotation().y, 0, 360);
+                    } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                        item2.getTransform().getRotation().y -= 5f;
+                        MathUtils.clamp(item2.getTransform().getRotation().y, 0, 360);
+                    }
+                } else if (Input.isKeyDown(GLFW_KEY_S)) {
+                    if (Input.isKeyDown(GLFW_KEY_A)) {
+                        if (Input.isKeyDown(GLFW_KEY_UP)) {
+                            item2.getTransform().getScale().y += 0.05f;
+                            item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                            item2.getTransform().getScale().x += 0.05f;
+                            item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                        } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                            item2.getTransform().getScale().y -= 0.05f;
+                            item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                            item2.getTransform().getScale().x -= 0.05f;
+                            item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                        }
+                    } else {
+                        if (Input.isKeyDown(GLFW_KEY_UP)) {
+                            item2.getTransform().getScale().y += 0.05f;
+                            item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                        } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                            item2.getTransform().getScale().y -= 0.05f;
+                            item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                        } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                            item2.getTransform().getScale().x += 0.05f;
+                            item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                        } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                            item2.getTransform().getScale().x -= 0.05f;
+                            item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                        }
+                    }
+                } else if (Input.isKeyDown(GLFW_KEY_T)) {
+                    if (Input.isKeyDown(GLFW_KEY_UP)) {
+                        item2.getTransform().getPosition().y += 0.05f;
+                        item2.getTransform().getPosition().y = MathUtils.clamp(item2.getTransform().getPosition().y, -1f, 1f);
+                    } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                        item2.getTransform().getPosition().y -= 0.05f;
+                        item2.getTransform().getPosition().y = MathUtils.clamp(item2.getTransform().getPosition().y, -1f, 1f);
+                    } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                        item2.getTransform().getPosition().x -= 0.05f;
+                        item2.getTransform().getPosition().x = MathUtils.clamp(item2.getTransform().getPosition().x, -1f, 1f);
+                    } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                        item2.getTransform().getPosition().x += 0.05f;
+                        item2.getTransform().getPosition().x = MathUtils.clamp(item2.getTransform().getPosition().x, -1f, 1f);
+                    }
+                } else if (Input.isKeyDown(GLFW_KEY_UP) || Input.isKeyDown(GLFW_KEY_DOWN) || Input.isKeyDown(GLFW_KEY_LEFT) || Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                    System.out.println("Please press T to change the position of the object\nS to change the scale of the object (+A for absolute scale)\nR to change the rotation of the object");
                 }
-                item1.getTransform().getRotation().z -= 1f;
             }
 
             @Override
@@ -59,14 +112,13 @@ public class Preview {
 
             @Override
             public void destroy() {
-                item1.destroy();
-                //item2.destroy();
+                //item1.destroy();
+                item2.destroy();
             }
         };
 
         Engine ee = new Engine(w);
         ee.getEntities().add(e);
-
         ee.start();
     }
 }
