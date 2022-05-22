@@ -23,10 +23,10 @@ public class OBJLoader {
             if (!line.startsWith("#") || !line.startsWith("o") || !line.startsWith("s")) {
                 switch (tokens[0]) {
                     case "v":
-                        Vertex vertex = new Vertex(Vector3f.div(new Vector3f(
+                        Vertex vertex = new Vertex(new Vector3f(
                                 Float.parseFloat(tokens[1]),
                                 Float.parseFloat(tokens[2]),
-                                Float.parseFloat(tokens[3])), 2.0f));
+                                Float.parseFloat(tokens[3])));
                         vertexList.add(vertex);
                         break;
                     case "vt":
