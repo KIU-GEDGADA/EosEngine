@@ -7,8 +7,6 @@ out vec4 fColor;
 
 uniform mat4 transformationMatrix;
 
-
-
 void main() {
     fColor = aColor;
     gl_Position = transformationMatrix * vec4(aPos,  1.0f);
