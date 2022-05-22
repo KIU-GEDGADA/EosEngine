@@ -2,6 +2,9 @@ package graphics;
 
 import utils.MathUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Color {
     public float red;
     public float green;
@@ -9,10 +12,10 @@ public class Color {
     public float alpha;
 
     public Color(float r, float g, float b, float a) {
-        this.red = MathUtils.clamp(r);
-        this.green = MathUtils.clamp(g);
-        this.blue = MathUtils.clamp(b);
-        this.alpha = MathUtils.clamp(a);
+        this.red = MathUtils.clamp(r, 0.0f, 1.0f);
+        this.green = MathUtils.clamp(g, 0.0f, 1.0f);
+        this.blue = MathUtils.clamp(b, 0.0f, 1.0f);
+        this.alpha = MathUtils.clamp(a, 0.0f, 1.0f);
     }
 
     public Color(float r, float g, float b) {
@@ -45,4 +48,9 @@ public class Color {
     public static Color YELLOW = new Color(1.0f, 1.0f, 0.0f);
     public static Color MAGENTA = new Color(1.0f, 0.0f, 1.0f);
     public static Color TRANSPARENT = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+
+    public static Color random(){
+        Color[] colors = new Color[]{RED, GREEN, BLUE, CYAN, YELLOW, MAGENTA};
+        return colors[(int)(Math.random() * colors.length)];
+    }
 }
