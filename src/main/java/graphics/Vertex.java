@@ -15,6 +15,6 @@ public class Vertex {
 
     public Vertex(Vector3f position) {
         this.position = position;
-        this.color = Color.WHITE;
+        this.color = Color.random();
     }
 }
