@@ -2,6 +2,7 @@ package core;
 
 import enums.WindowState;
 import io.Input;
+import math.Matrix4x4;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -36,6 +37,10 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
         this.monitor = glfwGetPrimaryMonitor();
         this.mode = glfwGetVideoMode(monitor);
         window = glfwCreateWindow(width, height, title, 0, 0);
@@ -47,6 +52,11 @@ public class Window {
         glfwMakeContextCurrent(this.window);
         glfwSwapInterval(vSync ? 1 : 0);
         GL.createCapabilities();
+
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_STENCIL_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
 
         setupCallbacks();
     }
