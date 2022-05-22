@@ -34,7 +34,6 @@ public class Texture {
 
         if (image != null) {
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0), 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
         } else {
             assert false : "Error: could not load image" + filepath + " ; ";
         }
