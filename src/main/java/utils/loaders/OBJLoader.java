@@ -61,7 +61,7 @@ public class OBJLoader {
 
         int[] indicesArray = indices.stream().mapToInt((Integer i) -> i).toArray();
 
-        return new Mesh(vertices, indicesArray, textureCoordinates, normals);
+        return new Mesh(vertices, textureCoordinates, normals, indicesArray);
 
     }
 
