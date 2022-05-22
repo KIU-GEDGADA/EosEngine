@@ -1,13 +1,15 @@
 //type fragment
 #version 330
 
-uniform sampler2D tex;
+uniform sampler2D texSampler;
+uniform bool useTexture;
 
 in vec2 fTexCords;
+in vec4 fColor;
 
 out vec4 fragColor;
 
 void main()
 {
-    fragColor = texture(tex, fTexCords);
+    fragColor = useTexture ? texture(texSampler, fTexCords) : fColor;
 }
