@@ -2,23 +2,25 @@ package utils;
 
 import math.Matrix4x4;
 
-import java.nio.FloatBuffer;
 import java.util.Arrays;
+import java.util.List;
 
 public class MathUtils {
 
     private MathUtils() {
     }
 
-    public static float clamp(float value) {
-        return Math.max(0.0f, Math.min(1.0f, value));
+    public static float clamp(float value, float min, float max) {
+        return Math.max(min, Math.min(value, max));
     }
 
-    public static float[] flatten2DArray(float[][] cells) {
-        float[] flat = new float[16];
-        for (int i = 0; i < cells.length; i++) {
-            System.arraycopy(cells[i], 0, flat, i * 4, 4);
+    public static float[] flatten2DArray(Matrix4x4 matrix) {
+        float[] result = new float[16];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                result[i * 4 + j] = matrix.getCell(j, i);
+            }
         }
-        return flat;
+        return result;
     }
 }
