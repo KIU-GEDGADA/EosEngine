@@ -1,6 +1,7 @@
 package utils;
 
 import graphics.Vertex;
+import math.Matrix4x4;
 import math.Vector2f;
 import math.Vector3f;
 import org.lwjgl.BufferUtils;
@@ -51,5 +52,11 @@ public class DataBufferUtils {
         }
         normalBuffer.flip();
         return normalBuffer;
+    }
+    public static FloatBuffer flipMatrix(Matrix4x4 matrix){
+        FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
+        matrixBuffer.put(MathUtils.flatten2DArray(matrix));
+        matrixBuffer.flip();
+        return matrixBuffer;
     }
 }

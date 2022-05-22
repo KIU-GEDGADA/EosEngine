@@ -4,6 +4,8 @@ import math.Matrix4x4;
 import math.Vector2f;
 import math.Vector3f;
 import math.Vector4f;
+import org.lwjgl.BufferUtils;
+import utils.DataBufferUtils;
 import utils.MathUtils;
 
 import java.nio.FloatBuffer;
@@ -158,7 +160,7 @@ public class ShaderProgram {
     public void setUniform(String name, Matrix4x4 value) {
         int location = uniforms.get(name);
         if (location != -1) {
-            glUniformMatrix4fv(location, false, MathUtils.flatten2DArray(value.getMatrix()));
+            glUniformMatrix4fv(location, false, DataBufferUtils.flipMatrix(value));
         }
     }
 
