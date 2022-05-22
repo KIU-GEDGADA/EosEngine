@@ -2,6 +2,7 @@ package utils;
 
 import graphics.Vertex;
 import math.Vector2f;
+import math.Vector3f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -41,5 +42,14 @@ public class DataBufferUtils {
         }
         coordinateBuffer.flip();
         return coordinateBuffer;
+    }
+
+    public static FloatBuffer flipNormals(Vector3f[] normals) {
+        FloatBuffer normalBuffer = BufferUtils.createFloatBuffer(normals.length * NORMAL_SIZE);
+        for (Vector3f normal : normals) {
+            normalBuffer.put(normal.coordinateArray());
+        }
+        normalBuffer.flip();
+        return normalBuffer;
     }
 }
