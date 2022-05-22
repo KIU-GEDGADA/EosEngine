@@ -25,12 +25,6 @@ public class MatrixHelper {
         x = (float) Math.toRadians(x);
         y = (float) Math.toRadians(y);
         z = (float) Math.toRadians(z);
-        Matrix4x4 rz = new Matrix4x4(new float[][]{
-                {cos(z), -sin(z), 0, 0},
-                {sin(z), cos(z), 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
-        });
         Matrix4x4 rx = new Matrix4x4(new float[][]{
                 {1, 0, 0, 0},
                 {0, cos(x), -sin(x), 0},
@@ -38,9 +32,15 @@ public class MatrixHelper {
                 {0, 0, 0, 1}
         });
         Matrix4x4 ry = new Matrix4x4(new float[][]{
-                {cos(y), -sin(y), 0, 0},
+                {cos(y), 0, -sin(y), 0},
                 {0, 1, 0, 0},
-                {sin(y), cos(y), 1, 0},
+                {sin(y), 0, cos(y), 0},
+                {0, 0, 0, 1}
+        });
+        Matrix4x4 rz = new Matrix4x4(new float[][]{
+                {cos(z), -sin(z), 0, 0},
+                {sin(z), cos(z), 0, 0},
+                {0, 0, 1, 0},
                 {0, 0, 0, 1}
         });
         return rz.multiply(ry.multiply(rx));
