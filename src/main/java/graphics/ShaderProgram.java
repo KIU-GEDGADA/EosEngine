@@ -118,6 +118,13 @@ public class ShaderProgram {
         }
     }
 
+    public void setUniform(String name, boolean value) {
+        int location = uniforms.get(name);
+        if (location != -1) {
+            glUniform1i(location, value ? 1 : 0);
+        }
+    }
+
     public void setUniform(String name, Vector2f value) {
         int location = uniforms.get(name);
         if (location != -1) {
