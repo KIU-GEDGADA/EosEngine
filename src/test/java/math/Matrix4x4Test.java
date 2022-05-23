@@ -3,8 +3,7 @@ package math;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class Matrix4x4Test {
@@ -147,5 +146,13 @@ public class Matrix4x4Test {
                 {0, 2, 4, 4}});
         m1.multiply(2);
         assertEquals(scalarMulTest,m1);
+    }
+    @Test
+    void testSetCell2(){
+        assertThrows(IllegalArgumentException.class,()->m1.setCell(-1,3,5));
+    }
+    @Test
+    void testSetCell3(){
+        assertThrows(IllegalArgumentException.class,()->m1.setCell(0,4,5));
     }
 }
