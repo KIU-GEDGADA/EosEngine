@@ -117,42 +117,46 @@ public class Matrix4x4Test {
     @Test
     void testInverse() {
         Matrix4x4 inverseTestMatrix = new Matrix4x4(new float[][]{
-                {0f,  5f / 7f, -1f / 7f, 0f},
+                {0f, 5f / 7f, -1f / 7f, 0f},
                 {-2f, 16f / 7f, -6f / 7f, 1f},
                 {0f, -3f / 7f, 2f / 7f, 0f},
                 {1f, -5f / 7f, 1f / 7f, 0f}
         });
-        assertEquals(inverseTestMatrix,m1.inverse());
+        assertEquals(inverseTestMatrix, m1.inverse());
     }
+
     @Test
-    void testSetMatrix(){
+    void testSetMatrix() {
         Matrix4x4 setMatrixTest = new Matrix4x4(new float[][]{
-                {1,2,3,4},
-                {5,6,7,8},
-                {9,10,11,12},
-                {13,14,15,16}
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16}
         });
-        m1.setMatrix(new float[][]{{1,2,3,4},
-                {5,6,7,8},
-                {9,10,11,12},
-                {13,14,15,16}});
-        assertEquals(setMatrixTest,m1);
+        m1.setMatrix(new float[][]{{1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16}});
+        assertEquals(setMatrixTest, m1);
     }
+
     @Test
-    void testMultiplyScalar(){
+    void testMultiplyScalar() {
         Matrix4x4 scalarMulTest = new Matrix4x4(new float[][]{{2, 0, 0, 2},
                 {4, 0, 2, 0},
                 {6, 0, 10, 0},
                 {0, 2, 4, 4}});
         m1.multiply(2);
-        assertEquals(scalarMulTest,m1);
+        assertEquals(scalarMulTest, m1);
     }
+
     @Test
-    void testSetCell2(){
-        assertThrows(IllegalArgumentException.class,()->m1.setCell(-1,3,5));
+    void testSetCell2() {
+        assertThrows(IllegalArgumentException.class, () -> m1.setCell(-1, 3, 5));
     }
+
     @Test
-    void testSetCell3(){
-        assertThrows(IllegalArgumentException.class,()->m1.setCell(0,4,5));
+    void testSetCell3() {
+        assertThrows(IllegalArgumentException.class, () -> m1.setCell(0, 4, 5));
     }
 }

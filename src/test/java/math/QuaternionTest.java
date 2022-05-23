@@ -18,12 +18,7 @@ public class QuaternionTest {
 
     @Test
     void testConstructor1() {
-        assertTrue(
-                quat.getW() == 1 &&
-                        quat.getX() == 2 &&
-                        quat.getY() == 3 &&
-                        quat.getZ() == 4
-        );
+        assertTrue(quat.getW() == 1 && quat.getX() == 2 && quat.getY() == 3 && quat.getZ() == 4);
     }
 
     @Test
