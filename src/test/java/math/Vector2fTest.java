@@ -27,7 +27,7 @@ class Vector2fTest {
     void testNonStaticAdd() {
 
         //Adding 0 to 1
-        var result = Vector2f.add(new Vector2f(0, 0), new Vector2f(0, 1));
+        Vector2f result = Vector2f.add(new Vector2f(0, 0), new Vector2f(0, 1));
         //  assertTrue(result.equals(new Vector2f(0, 1)));
         assertEquals(result.x, new Vector2f(0, 1).x);
         assertEquals(result.y, new Vector2f(0, 1).y);
@@ -37,7 +37,7 @@ class Vector2fTest {
     void testStaticAdd() {
 
         //Adding two big numbers together
-        var result = Vector2f.add(new Vector2f(1000, 0), new Vector2f(1000, 1));
+        Vector2f result = Vector2f.add(new Vector2f(1000, 0), new Vector2f(1000, 1));
         assertTrue(result.equals(new Vector2f(2000, 1)));
     }
 
@@ -45,7 +45,7 @@ class Vector2fTest {
     void testNonStaticSub() {
 
         //Going into negative
-        var result = Vector2f.sub(new Vector2f(0, 0), new Vector2f(1, 1));
+        Vector2f result = Vector2f.sub(new Vector2f(0, 0), new Vector2f(1, 1));
         assertTrue(result.equals(new Vector2f(-1, -1)));
 
     }
@@ -53,7 +53,7 @@ class Vector2fTest {
     @Test
     void testStaticSub() {
         //Going From negative to positive
-        var result = Vector2f.add(new Vector2f(-5, -9), new Vector2f(136, 62));
+        Vector2f result = Vector2f.add(new Vector2f(-5, -9), new Vector2f(136, 62));
         assertTrue(result.equals(new Vector2f(131, 53)));
     }
 
@@ -65,7 +65,7 @@ class Vector2fTest {
     @Test
     void testNonStaticMul() {
         //Testing Zeros
-        var result = Vector2f.mul(new Vector2f(0, 0), 10);
+        Vector2f result = Vector2f.mul(new Vector2f(0, 0), 10);
         assertTrue(result.equals(new Vector2f(0, 0)));
 
     }
@@ -73,7 +73,7 @@ class Vector2fTest {
     @Test
     void testStaticMul() {
         //Testing Negatives
-        var result = Vector2f.mul(new Vector2f(3, 3), -1);
+        Vector2f result = Vector2f.mul(new Vector2f(3, 3), -1);
         assertTrue(result.equals(new Vector2f(-3, -3)));
     }
 
@@ -84,14 +84,14 @@ class Vector2fTest {
 
     @Test
     void testNonStaticDiv() {
-        var divTestVector = new Vector2f(1, 1);
+        Vector2f divTestVector = new Vector2f(1, 1);
         v1.div(2);
         assertEquals(divTestVector, v1);
     }
 
     @Test
     void testStaticDiv() {
-        var divTestVector = new Vector2f(1, 1);
+        Vector2f divTestVector = new Vector2f(1, 1);
         assertEquals(divTestVector, Vector2f.div(v1, 2));
     }
 
@@ -164,13 +164,13 @@ class Vector2fTest {
 
     @Test
     void testTranslate() {
-        var delta = new Vector2f(1, 2);
+        Vector2f delta = new Vector2f(1, 2);
         assertEquals(new Vector2f(8, 5), v2.translate(delta));
     }
 
     @Test
     void testPolyTranslate() {
-        var delta = new Vector2f(1, 2);
+        Vector2f delta = new Vector2f(1, 2);
         assertEquals(v2.translate(delta), v2.translate(1, 2));
     }
 
