@@ -13,13 +13,13 @@ public class Quaternion {
         this.z = z;
     }
 
-    public Quaternion(Vector3f axis, float angle) {
+    public Quaternion(Vector3f axis, float angle) throws IllegalArgumentException {
         if (axis.length() == 1) {
             this.x = (float) (axis.x * Math.sin(angle / 2));
             this.y = (float) (axis.y * Math.sin(angle / 2));
             this.z = (float) (axis.z * Math.sin(angle / 2));
             this.w = (float) Math.cos(angle / 2);
-        }
+        } else throw new IllegalArgumentException("Constructor not initialized correctly");
     }
 
     public float length() {
@@ -30,28 +30,40 @@ public class Quaternion {
         return new Quaternion(w / length(), x / length(), y / length(), z / length());
     }
 
-    public Quaternion mul(float k) {
-        return new Quaternion(w * k, x * k, y * k, z * k);
-    }
-
     public Quaternion conjugate() {
         return new Quaternion(w, -x, -y, -z);
     }
 
+    public Quaternion mul(float k) {
+        return new Quaternion(w * k, x * k, y * k, z * k);
+    }
+
     public Quaternion mul(Quaternion r) {
-        float w = this.w * r.getW() - x * r.getX() - y * r.getY() - z * r.getZ();
-        float x = this.w * r.getX() + this.x * getW() + y * getZ() - z * getY();
-        float y = this.y * getW() + w * getY() + z * getX() - x * getZ();
-        float z = this.z * getW() + w * getZ() + x * getY() - y * getX();
+        float w = this.w * r.w - this.x * r.x - this.y * r.y - this.z * r.z;
+        float x = this.x * r.w + this.w * r.x + this.y * r.z - this.z * r.y;
+        float y = this.y * r.w + this.w * r.y + this.z * r.x - this.x * r.z;
+        float z = this.z * r.w + this.w * r.z + this.x * r.y - this.y * r.x;
         return new Quaternion(w, x, y, z);
     }
 
-    public Quaternion mul(Vector3f r) {
-        float w = -x * r.x - y * r.y - z * r.z;
-        float x = w * r.x + y * r.z - z * r.y;
-        float y = w * r.y + z * r.x - x * r.z;
-        float z = w * r.z + x * r.y - r.x;
-        return new Quaternion(w, x, y, z);
+    public Vector3f mul(Vector3f vec) {
+        float num = this.x * 2f;
+        float num2 = this.y * 2f;
+        float num3 = this.z * 2f;
+        float num4 = this.x * num;
+        float num5 = this.y * num2;
+        float num6 = this.z * num3;
+        float num7 = this.x * num2;
+        float num8 = this.x * num3;
+        float num9 = this.y * num3;
+        float num10 = this.w * num;
+        float num11 = this.w * num2;
+        float num12 = this.w * num3;
+        Vector3f result = Vector3f.zero();
+        result.x = (1f - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z;
+        result.y = (num7 + num12) * vec.x + (1f - (num4 + num6)) * vec.y + (num9 - num10) * vec.z;
+        result.z = (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1f - (num4 + num5)) * vec.z;
+        return result;
     }
 
     public Quaternion add(Quaternion r) {
@@ -103,5 +115,25 @@ public class Quaternion {
 
     public void setZ(float z) {
         this.z = z;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        float epsilon = 0.0001f;
+        if (o instanceof Quaternion) {
+            return Math.abs(this.x - ((Quaternion) o).x) < epsilon && Math.abs(this.y - ((Quaternion) o).y) < epsilon
+                    && Math.abs(this.z - ((Quaternion) o).z) < epsilon && Math.abs(this.w - ((Quaternion) o).w) < epsilon;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Quaternion{" +
+                "w=" + w +
+                ", x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
     }
 }

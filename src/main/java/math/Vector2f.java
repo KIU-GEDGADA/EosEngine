@@ -159,4 +159,13 @@ public class Vector2f {
         return new float[]{x, y};
     }
 
+    @Override
+    public boolean equals(Object v) {
+        float epsilon = 0.00001f;
+        if (v instanceof Vector2f) {
+            return Math.abs(this.x - ((Vector2f) v).x) < epsilon && Math.abs(this.y - ((Vector2f) v).y) < epsilon;
+        }
+        return false;
+    }
+
 }
