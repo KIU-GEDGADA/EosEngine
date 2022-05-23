@@ -119,10 +119,12 @@ public class Quaternion {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Quaternion that = (Quaternion) o;
-        return Float.compare(that.w, w) == 0 && Float.compare(that.x, x) == 0 && Float.compare(that.y, y) == 0 && Float.compare(that.z, z) == 0;
+        float epsilon = 0.0001f;
+        if (o instanceof Quaternion) {
+            return Math.abs(this.x - ((Quaternion) o).x) < epsilon && Math.abs(this.y - ((Quaternion) o).y) < epsilon
+                    && Math.abs(this.z - ((Quaternion) o).z) < epsilon && Math.abs(this.w - ((Quaternion) o).w) < epsilon;
+        }
+        return false;
     }
 
     @Override
