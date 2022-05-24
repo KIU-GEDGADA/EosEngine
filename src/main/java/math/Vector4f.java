@@ -73,6 +73,7 @@ public class Vector4f {
         return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
     }
 
+    @Override
     public boolean equals(Object v) {
         float epsilon = 0.0001f;
         if (v instanceof Vector4f) {

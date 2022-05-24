@@ -1,7 +1,5 @@
 package core;
 
-import graphics.ShaderProgram;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,12 +1,11 @@
 package graphics;
 
-import math.Vector2f;
 import math.Vector3f;
 
 public class Vertex {
 
-    public Vector3f position;
-    public Color color;
+    private Vector3f position;
+    private Color color;
 
     public Vertex(Vector3f position, Color color) {
         this.position = position;
@@ -15,11 +14,22 @@ public class Vertex {
 
     public Vertex(Vector3f position) {
         this.position = position;
-        this.color = Color.RED;
+        this.color = Color.random();
     }
 
-    public Vertex(float x, float y, float z, Color color) {
-        this.position = new Vector3f(x, y, z);
+    public Vector3f getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector3f position) {
+        this.position = position;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
         this.color = color;
     }
 }

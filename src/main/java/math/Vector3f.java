@@ -130,6 +130,7 @@ public class Vector3f {
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
+    @Override
     public boolean equals(Object v) {
         float epsilon = 0.00001f;
         if (v instanceof Vector3f) {

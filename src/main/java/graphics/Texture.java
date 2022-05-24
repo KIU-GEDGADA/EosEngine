@@ -27,14 +27,16 @@ public class Texture {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
         IntBuffer width = BufferUtils.createIntBuffer(1);
         IntBuffer height = BufferUtils.createIntBuffer(1);
         IntBuffer channels = BufferUtils.createIntBuffer(1);
-        ByteBuffer image = stbi_load(filepath, width, height, channels, 0);
+        ByteBuffer image = stbi_load(filepath, width, height, channels, 4);
 
         if (image != null) {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width.get(0), height.get(0), 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(), height.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+            glGenerateMipmap(GL_TEXTURE_2D);
         } else {
             assert false : "Error: could not load image" + filepath + " ; ";
         }
@@ -48,6 +50,10 @@ public class Texture {
 
     public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    public void destroy() {
+        glDeleteTextures(id);
     }
 
 }

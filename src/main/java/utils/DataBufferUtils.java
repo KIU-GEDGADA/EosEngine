@@ -1,7 +1,9 @@
 package utils;
 
 import graphics.Vertex;
+import math.Matrix4x4;
 import math.Vector2f;
+import math.Vector3f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -26,8 +28,8 @@ public class DataBufferUtils {
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length * VERTEX_SIZE);
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(vertices.length * COLOR_SIZE);
         for (Vertex vertex : vertices) {
-            vertexBuffer.put(vertex.position.coordinateArray());
-            colorBuffer.put(vertex.color.toArray());
+            vertexBuffer.put(vertex.getPosition().coordinateArray());
+            colorBuffer.put(vertex.getColor().toArray());
         }
         vertexBuffer.flip();
         colorBuffer.flip();
@@ -41,5 +43,20 @@ public class DataBufferUtils {
         }
         coordinateBuffer.flip();
         return coordinateBuffer;
+    }
+
+    public static FloatBuffer flipNormals(Vector3f[] normals) {
+        FloatBuffer normalBuffer = BufferUtils.createFloatBuffer(normals.length * NORMAL_SIZE);
+        for (Vector3f normal : normals) {
+            normalBuffer.put(normal.coordinateArray());
+        }
+        normalBuffer.flip();
+        return normalBuffer;
+    }
+    public static FloatBuffer flipMatrix(Matrix4x4 matrix){
+        FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
+        matrixBuffer.put(MathUtils.flatten2DArray(matrix));
+        matrixBuffer.flip();
+        return matrixBuffer;
     }
 }
