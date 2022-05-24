@@ -28,8 +28,8 @@ public class DataBufferUtils {
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length * VERTEX_SIZE);
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(vertices.length * COLOR_SIZE);
         for (Vertex vertex : vertices) {
-            vertexBuffer.put(vertex.position.coordinateArray());
-            colorBuffer.put(vertex.color.toArray());
+            vertexBuffer.put(vertex.getPosition().coordinateArray());
+            colorBuffer.put(vertex.getColor().toArray());
         }
         vertexBuffer.flip();
         colorBuffer.flip();
