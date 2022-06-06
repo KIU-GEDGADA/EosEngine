@@ -26,7 +26,7 @@ public class Preview {
 
                 texture1 = new Texture("res/textures/texture.png");
 
-                item2 = new Item("Cube", new Model(new Mesh("res/models/cube.obj")), shaders, texture1);
+                item2 = new Item("Cube", new Model(new Mesh("res/models/gordon.obj")), shaders, texture1);
                 item2.getTransform().getScale().div(2f);
 
                 Renderer.addItem(item2);

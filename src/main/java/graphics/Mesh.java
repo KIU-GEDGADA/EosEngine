@@ -73,7 +73,7 @@ public class Mesh {
         } else {
             this.TBO = glGenBuffers();
             System.out.println("Mesh TBO: " + TBO + " created.");
-            glBindBuffer(GL_TEXTURE_BUFFER, TBO);
+            glBindBuffer(GL_ARRAY_BUFFER, TBO);
             glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
             glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
         }
