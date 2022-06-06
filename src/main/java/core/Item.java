@@ -16,7 +16,7 @@ public class Item {
     private final List<Shader> shaders;
     private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
-    private Model model;
+    private final Model model;
     private Transform transform;
 
     public Item(String name, Model model, List<Shader> shaders, Texture texture) {
@@ -24,6 +24,9 @@ public class Item {
         this.model = model;
         this.shaders = shaders;
         this.transform = new Transform();
+        if (texture != null) {
+            model.setTexture(texture);
+        }
     }
 
     public Item(String name, Model model, List<Shader> shaders) {

@@ -20,24 +20,14 @@ public class Preview {
 
             @Override
             public void init() {
-                Vertex v1 = new Vertex(new Vector3f(-0.5f, 0.5f, 0f), Color.RED);
-                Vertex v2 = new Vertex(new Vector3f(-0.5f, -0.5f, 0f), Color.GREEN);
-                Vertex v3 = new Vertex(new Vector3f(0.5f, -0.5f, 0f), Color.BLUE);
-                Vertex v4 = new Vertex(new Vector3f(0.5f, 0.5f, 0f), Color.YELLOW);
-
-                Vertex[] vertices1 = {v1, v2, v3, v4};
-                int[] indices1 = {0, 1, 3, 3, 1, 2};
-                Vector2f[] texCoords1 = {new Vector2f(0, 1), new Vector2f(0, 1), new Vector2f(1, 0), new Vector2f(1, 0)};
-
                 Shader vs = new Shader("res/shaders/tv2vs.glsl");
                 Shader fs = new Shader("res/shaders/tv2fs.glsl");
                 List<Shader> shaders = List.of(new Shader[]{vs, fs});
 
                 texture1 = new Texture("res/textures/texture.png");
 
-                item2 = new Item("Cube", new Model(new Mesh("res/models/gordon.obj")), shaders, texture1);
+                item2 = new Item("Cube", new Model(new Mesh("res/models/cube.obj")), shaders, texture1);
                 item2.getTransform().getScale().div(2f);
-                //item2.getModel().setTexture(texture1);
 
                 Renderer.addItem(item2);
             }
