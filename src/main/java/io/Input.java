@@ -10,7 +10,7 @@ public class Input {
     private static GLFWKeyCallback keyboard;
     private static GLFWCursorPosCallback mouse;
     private static GLFWMouseButtonCallback mbtn;
-    private static double xPos, yPos;
+    private static float xPos, yPos;
     private static final int MOUSEBTNS = 7;
     private static final int[] keys = new int[GLFW_KEY_LAST];
     private static final boolean[] activeKeys = new boolean[GLFW_KEY_LAST];
@@ -29,8 +29,8 @@ public class Input {
         mouse = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double xpos, double ypos) {
-                xPos = xpos;
-                yPos = ypos;
+                xPos = (float) xpos;
+                yPos = (float) ypos;
             }
         };
         mbtn = new GLFWMouseButtonCallback() {
@@ -96,11 +96,11 @@ public class Input {
         glfwPollEvents();
     }
 
-    public static double getXPos() {
+    public static float getXPos() {
         return xPos;
     }
 
-    public static double getYPos() {
+    public static float getYPos() {
         return yPos;
     }
 }
