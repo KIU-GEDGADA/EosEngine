@@ -46,11 +46,29 @@ public class MatrixHelper {
         return rz.multiply(ry.multiply(rx));
     }
 
+    public static Matrix4x4 getProjectionMatrix(float FOV, float aspectRatio, float zFar, float zNear) {
+        float top = tan((FOV / 2)) * zNear;
+        float bottom = -top;
+        float right = top * aspectRatio;
+        float left = -right;
+
+        return new Matrix4x4(new float[][]{
+                {(2 * zNear) / (right - left), 0, (right + left) / (right - left), 0},
+                {0, (2 * zNear) / (top - bottom), (top + bottom) / (top - bottom), 0},
+                {0, 0, -((zFar + zNear) / (zFar - zNear)), -((2 * zFar * zNear) / (zFar - zNear))},
+                {0, 0, -1, 0}
+        });
+    }
+
     public static float cos(float x) {
         return (float) Math.cos(x);
     }
 
     public static float sin(float x) {
         return (float) Math.sin(x);
+    }
+
+    public static float tan(float x) {
+        return (float) Math.tan(x);
     }
 }
