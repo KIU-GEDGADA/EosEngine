@@ -34,6 +34,14 @@ public class Transform {
         position.y = y;
         position.z = z;
     }
+    public void setRotation(Vector3f v1) {
+        rotation = v1;
+    }
+    public void setRotation(float x, float y, float z) {
+        rotation.x = x;
+        rotation.y = y;
+        rotation.z = z;
+    }
 
     public Matrix4x4 getTransformationMatrix() {
         Matrix4x4 translationMatrix = MatrixHelper.getTranslationMatrix(position.x, position.y, position.z);
