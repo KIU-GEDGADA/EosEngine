@@ -3,17 +3,15 @@ import graphics.*;
 import io.Input;
 import math.Vector2f;
 import math.Vector3f;
-import utils.MathUtils;
 import utils.TimeUtils;
-
 import java.util.List;
 
+import static enums.Constants.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Preview {
     public static void main(String[] args) {
-        int WIDTH = 1000;
-        int HEIGHT = 1000;
+
         Window w = new Window(WIDTH, HEIGHT, "Preview", false);
 
         Entity e = new Entity() {
@@ -21,6 +19,8 @@ public class Preview {
             Item item2;
             Texture texture1;
             Camera camera;
+
+            Vector3f initialMousePos = new Vector3f(255, 255, 255);
 
             @Override
             public void init() {
@@ -38,14 +38,22 @@ public class Preview {
 
             @Override
             public void update() {
+                Vector3f mousePosition = new Vector3f(Input.getXPos(), Input.getYPos(), 0);
+                System.out.println(mousePosition);
+
+
                 if (Input.isKeyDown(GLFW_KEY_W))
                        camera.getPosition().z -= TimeUtils.getDeltaTime();
                 if(Input.isKeyDown(GLFW_KEY_S))
                     camera.getPosition().z += TimeUtils.getDeltaTime();
                 if(Input.isKeyDown(GLFW_KEY_A))
-                    camera.getRotation().y += TimeUtils.getDeltaTime() * 50;
+                    camera.getPosition().x -= TimeUtils.getDeltaTime();
                 if(Input.isKeyDown(GLFW_KEY_D))
-                    camera.getRotation().y -= TimeUtils.getDeltaTime() * 50;
+                    camera.getPosition().x += TimeUtils.getDeltaTime();
+                if(Input.isKeyDown(GLFW_KEY_Q))
+                    camera.getPosition().y -= TimeUtils.getDeltaTime();
+                if(Input.isKeyDown(GLFW_KEY_E))
+                    camera.getPosition().y += TimeUtils.getDeltaTime();
 //                        MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
 //                if (Input.isKeyDown(GLFW_KEY_R)) {
 //                    if (Input.isKeyDown(GLFW_KEY_UP)) {
