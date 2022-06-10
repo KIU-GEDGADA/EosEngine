@@ -12,9 +12,9 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Preview {
     public static void main(String[] args) {
-        int WIDHT = 1000;
+        int WIDTH = 1000;
         int HEIGHT = 1000;
-        Window w = new Window(1000, 1000, "Preview", false);
+        Window w = new Window(WIDTH, HEIGHT, "Preview", false);
 
         Entity e = new Entity() {
             Item item1;
@@ -29,7 +29,7 @@ public class Preview {
                 List<Shader> shaders = List.of(new Shader[]{vs, fs});
 
                 texture1 = new Texture("res/textures/goodTexture.png");
-                camera = new Camera((float) WIDHT/HEIGHT);
+                camera = new Camera((float) WIDTH/HEIGHT);
                 item2 = new Item("Cube", new Model(new Mesh("res/models/goodCube.obj")), camera, shaders, texture1);
                 item2.getTransform().getScale().div(4f);
 
