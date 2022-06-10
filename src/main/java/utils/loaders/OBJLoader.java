@@ -51,7 +51,7 @@ public class OBJLoader {
             }
         }
         List<Integer> indices = new ArrayList<>();
-        Vertex[] vertices = vertexList.toArray(new Vertex[vertexList.size()]);
+        Vertex[] vertices = vertexList.toArray(new Vertex[0]);
         Vector2f[] textureCoordinates = textureCoordinatesList.toArray(new Vector2f[vertexList.size()]);
         Vector3f[] normals = normalsList.toArray(new Vector3f[vertexList.size()]);
 
