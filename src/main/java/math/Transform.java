@@ -25,22 +25,31 @@ public class Transform {
         return position;
     }
 
-    public void setPosition(Vector3f v1) {
+    public Transform setPosition(Vector3f v1) {
         position = v1;
+        return this;
     }
 
-    public void setPosition(float x, float y, float z) {
+    public Transform setPosition(float x, float y, float z) {
         position.x = x;
         position.y = y;
         position.z = z;
+        return this;
+
     }
-    public void setRotation(Vector3f v1) {
+
+    public Transform setRotation(Vector3f v1) {
         rotation = v1;
+        return this;
+
     }
-    public void setRotation(float x, float y, float z) {
+
+    public Transform setRotation(float x, float y, float z) {
         rotation.x = x;
         rotation.y = y;
         rotation.z = z;
+        return this;
+
     }
 
     public Matrix4x4 getTransformationMatrix() {
@@ -60,6 +69,6 @@ public class Transform {
     }
 
     public Matrix4x4 getProjectionMatrix(Camera camera) {
-        return MatrixHelper.getProjectionMatrix((float) Math.toRadians(camera.getFOV()), camera.getAspectRatio(), camera.getzFar(),  camera.getzNear());
+        return MatrixHelper.getProjectionMatrix((float) Math.toRadians(camera.getFOV()), camera.getAspectRatio(), camera.getzFar(), camera.getzNear());
     }
 }

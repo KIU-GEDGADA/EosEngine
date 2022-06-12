@@ -2,8 +2,6 @@ package utils;
 
 import math.Matrix4x4;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class MathUtils {
 
