@@ -130,19 +130,6 @@ public class Vector3f {
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    @Override
-    public boolean equals(Object v) {
-        float epsilon = 0.00001f;
-        if (v instanceof Vector3f) {
-            return Math.abs(this.x - ((Vector3f) v).x) < epsilon && Math.abs(this.y - ((Vector3f) v).y) < epsilon && Math.abs(this.z - ((Vector3f) v).z) < epsilon;
-        }
-        return false;
-    }
-
-    public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
-    }
-
     public Vector3f add(Vector3f v) {
         this.x += v.x;
         this.y += v.y;
@@ -210,6 +197,19 @@ public class Vector3f {
 
     public float[] coordinateArray() {
         return new float[]{x, y, z};
+    }
+
+    @Override
+    public boolean equals(Object v) {
+        float epsilon = 0.00001f;
+        if (v instanceof Vector3f) {
+            return Math.abs(this.x - ((Vector3f) v).x) < epsilon && Math.abs(this.y - ((Vector3f) v).y) < epsilon && Math.abs(this.z - ((Vector3f) v).z) < epsilon;
+        }
+        return false;
+    }
+
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 
 }

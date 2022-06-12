@@ -8,10 +8,18 @@ import java.util.List;
 
 public class Engine {
 
+    private static Engine instance;
     private Window window;
     private List<Entity> entities = new ArrayList<>();
 
-    public Engine(Window window) {
+    public static Engine getInstance(Window window){
+        if (instance == null){
+            instance = new Engine(window);
+        }
+        return instance;
+    }
+
+    private Engine(Window window) {
         this.window = window;
     }
 

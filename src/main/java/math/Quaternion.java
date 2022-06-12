@@ -89,32 +89,36 @@ public class Quaternion {
         return w;
     }
 
-    public void setW(float w) {
+    public Quaternion setW(float w) {
         this.w = w;
+        return this;
     }
 
     public float getX() {
         return x;
     }
 
-    public void setX(float x) {
+    public Quaternion setX(float x) {
         this.x = x;
+        return this;
     }
 
     public float getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public Quaternion setY(float y) {
         this.y = y;
+        return this;
     }
 
     public float getZ() {
         return z;
     }
 
-    public void setZ(float z) {
+    public Quaternion setZ(float z) {
         this.z = z;
+        return this;
     }
 
     @Override

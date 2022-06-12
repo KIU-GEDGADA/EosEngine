@@ -1,6 +1,5 @@
 package core;
 
-import math.Vector2f;
 import math.Vector3f;
 
 public class Camera {
@@ -81,7 +80,6 @@ public class Camera {
         this.rotation.y = y;
         this.rotation.z = z;
     }
-
 
     public void moveRotation(float x, float y, float z) {
         this.rotation.x += x;
