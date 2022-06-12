@@ -8,9 +8,11 @@ out vec2 fTexCords;
 out vec4 fColor;
 
 uniform mat4 tMat;
+uniform mat4 vMat;
+uniform mat4 pMat;
 
 void main(){
     fColor = aColor;
     fTexCords = aTexCords;
-    gl_Position = tMat * vec4(aPos, 1.0f);
+    gl_Position = pMat * vMat * tMat * vec4(aPos, 1.0f);
 }

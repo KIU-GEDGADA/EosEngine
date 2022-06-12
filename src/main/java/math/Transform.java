@@ -1,6 +1,6 @@
 package math;
 
-import core.Item;
+import core.Camera;
 
 public class Transform {
     private Vector3f position;
@@ -34,11 +34,32 @@ public class Transform {
         position.y = y;
         position.z = z;
     }
+    public void setRotation(Vector3f v1) {
+        rotation = v1;
+    }
+    public void setRotation(float x, float y, float z) {
+        rotation.x = x;
+        rotation.y = y;
+        rotation.z = z;
+    }
 
-    public Matrix4x4 getTransformation() {
+    public Matrix4x4 getTransformationMatrix() {
         Matrix4x4 translationMatrix = MatrixHelper.getTranslationMatrix(position.x, position.y, position.z);
         Matrix4x4 rotationMatrix = MatrixHelper.getRotationMatrix(rotation.x, rotation.y, rotation.z);
         Matrix4x4 scaleMatrix = MatrixHelper.getScaleMatrix(scale.x, scale.y, scale.z);
         return translationMatrix.multiply(rotationMatrix.multiply(scaleMatrix));
+    }
+
+    public Matrix4x4 getViewMatrix(Camera camera) {
+        Vector3f position = camera.getPosition();
+        Vector3f rotation = camera.getRotation();
+        Matrix4x4 translationMatrix = MatrixHelper.getTranslationMatrix(-position.x, -position.y, -position.z);
+        Matrix4x4 rotationMatrix = MatrixHelper.getRotationMatrix(rotation.x, rotation.y, rotation.z);
+
+        return rotationMatrix.multiply(translationMatrix);
+    }
+
+    public Matrix4x4 getProjectionMatrix(Camera camera) {
+        return MatrixHelper.getProjectionMatrix((float) Math.toRadians(camera.getFOV()), camera.getAspectRatio(), camera.getzFar(),  camera.getzNear());
     }
 }
