@@ -1,6 +1,5 @@
 package core;
 
-import math.Vector2f;
 import math.Vector3f;
 
 public class Camera {
