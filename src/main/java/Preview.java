@@ -6,9 +6,9 @@ import static enums.Constants.*;
 public class Preview {
     public static void main(String[] args) {
 
-        Window w = new Window(WIDTH, HEIGHT, "Preview", false);
+        Window w = Window.getInstance(WIDTH, HEIGHT, "Preview", false);
         DummyGame e = new DummyGame();
-        Engine ee = new Engine(w);
+        Engine ee = Engine.getInstance(w);
         ee.getEntities().add(e);
         ee.start();
     }

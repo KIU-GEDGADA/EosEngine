@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL20.*;
 
 public class Window {
-
+    private static Window instance;
     private final int width;
     private final int height;
     private final String title;
@@ -22,7 +22,14 @@ public class Window {
     private GLFWVidMode mode;
     private WindowState state;
 
-    public Window(int width, int height, String title, boolean vSync) {
+    public static Window getInstance(int width, int height, String title, boolean vSync){
+        if (instance == null){
+            instance = new Window(width, height, title, vSync);
+        }
+        return instance;
+    }
+
+    private Window(int width, int height, String title, boolean vSync) {
         this.width = width;
         this.height = height;
         this.title = title;
@@ -135,4 +142,3 @@ public class Window {
         return window;
     }
 }
-
