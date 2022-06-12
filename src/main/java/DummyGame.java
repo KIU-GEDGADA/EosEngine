@@ -18,7 +18,6 @@ import static enums.Constants.MOUSE_SENSITIVITY;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class DummyGame implements Entity {
-    Item item1;
     Item item2;
     Texture texture1;
     Camera camera;
@@ -64,8 +63,11 @@ public class DummyGame implements Entity {
         if (Input.isKeyDown(GLFW_KEY_E))
             cameraVelocity.y = 1;
 
-
-        camera.movePosition(cameraVelocity.x * TimeUtils.getDeltaTime(), cameraVelocity.y * TimeUtils.getDeltaTime(), cameraVelocity.z * TimeUtils.getDeltaTime());
+        camera.movePosition(
+                cameraVelocity.x * TimeUtils.getDeltaTime(),
+                cameraVelocity.y * TimeUtils.getDeltaTime(),
+                cameraVelocity.z * TimeUtils.getDeltaTime()
+        );
 
     }
 
@@ -83,7 +85,7 @@ public class DummyGame implements Entity {
         //MOUSE POSITIONS
 
         rotationVec = Vector2f.zero();
-        Vector3f currentPos = new Vector3f(Input.getXPos(), Input.getYPos(), 0);
+        Vector2f currentPos = Input.getMousePos();
 
         if (previousPos.x > 0 && previousPos.y > 0) {
             float x = currentPos.x - previousPos.x;

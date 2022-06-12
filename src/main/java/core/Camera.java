@@ -81,7 +81,6 @@ public class Camera {
         this.rotation.z = z;
     }
 
-
     public void moveRotation(float x, float y, float z) {
         this.rotation.x += x;
         this.rotation.y += y;
