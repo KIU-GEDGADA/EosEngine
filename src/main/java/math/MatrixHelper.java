@@ -14,7 +14,7 @@ public class MatrixHelper {
     }
 
     public static Matrix4x4 getTranslationMatrix(float x, float y, float z) {
-        return new Matrix4x4(new float[][]{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 0, z}, {0, 0, 0, 1}});
+        return new Matrix4x4(new float[][]{{1, 0, 0, x}, {0, 1, 0, y}, {0, 0, 1, z}, {0, 0, 0, 1}});
     }
 
     public static Matrix4x4 getScaleMatrix(float x, float y, float z) {
@@ -32,9 +32,9 @@ public class MatrixHelper {
                 {0, 0, 0, 1}
         });
         Matrix4x4 ry = new Matrix4x4(new float[][]{
-                {cos(y), 0, -sin(y), 0},
+                {cos(y), 0, sin(y), 0},
                 {0, 1, 0, 0},
-                {sin(y), 0, cos(y), 0},
+                {-sin(y), 0, cos(y), 0},
                 {0, 0, 0, 1}
         });
         Matrix4x4 rz = new Matrix4x4(new float[][]{
@@ -43,7 +43,7 @@ public class MatrixHelper {
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         });
-        return rz.multiply(ry.multiply(rx));
+        return rx.multiply(ry).multiply(rz);
     }
 
     public static Matrix4x4 getProjectionMatrix(float FOV, float aspectRatio, float zFar, float zNear) {
