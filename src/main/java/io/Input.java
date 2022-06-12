@@ -1,5 +1,7 @@
 package io;
 
+import enums.Constants;
+import math.Vector2f;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
@@ -10,14 +12,14 @@ public class Input {
     private static GLFWKeyCallback keyboard;
     private static GLFWCursorPosCallback mouse;
     private static GLFWMouseButtonCallback mbtn;
-    private static float xPos, yPos;
-    private static final int MOUSEBTNS = 7;
+    private static Vector2f mousePos;
     private static final int[] keys = new int[GLFW_KEY_LAST];
     private static final boolean[] activeKeys = new boolean[GLFW_KEY_LAST];
-    private static final boolean[] activeMouseBts = new boolean[MOUSEBTNS];
-    private static final int[] buttons = new int[MOUSEBTNS];
+    private static final boolean[] activeMouseBts = new boolean[Constants.MOUSEBTNS];
+    private static final int[] buttons = new int[Constants.MOUSEBTNS];
 
     public static void init() {
+        mousePos = new Vector2f();
         Input.update();
         keyboard = new GLFWKeyCallback() {
             @Override
@@ -29,8 +31,8 @@ public class Input {
         mouse = new GLFWCursorPosCallback() {
             @Override
             public void invoke(long window, double xpos, double ypos) {
-                xPos = (float) xpos;
-                yPos = (float) ypos;
+                mousePos.x = (float) xpos;
+                mousePos.y = (float) ypos;
             }
         };
         mbtn = new GLFWMouseButtonCallback() {
@@ -85,7 +87,7 @@ public class Input {
     }
 
     public static void resetMouse() {
-        for (int i = 0; i < MOUSEBTNS; i++) {
+        for (int i = 0; i < Constants.MOUSEBTNS; i++) {
             buttons[i] = -1;
         }
     }
@@ -96,11 +98,8 @@ public class Input {
         glfwPollEvents();
     }
 
-    public static float getXPos() {
-        return xPos;
+    public static Vector2f getMousePos() {
+        return mousePos;
     }
 
-    public static float getYPos() {
-        return yPos;
-    }
 }
