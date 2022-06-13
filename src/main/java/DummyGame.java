@@ -34,8 +34,8 @@ public class DummyGame implements Entity {
         List<Shader> shaders = List.of(new Shader[]{vs, fs});
 
         texture1 = new Texture("res/textures/goodTexture.png");
-        camera = new Camera((float) WIDTH / HEIGHT);
-        item2 = new Item("Cube", new Model(new Mesh("res/models/goodCube.obj")), camera, shaders, texture1);
+        camera = Camera.getInstance();
+        item2 = new Item("Cube", new Model(new Mesh("res/models/goodCube.obj")), shaders, texture1);
         item2.getTransform().getScale().div(4f);
 
         Renderer.addItem(item2);
@@ -106,6 +106,5 @@ public class DummyGame implements Entity {
         }
 
 
-        System.out.println(currentPos);
     }
 }

@@ -17,13 +17,11 @@ public class Item {
     private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
     private final Model model;
-    private final Camera camera;
     private Transform transform;
 
-    public Item(String name, Model model, Camera camera, List<Shader> shaders, Texture texture) {
+    public Item(String name, Model model, List<Shader> shaders, Texture texture) {
         this.name = name;
         this.model = model;
-        this.camera = camera;
         this.shaders = shaders;
         this.transform = new Transform();
         if (texture != null) {
@@ -31,8 +29,8 @@ public class Item {
         }
     }
 
-    public Item(String name, Model model, Camera camera, List<Shader> shaders) {
-        this(name, model, camera, shaders, null);
+    public Item(String name, Model model, List<Shader> shaders) {
+        this(name, model, shaders, null);
     }
 
     public void init() {
@@ -66,8 +64,8 @@ public class Item {
     public void render() {
         shaderProgram.bind();
         shaderProgram.setUniform("tMat", transform.getTransformationMatrix());
-        shaderProgram.setUniform("pMat", transform.getProjectionMatrix(camera));
-        shaderProgram.setUniform("vMat", transform.getViewMatrix(camera));
+        shaderProgram.setUniform("pMat", transform.getProjectionMatrix());
+        shaderProgram.setUniform("vMat", transform.getViewMatrix());
         if (model.getMesh().isUsingTexture()) {
             useTexture();
             model.getTexture().bind();

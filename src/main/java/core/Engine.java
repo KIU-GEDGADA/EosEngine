@@ -12,8 +12,8 @@ public class Engine {
     private Window window;
     private List<Entity> entities = new ArrayList<>();
 
-    public static Engine getInstance(Window window){
-        if (instance == null){
+    public static Engine getInstance(Window window) {
+        if (instance == null) {
             instance = new Engine(window);
         }
         return instance;
@@ -51,6 +51,7 @@ public class Engine {
         window.init();
         entities.forEach(Entity::init);
         Renderer.init();
+        Camera.getInstance().init((float) window.getWidth() / window.getHeight());
     }
 
     public void loop() {
