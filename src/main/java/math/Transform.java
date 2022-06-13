@@ -59,7 +59,8 @@ public class Transform {
         return translationMatrix.multiply(rotationMatrix.multiply(scaleMatrix));
     }
 
-    public Matrix4x4 getViewMatrix(Camera camera) {
+    public Matrix4x4 getViewMatrix() {
+        Camera camera = Camera.getInstance();
         Vector3f position = camera.getPosition();
         Vector3f rotation = camera.getRotation();
         Matrix4x4 translationMatrix = MatrixHelper.getTranslationMatrix(-position.x, -position.y, -position.z);
@@ -68,7 +69,9 @@ public class Transform {
         return rotationMatrix.multiply(translationMatrix);
     }
 
-    public Matrix4x4 getProjectionMatrix(Camera camera) {
+    public Matrix4x4 getProjectionMatrix() {
+        Camera camera = Camera.getInstance();
+
         return MatrixHelper.getProjectionMatrix((float) Math.toRadians(camera.getFOV()), camera.getAspectRatio(), camera.getzFar(), camera.getzNear());
     }
 }

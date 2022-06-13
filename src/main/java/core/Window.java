@@ -140,4 +140,12 @@ public class Window {
     public long getWindow() {
         return window;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
