@@ -9,7 +9,15 @@ import utils.FileUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class handles the loading of objects into the EosEngine
+ */
 public class OBJLoader {
+    /**
+     * This function loads a mesh from a filepath
+     * @param path the path of the object to load
+     * @return the Mesh of the desired object
+     */
     public static Mesh loadModel(String path) {
         List<Vertex> vertexList = new ArrayList<>();
         List<Vector2f> textureCoordinatesList = new ArrayList<>();

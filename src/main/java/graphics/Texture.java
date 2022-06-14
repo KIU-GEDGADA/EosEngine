@@ -9,14 +9,26 @@ import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.stb.STBImage.stbi_image_free;
 import static org.lwjgl.stb.STBImage.stbi_load;
 
+/**
+ * This class handles the texture of an item
+ */
 public class Texture {
     private final String filepath;
     private int id;
 
+    /**
+     * Class creator, creates the class using a filepath to a texture or image
+     * @param filepath the filepath of the desired texture/image
+     */
     public Texture(String filepath) {
         this.filepath = filepath;
     }
 
+    /**
+     * This function initializes the texture under the settings:
+     * -Wrap horizontally and vertically
+     * -The image taken in must follow the RGBA format
+     */
     public void init() {
         id = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, id);
@@ -44,14 +56,23 @@ public class Texture {
         stbi_image_free(image);
     }
 
+    /**
+     * This function binds the texture in glfw
+     */
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, id);
     }
 
+    /**
+     * This function unbinds the texture in glfw
+     */
     public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
+    /**
+     * This function destroys the current texture
+     */
     public void destroy() {
         glDeleteTextures(id);
     }
