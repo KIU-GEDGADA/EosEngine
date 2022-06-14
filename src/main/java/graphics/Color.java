@@ -52,7 +52,7 @@ public class Color {
 
     /**
      * Class creator, this function creates a color from 1 float value, with rgb being set to it and alpha to 1
-     * @param grey
+     * @param grey Value of grey
      */
     public Color(float grey){
         this(grey, grey, grey);

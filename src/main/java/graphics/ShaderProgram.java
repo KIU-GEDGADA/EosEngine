@@ -33,7 +33,7 @@ public class ShaderProgram {
 
     /**
      * Getter, this function returns the list of shaders attached to this shaderProgram
-     * @return
+     * @return The attached shaders list
      */
     public List<Shader> getAttachedShaders() {
         return attachedShaders;

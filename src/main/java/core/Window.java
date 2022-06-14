@@ -201,10 +201,18 @@ public class Window {
         return window;
     }
 
+    /**
+     * Getter, returns the width of the window object
+     * @return the width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Getter, returns the height of the window object
+     * @return the height
+     */
     public int getHeight() {
         return height;
     }
