@@ -1,9 +1,13 @@
 package finalDemo;
 
+import core.*;
+import graphics.*;
+import io.*;
+import math.*;
+import utils.*;
 import java.util.List;
 
 import static enums.Constants.*;
-import static enums.Constants.MOUSE_SENSITIVITY;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class DummyGame implements Entity {
