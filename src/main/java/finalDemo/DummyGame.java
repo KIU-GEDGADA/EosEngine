@@ -1,16 +1,4 @@
-import core.Camera;
-import core.Entity;
-import core.Item;
-import core.Renderer;
-import graphics.Mesh;
-import graphics.Model;
-import graphics.Shader;
-import graphics.Texture;
-import io.Input;
-import math.Vector2f;
-import math.Vector3f;
-import utils.MathUtils;
-import utils.TimeUtils;
+package finalDemo;
 
 import java.util.List;
 
