@@ -9,6 +9,7 @@ import graphics.Texture;
 import io.Input;
 import math.Vector2f;
 import math.Vector3f;
+import utils.MathUtils;
 import utils.TimeUtils;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class DummyGame implements Entity {
         item2 = new Item("Cube", new Model(new Mesh("res/models/goodCube.obj")), shaders, texture1);
         item2.getTransform().getScale().div(4f);
 
+
         Renderer.addItem(item2);
     }
 
@@ -62,6 +64,63 @@ public class DummyGame implements Entity {
             cameraVelocity.y = -1;
         if (Input.isKeyDown(GLFW_KEY_E))
             cameraVelocity.y = 1;
+        if (Input.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+            if (Input.isKeyDown(GLFW_KEY_UP)) {
+                item2.getTransform().getRotation().x += 5f;
+                MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
+            } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                item2.getTransform().getRotation().x -= 5f;
+                MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
+            } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                item2.getTransform().getRotation().y += 5f;
+                MathUtils.clamp(item2.getTransform().getRotation().y, 0, 360);
+            } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                item2.getTransform().getRotation().y -= 5f;
+                MathUtils.clamp(item2.getTransform().getRotation().y, 0, 360);
+            }
+        } else if (Input.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
+            if (Input.isKeyDown(GLFW_KEY_A)) {
+                if (Input.isKeyDown(GLFW_KEY_UP)) {
+                    item2.getTransform().getScale().y += 0.05f;
+                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                    item2.getTransform().getScale().x += 0.05f;
+                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                    item2.getTransform().getScale().y -= 0.05f;
+                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                    item2.getTransform().getScale().x -= 0.05f;
+                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                }
+            } else {
+                if (Input.isKeyDown(GLFW_KEY_UP)) {
+                    item2.getTransform().getScale().y += 0.05f;
+                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                    item2.getTransform().getScale().y -= 0.05f;
+                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
+                } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                    item2.getTransform().getScale().x += 0.05f;
+                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                    item2.getTransform().getScale().x -= 0.05f;
+                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
+                }
+            }
+        } else if (Input.isKeyDown(GLFW_KEY_T)) {
+            if (Input.isKeyDown(GLFW_KEY_UP)) {
+                item2.getTransform().getPosition().y += 0.05f;
+                item2.getTransform().getPosition().y = MathUtils.clamp(item2.getTransform().getPosition().y, -1f, 1f);
+            } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
+                item2.getTransform().getPosition().y -= 0.05f;
+                item2.getTransform().getPosition().y = MathUtils.clamp(item2.getTransform().getPosition().y, -1f, 1f);
+            } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                item2.getTransform().getPosition().x -= 0.05f;
+                item2.getTransform().getPosition().x = MathUtils.clamp(item2.getTransform().getPosition().x, -1f, 1f);
+            } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                item2.getTransform().getPosition().x += 0.05f;
+                item2.getTransform().getPosition().x = MathUtils.clamp(item2.getTransform().getPosition().x, -1f, 1f);
+            }
+        }
 
         camera.movePosition(
                 cameraVelocity.x * TimeUtils.getDeltaTime(),
