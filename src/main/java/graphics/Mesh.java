@@ -10,7 +10,9 @@ import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL33.*;
 
-
+/**
+ * This class handles the mesh, texture and shader mapping of an item
+ */
 public class Mesh {
     private String path;
     private Vertex[] vertices;
@@ -25,6 +27,13 @@ public class Mesh {
     private int NBO;
     private boolean usingTexture;
 
+    /**
+     * Class creator, creates a mesh from vertices, texture coordinates, normals and indices
+     * @param vertices the coordinates and colors vertices of the mesh
+     * @param textureCoordinates the coordinates to which a texture should be mapped
+     * @param normals the normals of the mesh
+     * @param indices the indices of the mesh
+     */
     public Mesh(Vertex[] vertices, Vector2f[] textureCoordinates, Vector3f[] normals, int[] indices) {
         this.vertices = vertices;
         this.textureCoordinates = textureCoordinates;
@@ -32,6 +41,10 @@ public class Mesh {
         this.normals = normals;
     }
 
+    /**
+     * Class creator, creates a mesh from a filepath to a mesh object
+     * @param path the filepath of the desired mesh object
+     */
     public Mesh(String path) {
         this.path = path;
     }
@@ -47,6 +60,9 @@ public class Mesh {
         }
     }
 
+    /**
+     * This function initializes the mesh, it initializes the mesh to use textures or shaders depending on which one is to be used
+     */
     public void init() {
 
         checkExternalLoading();
@@ -102,20 +118,32 @@ public class Mesh {
         System.out.println("Mesh ID: " + VAO + " created with " + vertices.length + " vertices and " + textureCoordinates.length + " texture coordinates.");
     }
 
+    /**
+     * This function binds the mesh in glfw
+     */
     public void bind() {
         glBindVertexArray(VAO);
     }
 
+    /**
+     * This function unbinds the mesh in glfw
+     */
     public void unbind() {
         glBindVertexArray(0);
     }
 
+    /**
+     * This function renders the mesh with triangles
+     */
     public void render() {
         bind();
         glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_INT, 0);
         unbind();
     }
 
+    /**
+     * This function unbinds the mesh and destroys it
+     */
     public void destroy() {
         unbind();
         glDisableVertexAttribArray(0);
@@ -140,14 +168,24 @@ public class Mesh {
         glDeleteVertexArrays(VAO);
     }
 
+    /**
+     * This function sets the mesh to use textures instead of shaders
+     */
     public void useTexture() {
         this.usingTexture = true;
     }
 
+    /**
+     * This function sets the mesh to use shaders instead of textures
+     */
     public void useColor() {
         this.usingTexture = false;
     }
 
+    /**
+     * Getter, this function returns if the mesh uses textures
+     * @return true if mesh is using textures, false otherwise
+     */
     public boolean isUsingTexture() {
         return usingTexture;
     }

@@ -6,12 +6,19 @@ import java.io.IOException;
 
 import static org.lwjgl.opengl.GL33.*;
 
+/**
+ * This class handles the loading of shaders into the EosEngine, all three types of shaders: vertex, fragment, geometry are supported
+ */
 public class Shader {
     private final String filePath;
     private int shaderType;
     private String shaderSource;
     private int shaderID;
 
+    /**
+     * Class constructor, this function loads a shader from a filepath of a shader
+     * @param filePath the filepath of the desired shader
+     */
     public Shader(String filePath) {
         this.filePath = filePath;
         try {
@@ -42,6 +49,9 @@ public class Shader {
         }
     }
 
+    /**
+     * This function compiles the loaded shader
+     */
     public void compile() {
         shaderID = glCreateShader(shaderType);
         glShaderSource(shaderID, shaderSource);
@@ -57,10 +67,18 @@ public class Shader {
         System.out.println("Compiled " + filePath + " shader");
     }
 
+    /**
+     * Getter, this function returns the shaders id
+     * @return the shaders id
+     */
     public int getShaderID() {
         return shaderID;
     }
 
+    /**
+     * Getter, this function returns the shaders type
+     * @return the shaders type
+     */
     public int getShaderType() {
         return shaderType;
     }
