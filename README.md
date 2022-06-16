@@ -30,15 +30,14 @@
 
 # EosEngine - Java Game Engine
 
-EosEngine is Java Game Engine based on LWJGL. LWJGL is using openGL, and was created to simplify
-functions/methods/classes for game engine development on Language Java. EosEngine was founded and created
-by "Kutaisi International University" students as a part of a project.
 
+EosEngine is Java Game Engine based on [LWJGL](https://www.lwjgl.org). EosEngine was created
+by "Kutaisi International University" students as a part of a project.
 
 
 ## Installation
 
-Before continuing you will need the following:
+Before continuing, you will need the following:
 
 * _git_ installed on the computer
 * _Java IDE_ (Example: _IntelliJ, Eclipse_)
@@ -139,10 +138,9 @@ correctly.
 * Texture (Optional)
 ## Documentation
 
-Documentation is available after cloning the project. It is located in:
-```docs/index.html``` make sure to open it with any browser if you want it to work.
-The file of the Docs is located here:
-[Documentation](https://github.com/KIU-GEDGADA/EosEngine/blob/ce2fb4de00c1230ad2512af4cc1f65fe82aae3ac/docs/index.html)
+
+You can view the documentation on our GitHub project page
+[Documentation](https://kiu-gedgada.github.io/EosEngine/)
 
 
 ## License
