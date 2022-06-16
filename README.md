@@ -8,12 +8,20 @@
 ## Appendix
 
 
-* [Introduction](##EosEngine)
-* [Installation](#Instalation)
-* [Demo](#Demo)
-* [Get Started](#Get-Started)
-* [Documentation](#Documentation)
-* [Authors](#Authors)
+* [Introduction](#eosengine---java-game-engine)
+* [Installation](#installation)
+* [Demo](#demo)
+  * [How to run Demo](#how-to-run-demo)
+  * [Demo Preview](#demo-preview)
+* [Get Started](#get-started)
+  * [Creating your game class](#creating-your-game-class)
+  * [Essentials to add for the game to work](#essentials-to-add-for-the-game-to-work)
+  * [Adding Different Components](#adding-different-components)
+    * [Camera](#camera)
+    * [Model](#model)
+    * [Item](#item)
+* [Documentation](#documentation)
+* [Authors](#authors)
 
 
 
@@ -57,7 +65,7 @@ Install EosEngine with git:
 
 ### Demo Preview
 
-![Demo](/branding/DemoPreview.gif)
+![Demo](https://github.com/KIU-GEDGADA/EosEngine/blob/b2d9efcfe668eb016a3f57638639e2d0b99435e1/branding/DemoPreview.gif)
 
 ## Get Started
 
