@@ -20,7 +20,6 @@
     * [Camera](#camera)
     * [Model](#model)
     * [Item](#item)
-* [Documentation](#documentation)
 * [Authors](#authors)
 
 
@@ -32,7 +31,7 @@
 
 
 EosEngine is Java Game Engine based on [LWJGL](https://www.lwjgl.org). EosEngine was created
-by "Kutaisi International University" students as a part of a project.
+by "Kutaisi International University" students as a part of the university course "Basic Game Engine Development".
 
 
 ## Installation
@@ -136,11 +135,6 @@ correctly.
 * Model (check the last chapter)
 * Shaders (check the last chapter)
 * Texture (Optional)
-## Documentation
-
-
-You can view the documentation on our GitHub project page
-[Documentation](https://kiu-gedgada.github.io/EosEngine/)
 
 
 ## License
