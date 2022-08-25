@@ -1,5 +1,5 @@
 //type fragment
-#version 330
+#version 450
 
 uniform sampler2D texSampler;
 uniform bool useTexture;
