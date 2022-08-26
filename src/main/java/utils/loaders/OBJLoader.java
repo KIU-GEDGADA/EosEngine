@@ -1,7 +1,9 @@
 package utils.loaders;
 
+import graphics.Face;
 import graphics.Mesh;
 import graphics.Vertex;
+import graphics.IndexGroup;
 import math.Vector2f;
 import math.Vector3f;
 import utils.FileUtils;
@@ -15,6 +17,7 @@ import java.util.List;
 public class OBJLoader {
     /**
      * This function loads a mesh from a filepath
+     *
      * @param path the path of the object to load
      * @return the Mesh of the desired object
      */
@@ -22,81 +25,61 @@ public class OBJLoader {
         List<Vertex> vertexList = new ArrayList<>();
         List<Vector2f> textureCoordinatesList = new ArrayList<>();
         List<Vector3f> normalsList = new ArrayList<>();
-        List<Vector3f> facesList = new ArrayList<>();
+        List<Face> facesList = new ArrayList<>();
 
         String file = FileUtils.readFile(path);
         String[] lines = file.split("\n");
         for (String line : lines) {
             String[] tokens = line.split(" ");
-            if (!line.startsWith("#") || !line.startsWith("o") || !line.startsWith("s")) {
-                switch (tokens[0]) {
-                    case "v":
-                        Vertex vertex = new Vertex(new Vector3f(
-                                Float.parseFloat(tokens[1]),
-                                Float.parseFloat(tokens[2]),
-                                Float.parseFloat(tokens[3])));
-                        vertexList.add(vertex);
-                        break;
-                    case "vt":
-                        Vector2f textureCoordinate = new Vector2f(
-                                Float.parseFloat(tokens[1]),
-                                Float.parseFloat(tokens[2]));
-                        textureCoordinatesList.add(textureCoordinate);
-                        break;
-                    case "vn":
-                        Vector3f normal = new Vector3f(
-                                Float.parseFloat(tokens[1]),
-                                Float.parseFloat(tokens[2]),
-                                Float.parseFloat(tokens[3]));
-                        normalsList.add(normal);
-                        break;
-                    case "f":
-                        processFace(tokens[1], facesList);
-                        processFace(tokens[2], facesList);
-                        processFace(tokens[3], facesList);
-                        break;
-                }
+            switch (tokens[0]) {
+                case "v":
+                    Vector3f vertex = new Vector3f(
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]),
+                            Float.parseFloat(tokens[3]));
+                    vertexList.add(new Vertex(vertex));
+                    break;
+                case "vt":
+                    Vector2f textureCoordinates = new Vector2f(
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]));
+                    textureCoordinatesList.add(textureCoordinates);
+                    break;
+                case "vn":
+                    Vector3f normal = new Vector3f(
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]),
+                            Float.parseFloat(tokens[3]));
+                    normalsList.add(normal);
+                    break;
+                case "f":
+                    Face face = new Face(tokens[1], tokens[2], tokens[3]);
+                    facesList.add(face);
+                    break;
+                default:
+                    break;
             }
         }
+        return reorderLists(vertexList, textureCoordinatesList, normalsList, facesList);
+    }
+
+    private static Mesh reorderLists(List<Vertex> vertexList, List<Vector2f> textureCoordinatesList, List<Vector3f> normalsList, List<Face> facesList) {
+        List<Vertex> vertices = new ArrayList<>();
+        List<Vector2f> textureCoordinates = new ArrayList<>();
+        List<Vector3f> normals = new ArrayList<>();
         List<Integer> indices = new ArrayList<>();
-        Vertex[] vertices = vertexList.toArray(new Vertex[0]);
-        Vector2f[] textureCoordinates = textureCoordinatesList.toArray(new Vector2f[vertexList.size()]);
-        Vector3f[] normals = normalsList.toArray(new Vector3f[vertexList.size()]);
-
-        for (Vector3f face : facesList) {
-            processVertex((int) face.x, (int) face.y, (int) face.z, textureCoordinatesList, normalsList, indices, textureCoordinates, normals);
-        }
-
-        int[] indicesArray = indices.stream().mapToInt((Integer i) -> i).toArray();
-
-        return new Mesh(vertices, textureCoordinates, normals, indicesArray);
-
-    }
-
-    private static void processVertex(int pos, int tex, int norm,
-                                      List<Vector2f> textures, List<Vector3f> normals, List<Integer> indices,
-                                      Vector2f[] textureCoordinates, Vector3f[] normalsArray) {
-        indices.add(pos);
-        if (tex >= 0) {
-            textureCoordinates[pos] = textures.get(tex);
-        }
-        if (norm >= 0) {
-            normalsArray[pos] = normals.get(norm);
-        }
-
-    }
-
-    private static void processFace(String token, List<Vector3f> faces) {
-        String[] tokens = token.split("/");
-        int size = tokens.length;
-        int pos = -1, tex = -1, norm = -1;
-        pos = Integer.parseInt(tokens[0].strip()) - 1;
-        if (size > 1) {
-            tex = Integer.parseInt(tokens[1].strip()) - 1;
-            if (size > 2) {
-                norm = Integer.parseInt(tokens[2].strip()) - 1;
+        for (Face face : facesList) {
+            for (IndexGroup idxGroup : face.getFaceVertexIndices()) {
+                vertices.add(vertexList.get(idxGroup.vertexIndex));
+                textureCoordinates.add(textureCoordinatesList.get(idxGroup.textureIndex));
+                normals.add(normalsList.get(idxGroup.normalIndex));
+                indices.add(indices.size());
             }
         }
-        faces.add(new Vector3f(pos, tex, norm));
+        Vertex[] verticesArray = vertices.toArray(new Vertex[0]);
+        Vector2f[] textureCoordinatesArray = textureCoordinates.toArray(new Vector2f[0]);
+        Vector3f[] normalsArray = normals.toArray(new Vector3f[0]);
+        int[] indicesArray = indices.stream().mapToInt(i -> i).toArray();
+        return new Mesh(verticesArray, textureCoordinatesArray, normalsArray, indicesArray);
     }
 }
