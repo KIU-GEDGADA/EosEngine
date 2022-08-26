@@ -43,7 +43,7 @@ public class Camera {
         rotation = Vector3f.zero();
         this.aspectRatio = aspectRatio;
         zFar = 1000;
-        zNear = 1;
+        zNear = 0.1f;
         FOV = 60;
     }
 
