@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL45C.*;
 
 /**
  * This class implements the window where the game engine instance should be run
@@ -81,8 +81,12 @@ public class Window {
         glfwSwapInterval(vSync ? 1 : 0);
         GL.createCapabilities();
 
+        glFrontFace(GL_CCW);
+        glCullFace(GL_BACK);
+        glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_STENCIL_TEST);
+        glEnable(GL_TEXTURE_2D);
 
         setupCallbacks();
     }
@@ -124,7 +128,6 @@ public class Window {
     public void clear() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
-        glEnable(GL_DEPTH_TEST);
     }
 
     /**

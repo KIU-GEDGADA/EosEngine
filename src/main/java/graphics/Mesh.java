@@ -8,7 +8,7 @@ import utils.loaders.OBJLoader;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL45C.*;
 
 /**
  * This class handles the mesh, texture and shader mapping of an item
@@ -96,8 +96,8 @@ public class Mesh {
 
         this.NBO = glGenBuffers();
         System.out.println("Mesh NBO: " + NBO + " created.");
-        glBindBuffer(GL_NORMAL_ARRAY, NBO);
-        glBufferData(GL_NORMAL_ARRAY, DataBufferUtils.flipNormals(normals), GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, NBO);
+        glBufferData(GL_ARRAY_BUFFER, DataBufferUtils.flipNormals(normals), GL_STATIC_DRAW);
         glVertexAttribPointer(3, 3, GL_FLOAT, false, 0, 0);
 
         this.IBO = glGenBuffers();
@@ -159,7 +159,7 @@ public class Mesh {
         } else {
             glBindBuffer(GL_TEXTURE_BUFFER, 0);
         }
-        glBindBuffer(GL_NORMAL_ARRAY, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(VBO);
         glDeleteBuffers(IBO);
         glDeleteBuffers(TBO);

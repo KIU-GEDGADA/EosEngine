@@ -4,7 +4,7 @@ import utils.FileUtils;
 
 import java.io.IOException;
 
-import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.opengl.GL45C.*;
 
 /**
  * This class handles the loading of shaders into the EosEngine, all three types of shaders: vertex, fragment, geometry are supported

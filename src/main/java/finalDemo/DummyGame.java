@@ -26,11 +26,10 @@ public class DummyGame implements Entity {
         Shader fs = new Shader("res/shaders/tv2fs.glsl");
         List<Shader> shaders = List.of(new Shader[]{vs, fs});
 
-        texture1 = new Texture("res/textures/goodTexture.png");
+        texture1 = new Texture("res/textures/grass.png");
         camera = Camera.getInstance();
-        item2 = new Item("Cube", new Model(new Mesh("res/models/goodCube.obj")), shaders, texture1);
+        item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")), shaders, texture1);
         item2.getTransform().getScale().div(4f);
-
 
         Renderer.addItem(item2);
     }
@@ -39,8 +38,6 @@ public class DummyGame implements Entity {
     public void update() {
 
         mousePosGetter();
-
-        item2.getTransform().getRotation().y += 2;
 
         cameraVelocity = Vector3f.zero();
 
