@@ -5,6 +5,7 @@ import graphics.*;
 import io.*;
 import math.*;
 import utils.*;
+
 import java.util.List;
 
 import static enums.Constants.*;
@@ -28,7 +29,9 @@ public class DummyGame implements Entity {
 
         texture1 = new Texture("res/textures/grass.png");
         camera = Camera.getInstance();
-        item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")), shaders, texture1);
+
+        item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders);
+
         item2.getTransform().getScale().div(4f);
 
         Renderer.addItem(item2);
