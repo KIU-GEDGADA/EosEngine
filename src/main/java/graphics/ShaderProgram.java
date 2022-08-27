@@ -4,11 +4,8 @@ import math.Matrix4x4;
 import math.Vector2f;
 import math.Vector3f;
 import math.Vector4f;
-import org.lwjgl.BufferUtils;
 import utils.DataBufferUtils;
-import utils.MathUtils;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -135,6 +132,15 @@ public class ShaderProgram {
         }
     }
 
+    public void addMaterialUniform(String uniform) {
+        addUniform(uniform + ".ambient");
+        addUniform(uniform + ".diffuse");
+        addUniform(uniform + ".specular");
+        addUniform(uniform + ".hasTexture");
+        addUniform(uniform + ".reflectance");
+
+    }
+
     /**
      * This function removes a uniform from the shaderProgram
      * @param uniform the uniform to be removed
@@ -191,6 +197,14 @@ public class ShaderProgram {
         if (location != -1) {
             glUniform1i(location, value ? 1 : 0);
         }
+    }
+
+    public void setUniform(String name, Material material) {
+        setUniform(name + ".ambient", material.getAmbientColor());
+        setUniform(name + ".diffuse", material.getDiffuseColor());
+        setUniform(name + ".specular", material.getSpecularColor());
+        setUniform(name + ".hasTexture", material.hasTexture() ? 1 : 0);
+        setUniform(name + ".reflectance", material.getReflectance());
     }
 
     /**
