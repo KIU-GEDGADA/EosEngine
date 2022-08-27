@@ -1,9 +1,9 @@
 package core;
 
+import enums.Constants;
 import graphics.Model;
 import graphics.Shader;
 import graphics.ShaderProgram;
-import graphics.Texture;
 import math.Transform;
 
 import java.util.List;
@@ -27,27 +27,15 @@ public class Item {
      * @param name name of the item
      * @param model model object of the item
      * @param shaders shaders to be used on the item
-     * @param texture texture to be used on the item
      */
-    public Item(String name, Model model, List<Shader> shaders, Texture texture) {
+    public Item(String name, Model model, List<Shader> shaders) {
         this.name = name;
         this.model = model;
         this.shaders = shaders;
         this.transform = new Transform();
-        if (texture != null) {
-            model.setTexture(texture);
-        }
+
     }
 
-    /**
-     * Class constructor, creates an item without a texture
-     * @param name name of the item
-     * @param model model object of the item
-     * @param shaders shaders to be used on the item
-     */
-    public Item(String name, Model model, List<Shader> shaders) {
-        this(name, model, shaders, null);
-    }
 
     /**
      * This function initializes the item by initializing the model and shaders
@@ -56,16 +44,19 @@ public class Item {
         model.init();
         shaderProgram.init();
         compileShaders();
-        shaders.forEach(shaderProgram::attachShader);
+        shaders.forEach(shaderProgram:: attachShader);
         if (shaderProgram.getAttachedShaders().size() > 0) {
             shaderProgram.link();
             shaderProgram.addUniform("useTexture");
-            if (model.getMesh().isUsingTexture()) {
+            if (model.getMaterial().hasTexture()) {
                 shaderProgram.addUniform("texSampler");
             }
+
             shaderProgram.addUniform("tMat");
             shaderProgram.addUniform("vMat");
             shaderProgram.addUniform("pMat");
+            shaderProgram.addMaterialUniform("material");
+            shaderProgram.addUniform("ambientLight");
 
         }
     }
@@ -88,8 +79,9 @@ public class Item {
         shaderProgram.setUniform("tMat", transform.getTransformationMatrix());
         shaderProgram.setUniform("pMat", transform.getProjectionMatrix());
         shaderProgram.setUniform("vMat", transform.getViewMatrix());
+        shaderProgram.setUniform("ambientLight", Constants.AMBIENT_LIGHT);
+        shaderProgram.setUniform("material", getModel().getMaterial());
         if (model.getMesh().isUsingTexture()) {
-            useTexture();
             model.getTexture().bind();
         } else {
             useColor();
