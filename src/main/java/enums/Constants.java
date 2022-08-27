@@ -1,5 +1,8 @@
 package enums;
 
+import math.Vector3f;
+import math.Vector4f;
+
 /**
  * Enumerator, holds constants for different parts of the EosEngine:
  */
@@ -41,4 +44,8 @@ public enum Constants {
      * MOUSEBTNS - the glfw max key for mouse buttons
      */
     public static final int MOUSEBTNS = 7;
+
+    public static final Vector4f DEFAULT_COLOR = Vector4f.one();
+
+    public static final Vector3f AMBIENT_LIGHT = new Vector3f(0.3f, 0.3f, 0.3f);
 }
