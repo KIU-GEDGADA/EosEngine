@@ -48,4 +48,5 @@ public enum Constants {
     public static final Vector4f DEFAULT_COLOR = Vector4f.one();
 
     public static final Vector3f AMBIENT_LIGHT = new Vector3f(0.3f, 0.3f, 0.3f);
+    public static final float SPECULAR_POWER = 10f;
 }
