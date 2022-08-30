@@ -1,9 +1,10 @@
 package core;
 
+import enums.Constants;
 import graphics.Model;
 import graphics.Shader;
 import graphics.ShaderProgram;
-import graphics.Texture;
+import graphics.lighting.DirectionalLight;
 import math.Transform;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import static org.lwjgl.opengl.GL13C.glActiveTexture;
 public class Item {
 
     private final List<Shader> shaders;
+    private DirectionalLight directionalLight;
     private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
     private final Model model;
@@ -27,27 +29,15 @@ public class Item {
      * @param name name of the item
      * @param model model object of the item
      * @param shaders shaders to be used on the item
-     * @param texture texture to be used on the item
      */
-    public Item(String name, Model model, List<Shader> shaders, Texture texture) {
+    public Item(String name, Model model, List<Shader> shaders) {
         this.name = name;
         this.model = model;
         this.shaders = shaders;
         this.transform = new Transform();
-        if (texture != null) {
-            model.setTexture(texture);
-        }
+
     }
 
-    /**
-     * Class constructor, creates an item without a texture
-     * @param name name of the item
-     * @param model model object of the item
-     * @param shaders shaders to be used on the item
-     */
-    public Item(String name, Model model, List<Shader> shaders) {
-        this(name, model, shaders, null);
-    }
 
     /**
      * This function initializes the item by initializing the model and shaders
@@ -56,16 +46,24 @@ public class Item {
         model.init();
         shaderProgram.init();
         compileShaders();
-        shaders.forEach(shaderProgram::attachShader);
+        shaders.forEach(shaderProgram:: attachShader);
         if (shaderProgram.getAttachedShaders().size() > 0) {
             shaderProgram.link();
             shaderProgram.addUniform("useTexture");
-            if (model.getMesh().isUsingTexture()) {
+            if (model.getMaterial().hasTexture()) {
                 shaderProgram.addUniform("texSampler");
             }
+
+            //General
             shaderProgram.addUniform("tMat");
             shaderProgram.addUniform("vMat");
             shaderProgram.addUniform("pMat");
+            shaderProgram.addMaterialUniform("material");
+            // Lights
+            shaderProgram.addUniform("ambientLight");
+            shaderProgram.addDirectionalLightUniform("directionalLight");
+            // Light Parameters
+            shaderProgram.addUniform("specularPower");
 
         }
     }
@@ -88,8 +86,12 @@ public class Item {
         shaderProgram.setUniform("tMat", transform.getTransformationMatrix());
         shaderProgram.setUniform("pMat", transform.getProjectionMatrix());
         shaderProgram.setUniform("vMat", transform.getViewMatrix());
+        shaderProgram.setUniform("ambientLight", Constants.AMBIENT_LIGHT);
+        shaderProgram.setUniform("material", getModel().getMaterial());
+        shaderProgram.setUniform("specularPower", Constants.SPECULAR_POWER);
+        if(directionalLight != null)
+            shaderProgram.setUniform("directionalLight", directionalLight);
         if (model.getMesh().isUsingTexture()) {
-            useTexture();
             model.getTexture().bind();
         } else {
             useColor();
@@ -172,6 +174,9 @@ public class Item {
         shaders.remove(shader);
     }
 
+    public void setLight(DirectionalLight light) {
+        directionalLight = light;
+    }
     /**
      * This function destroys the item, its model and shaderProgram
      */

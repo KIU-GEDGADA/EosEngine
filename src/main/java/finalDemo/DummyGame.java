@@ -2,9 +2,11 @@ package finalDemo;
 
 import core.*;
 import graphics.*;
+import graphics.lighting.DirectionalLight;
 import io.*;
 import math.*;
 import utils.*;
+
 import java.util.List;
 
 import static enums.Constants.*;
@@ -15,6 +17,9 @@ public class DummyGame implements Entity {
     Texture texture1;
     Camera camera;
 
+    // Lighting
+    private float lightAngle;
+    DirectionalLight directionalLight;
     Vector2f previousPos = new Vector2f(-1, -1);
     Vector2f rotationVec = new Vector2f();
 
@@ -28,7 +33,17 @@ public class DummyGame implements Entity {
 
         texture1 = new Texture("res/textures/grass.png");
         camera = Camera.getInstance();
-        item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")), shaders, texture1);
+
+        //Lighting parameters
+        lightAngle = -90;
+        float lightIntensity = 0.0f;
+        Vector3f lightPosition = new Vector3f(-1, -10, 0);
+        Vector3f lightColor = Vector3f.one();
+        directionalLight = new DirectionalLight(lightColor, lightPosition, lightIntensity);
+
+
+        item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders);
+        item2.setLight(directionalLight);
         item2.getTransform().getScale().div(4f);
 
         Renderer.addItem(item2);
@@ -117,6 +132,7 @@ public class DummyGame implements Entity {
                 cameraVelocity.z * TimeUtils.getDeltaTime()
         );
 
+        lightSetup();
     }
 
     @Override
@@ -127,6 +143,27 @@ public class DummyGame implements Entity {
     public void destroy() {
         //item1.destroy();
         item2.destroy();
+    }
+
+    private void lightSetup() {
+        lightAngle += 0.5f;
+        if (lightAngle > 90f) {
+            directionalLight.setIntensity(0);
+            if (lightAngle >= 360) lightAngle = -90;
+        } else if (lightAngle <= -80 || lightAngle >= 80) {
+            float factor = 1 - (Math.abs(lightAngle) - 80) / 10.0f;
+            directionalLight.setIntensity(factor);
+            directionalLight.getColor().y = Math.max(factor, 0.9f);
+            directionalLight.getColor().z = Math.max(factor, 0.5f);
+        } else {
+            directionalLight.setIntensity(1f);
+            directionalLight.setColor(Vector3f.one());
+        }
+
+        double angRad = Math.toRadians(lightAngle);
+        directionalLight.getDirection().x = (float) Math.sin(angRad);
+        directionalLight.getDirection().y = (float) Math.cos(angRad);
+
     }
 
     private void mousePosGetter() {

@@ -5,30 +5,42 @@ package graphics;
  */
 public class Model {
     private Mesh mesh;
-    private Texture texture;
+    private Material material;
 
     /**
      * Class constructor, creates the model from the given mesh and texture
-     * @param mesh the mesh object of the model
+     *
+     * @param mesh    the mesh object of the model
      * @param texture the texture object of the model
      */
     public Model(Mesh mesh, Texture texture) {
         this.mesh = mesh;
-        this.texture = texture;
+        this.material = new Material(texture);
         mesh.useTexture();
     }
 
     /**
      * Class constructor, creates the model from the given mesh
+     *
      * @param mesh the mesh object of the model
      */
     public Model(Mesh mesh) {
         this.mesh = mesh;
+        this.material = new Material();
         mesh.useColor();
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     /**
      * Getter, returns the mesh object of the model
+     *
      * @return the mesh object of the model
      */
     public Mesh getMesh() {
@@ -37,23 +49,37 @@ public class Model {
 
     /**
      * Getter, returns the texture object of the model
+     *
      * @return the texture object of the model
      */
     public Texture getTexture() {
-        return texture;
+        return material.getTexture();
     }
 
     /**
      * Setter, sets the texture of the model
+     *
      * @param texture the desired texture model of the object
      */
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-        if (this.texture == null) {
+    public Model setTexture(Texture texture) {
+        material.setTexture(texture);
+        if (!material.hasTexture()) {
             mesh.useColor();
         } else {
             mesh.useTexture();
         }
+        return this;
+    }
+
+    public Model setTexture(Texture texture, float reflectance) {
+        material.setTexture(texture);
+        material.setReflectance(reflectance);
+        if (!material.hasTexture()) {
+            mesh.useColor();
+        } else {
+            mesh.useTexture();
+        }
+        return this;
     }
 
     /**
@@ -61,8 +87,8 @@ public class Model {
      */
     public void init() {
         mesh.init();
-        if (texture != null) {
-            texture.init();
+        if (material.hasTexture()) {
+            material.getTexture().init();
         }
     }
 
@@ -71,8 +97,8 @@ public class Model {
      */
     public void destroy() {
         mesh.destroy();
-        if (texture != null) {
-            texture.destroy();
+        if (material.hasTexture()) {
+            material.getTexture().destroy();
         }
     }
 }
