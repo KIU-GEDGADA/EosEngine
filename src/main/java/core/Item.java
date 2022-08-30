@@ -4,6 +4,7 @@ import enums.Constants;
 import graphics.Model;
 import graphics.Shader;
 import graphics.ShaderProgram;
+import graphics.lighting.DirectionalLight;
 import math.Transform;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import static org.lwjgl.opengl.GL13C.glActiveTexture;
 public class Item {
 
     private final List<Shader> shaders;
+    private DirectionalLight directionalLight;
     private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
     private final Model model;
@@ -52,11 +54,16 @@ public class Item {
                 shaderProgram.addUniform("texSampler");
             }
 
+            //General
             shaderProgram.addUniform("tMat");
             shaderProgram.addUniform("vMat");
             shaderProgram.addUniform("pMat");
             shaderProgram.addMaterialUniform("material");
+            // Lights
             shaderProgram.addUniform("ambientLight");
+            shaderProgram.addDirectionalLightUniform("directionalLight");
+            // Light Parameters
+            shaderProgram.addUniform("specularPower");
 
         }
     }
@@ -81,6 +88,9 @@ public class Item {
         shaderProgram.setUniform("vMat", transform.getViewMatrix());
         shaderProgram.setUniform("ambientLight", Constants.AMBIENT_LIGHT);
         shaderProgram.setUniform("material", getModel().getMaterial());
+        shaderProgram.setUniform("specularPower", Constants.SPECULAR_POWER);
+        if(directionalLight != null)
+            shaderProgram.setUniform("directionalLight", directionalLight);
         if (model.getMesh().isUsingTexture()) {
             model.getTexture().bind();
         } else {
@@ -164,6 +174,9 @@ public class Item {
         shaders.remove(shader);
     }
 
+    public void setLight(DirectionalLight light) {
+        directionalLight = light;
+    }
     /**
      * This function destroys the item, its model and shaderProgram
      */

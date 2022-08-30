@@ -1,5 +1,6 @@
 package graphics;
 
+import graphics.lighting.DirectionalLight;
 import math.Matrix4x4;
 import math.Vector2f;
 import math.Vector3f;
@@ -30,6 +31,7 @@ public class ShaderProgram {
 
     /**
      * Getter, this function returns the list of shaders attached to this shaderProgram
+     *
      * @return The attached shaders list
      */
     public List<Shader> getAttachedShaders() {
@@ -45,6 +47,7 @@ public class ShaderProgram {
 
     /**
      * This function attaches a shader to the shaderProgram, returns true if attachment is successful, false otherwise
+     *
      * @param shader the shader to be attached
      * @return true if attachment is successful, false otherwise
      */
@@ -61,6 +64,7 @@ public class ShaderProgram {
 
     /**
      * This function detaches a shader from the shaderProgram,returns true if detachment is successful, false otherwise
+     *
      * @param shader the shader to be detached
      * @return true if detachment is successful, false otherwise
      */
@@ -76,6 +80,7 @@ public class ShaderProgram {
 
     /**
      * This function detaches all shaders from the shaderProgram, returns true if detachment is successful, false otherwise
+     *
      * @return true if detachment is successful, false otherwise
      */
     private boolean detachAll() {
@@ -123,6 +128,7 @@ public class ShaderProgram {
 
     /**
      * This function adds a uniform to the shaderProgram
+     *
      * @param uniform a uniform from a shader to be added to the shaderProgram
      */
     public void addUniform(String uniform) {
@@ -141,8 +147,16 @@ public class ShaderProgram {
 
     }
 
+    public void addDirectionalLightUniform(String uniform) {
+        addUniform(uniform + ".color");
+        addUniform(uniform + ".direction");
+        addUniform(uniform + ".intensity");
+
+    }
+
     /**
      * This function removes a uniform from the shaderProgram
+     *
      * @param uniform the uniform to be removed
      */
     public void removeUniform(String uniform) {
@@ -154,6 +168,7 @@ public class ShaderProgram {
 
     /**
      * Getter, this function returns a Map of the shaderPrograms uniforms containing the uniform names and locations
+     *
      * @return a Map of the shaderPrograms uniforms containing the uniform names and locations
      */
     public Map<String, Integer> getUniforms() {
@@ -163,7 +178,8 @@ public class ShaderProgram {
     /**
      * This function sets an int uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, int value) {
@@ -176,7 +192,8 @@ public class ShaderProgram {
     /**
      * This function sets a float uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, float value) {
@@ -189,7 +206,8 @@ public class ShaderProgram {
     /**
      * This function sets a boolean uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, boolean value) {
@@ -207,10 +225,17 @@ public class ShaderProgram {
         setUniform(name + ".reflectance", material.getReflectance());
     }
 
+    public void setUniform(String name, DirectionalLight directionalLight) {
+        setUniform(name + ".color", directionalLight.getColor());
+        setUniform(name + ".direction", directionalLight.getDirection());
+        setUniform(name + ".intensity", directionalLight.getIntensity());
+    }
+
     /**
      * This function sets a Vector2f uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, Vector2f value) {
@@ -225,7 +250,8 @@ public class ShaderProgram {
     /**
      * This function sets a Vector3f uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, Vector3f value) {
@@ -241,7 +267,8 @@ public class ShaderProgram {
     /**
      * This function sets a Vector4f uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, Vector4f value) {
@@ -258,7 +285,8 @@ public class ShaderProgram {
     /**
      * This function sets a Matrix4x4 uniform to the given value
      * the uniform must be added to the shaderProgramme before the use of the function
-     * @param name the name of the uniform to set
+     *
+     * @param name  the name of the uniform to set
      * @param value the desired value
      */
     public void setUniform(String name, Matrix4x4 value) {
@@ -271,6 +299,7 @@ public class ShaderProgram {
     /**
      * This function sets a Texture uniform to the given slot
      * the uniform must be added to the shaderProgramme before the use of the function
+     *
      * @param name the name of the uniform to set
      * @param slot the desired slot
      */
@@ -295,6 +324,7 @@ public class ShaderProgram {
 
     /**
      * Getter, this function returns the shaderProgram's id
+     *
      * @return the shaderProgram's id
      */
     public int getShaderProgramID() {
