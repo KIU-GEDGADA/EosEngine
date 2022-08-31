@@ -12,6 +12,7 @@ public enum Constants {
      * VERTEX_SIZE - the size of the coordinates vector in floats
      */
     public static final int VERTEX_SIZE = 3;
+
     /**
      * COLOR_SIZE - the size of the color vector in floats
      */
