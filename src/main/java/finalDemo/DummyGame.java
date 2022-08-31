@@ -2,24 +2,35 @@ package finalDemo;
 
 import core.*;
 import graphics.*;
+import graphics.generators.Terrain;
 import graphics.lighting.DirectionalLight;
-import io.*;
-import math.*;
-import utils.*;
+import graphics.lighting.PointLight;
+import io.Input;
+import math.Vector2f;
+import math.Vector3f;
+import utils.MathUtils;
+import utils.TimeUtils;
 
 import java.util.List;
 
-import static enums.Constants.*;
+import static enums.Constants.MOUSE_SENSITIVITY;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class DummyGame implements Entity {
     Item item2;
+
+    Terrain terrain;
+    Terrain terrain2;
     Texture texture1;
+    Texture texture2;
+    Texture texture3;
+
     Camera camera;
 
     // Lighting
     private float lightAngle;
     DirectionalLight directionalLight;
+    PointLight pointLight;
     Vector2f previousPos = new Vector2f(-1, -1);
     Vector2f rotationVec = new Vector2f();
 
@@ -32,21 +43,36 @@ public class DummyGame implements Entity {
         List<Shader> shaders = List.of(new Shader[]{vs, fs});
 
         texture1 = new Texture("res/textures/grass.png");
+        texture2 = new Texture("res/textures/terrain.png");
+        texture3 = new Texture("res/textures/terrain_2.png");
         camera = Camera.getInstance();
 
         //Lighting parameters
         lightAngle = -90;
-        float lightIntensity = 0.0f;
-        Vector3f lightPosition = new Vector3f(-1, -10, 0);
+
+        float lightIntensity = 5.0f;
+
+        Vector3f lightPosition = new Vector3f(0, 0, -3.2f);
         Vector3f lightColor = Vector3f.one();
+        pointLight = new PointLight(lightColor, lightPosition, lightIntensity, 0, 0, 1);
+
+
+        lightPosition = new Vector3f(-1, -10, 0);
+        lightColor = Vector3f.one();
         directionalLight = new DirectionalLight(lightColor, lightPosition, lightIntensity);
 
-
         item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders);
-        item2.setLight(directionalLight);
         item2.getTransform().getScale().div(4f);
 
+        terrain = new Terrain(new Vector3f(0, -1, -800), new Material(texture2).setReflectance(0.1f), terrainShaders);
+        terrain2 = new Terrain(new Vector3f(-800, -1, -800), new Material(texture3).setReflectance(0.1f), terrainShaders);
+
+
         Renderer.addItem(item2);
+        TerrainRenderer.addTerrain(terrain);
+   //     TerrainRenderer.addTerrain(terrain2);
+        Renderer.setupLights(directionalLight, pointLight);
+
     }
 
     @Override
@@ -146,6 +172,15 @@ public class DummyGame implements Entity {
     }
 
     private void lightSetup() {
+        if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+            pointLight.getPosition().x += 0.1f;
+        }
+        if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+            pointLight.getPosition().x -= 0.1f;
+
+        }
+
+
         lightAngle += 0.5f;
         if (lightAngle > 90f) {
             directionalLight.setIntensity(0);
