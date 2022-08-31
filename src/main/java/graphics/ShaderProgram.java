@@ -1,6 +1,7 @@
 package graphics;
 
 import graphics.lighting.DirectionalLight;
+import graphics.lighting.PointLight;
 import math.Matrix4x4;
 import math.Vector2f;
 import math.Vector3f;
@@ -154,6 +155,16 @@ public class ShaderProgram {
 
     }
 
+    public void addPointLightUniform(String uniform) {
+        addUniform(uniform + ".color");
+        addUniform(uniform + ".position");
+        addUniform(uniform + ".intensity");
+        addUniform(uniform + ".constant");
+        addUniform(uniform + ".linear");
+        addUniform(uniform + ".exponent");
+
+    }
+
     /**
      * This function removes a uniform from the shaderProgram
      *
@@ -229,6 +240,15 @@ public class ShaderProgram {
         setUniform(name + ".color", directionalLight.getColor());
         setUniform(name + ".direction", directionalLight.getDirection());
         setUniform(name + ".intensity", directionalLight.getIntensity());
+    }
+
+    public void setUniform(String name, PointLight pointLight) {
+        setUniform(name + ".color", pointLight.getColor());
+        setUniform(name + ".position", pointLight.getPosition());
+        setUniform(name + ".intensity", pointLight.getIntensity());
+        setUniform(name + ".constant", pointLight.getConstant());
+        setUniform(name + ".linear", pointLight.getLinear());
+        setUniform(name + ".exponent", pointLight.getExponent());
     }
 
     /**
