@@ -42,40 +42,49 @@ public class Material {
         return ambientColor;
     }
 
-    public void setAmbientColor(Vector4f ambientColor) {
+    public Material setAmbientColor(Vector4f ambientColor) {
         this.ambientColor = ambientColor;
+        return this;
     }
 
     public Vector4f getDiffuseColor() {
         return diffuseColor;
     }
 
-    public void setDiffuseColor(Vector4f diffuseColor) {
+    public Material setDiffuseColor(Vector4f diffuseColor) {
         this.diffuseColor = diffuseColor;
+        return this;
+
     }
 
     public Vector4f getSpecularColor() {
         return specularColor;
     }
 
-    public void setSpecularColor(Vector4f specularColor) {
+    public Material setSpecularColor(Vector4f specularColor) {
         this.specularColor = specularColor;
+        return this;
+
     }
 
     public float getReflectance() {
         return reflectance;
     }
 
-    public void setReflectance(float reflectance) {
+    public Material setReflectance(float reflectance) {
         this.reflectance = reflectance;
+        return this;
+
     }
 
     public Texture getTexture() {
         return texture;
     }
 
-    public void setTexture(Texture texture) {
+    public Material setTexture(Texture texture) {
         this.texture = texture;
+        return this;
+
     }
 
     public boolean hasTexture() {
