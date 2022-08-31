@@ -90,6 +90,7 @@ public class Engine {
         window.init();
         entities.forEach(Entity::init);
         Renderer.init();
+        TerrainRenderer.init();
         Camera.getInstance().init((float) window.getWidth() / window.getHeight());
     }
 
@@ -135,6 +136,7 @@ public class Engine {
         window.clear();
         entities.forEach(Entity::render);
         Renderer.render();
+        TerrainRenderer.render();
         window.render();
     }
 
@@ -145,6 +147,7 @@ public class Engine {
         entities.forEach(Entity::destroy);
         window.destroy();
         Renderer.removeAll();
+        TerrainRenderer.removeAll();
     }
 
 
