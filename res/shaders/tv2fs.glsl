@@ -23,12 +23,26 @@ struct DirectionalLight {
     float intensity;
 };
 
+struct PointLight {
+    vec3 color;
+    vec3 position;
+    float intensity;
+    float constant;
+    float linear;
+    float exponent;
+};
+
 uniform sampler2D texSampler;
-uniform vec3 ambientLight;
 uniform Material material;
 uniform bool useTexture;
-uniform float specularPower;
+
+// Lights
 uniform DirectionalLight directionalLight;
+uniform vec3 ambientLight;
+uniform PointLight pointLight;
+// Light Parameters
+uniform float specularPower;
+
 
 
 vec4 ambientC;
@@ -66,7 +80,18 @@ vec4 calculateLightColor(vec3 lightColor, float lightIntensity, vec3 pos, vec3 t
     return (diffuseColor + specColor);
 }
 
-vec4 calcDirectionalLight(DirectionalLight light, vec3 position, vec3 normal) {
+vec4 calculatePointLight(PointLight light, vec3 position, vec3 normal) {
+    vec3 light_dir = light.position - position;
+    vec3 to_light_dir = normalize(light_dir);
+    vec4 light_color = calculateLightColor(light.color, light.intensity, position, to_light_dir, normal);
+
+    float distance = length(light_dir);
+    float attInv = light.constant + (light.linear * distance) + (light.exponent * distance * distance);
+    return light_color / attInv;
+}
+
+
+vec4 calculateDirectionalLight(DirectionalLight light, vec3 position, vec3 normal) {
     return calculateLightColor(light.color, light.intensity, position, normalize(light.direction), normal);
 }
 
@@ -76,8 +101,8 @@ void main()
     setupColors(material, fTexCords);
 
 
-    vec4 diffuseSpec = calcDirectionalLight(directionalLight, fPos, fNormal);
-
+    vec4 diffuseSpec = calculateDirectionalLight(directionalLight, fPos, fNormal);
+    diffuseSpec += calculatePointLight(pointLight, fPos, fNormal);
 
     fragColor = ambientC * vec4(ambientLight, 1) + diffuseSpec;
 }
