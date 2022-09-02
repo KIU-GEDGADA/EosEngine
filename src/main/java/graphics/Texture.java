@@ -18,6 +18,7 @@ public class Texture {
 
     /**
      * Class creator, creates the class using a filepath to a texture or image
+     *
      * @param filepath the filepath of the desired texture/image
      */
     public Texture(String filepath) {
@@ -77,4 +78,8 @@ public class Texture {
         glDeleteTextures(id);
     }
 
+
+    public String getFilePath() {
+        return filepath;
+    }
 }
