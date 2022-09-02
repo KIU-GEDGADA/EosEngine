@@ -4,7 +4,7 @@ package graphics;
  * This class handles the texture and mesh of an item
  */
 public class Model {
-    private Mesh mesh;
+    private final Mesh mesh;
     private Material material;
 
     /**
@@ -16,7 +16,6 @@ public class Model {
     public Model(Mesh mesh, Texture texture) {
         this.mesh = mesh;
         this.material = new Material(texture);
-        mesh.useTexture();
     }
 
     /**
@@ -27,7 +26,6 @@ public class Model {
     public Model(Mesh mesh) {
         this.mesh = mesh;
         this.material = new Material();
-        mesh.useColor();
     }
 
     public Material getMaterial() {
@@ -63,22 +61,12 @@ public class Model {
      */
     public Model setTexture(Texture texture) {
         material.setTexture(texture);
-        if (!material.hasTexture()) {
-            mesh.useColor();
-        } else {
-            mesh.useTexture();
-        }
         return this;
     }
 
     public Model setTexture(Texture texture, float reflectance) {
         material.setTexture(texture);
         material.setReflectance(reflectance);
-        if (!material.hasTexture()) {
-            mesh.useColor();
-        } else {
-            mesh.useTexture();
-        }
         return this;
     }
 
