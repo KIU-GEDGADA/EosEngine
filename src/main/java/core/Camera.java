@@ -16,6 +16,7 @@ public class Camera {
 
     /**
      * Getter, this function returns the instance of the current camera, if one does not exist it creates and then returns it
+     *
      * @return the instance of the current camera
      */
     public static Camera getInstance() {
@@ -36,6 +37,7 @@ public class Camera {
      * zFar - 100
      * zNear - 1
      * Field of View - 60
+     *
      * @param aspectRatio the aspect ratio of the camera element
      */
     public void init(float aspectRatio) {
@@ -49,11 +51,12 @@ public class Camera {
 
     /**
      * Initializes the camera to the given custom settings
-     * @param position the position of the camera in the 3D space
-     * @param rotation the rotation of the camera
-     * @param FOV the field of view
-     * @param zFar - how close should an item be to not be seen
-     * @param zNear - how far should an item be to not be seen
+     *
+     * @param position    the position of the camera in the 3D space
+     * @param rotation    the rotation of the camera
+     * @param FOV         the field of view
+     * @param zFar        - how close should an item be to not be seen
+     * @param zNear       - how far should an item be to not be seen
      * @param aspectRatio the aspect ratio
      */
     public void init(Vector3f position, Vector3f rotation, float FOV, float zFar, float zNear, float aspectRatio) {
@@ -67,6 +70,7 @@ public class Camera {
 
     /**
      * Getter, returns the field of view of the camera
+     *
      * @return the field of view of the camera
      */
     public float getFOV() {
@@ -75,6 +79,7 @@ public class Camera {
 
     /**
      * Setter, sets the field of view of the camera, returns the instance of the camera
+     *
      * @param FOV the desired field of view
      * @return the current instance of the camera
      */
@@ -85,6 +90,7 @@ public class Camera {
 
     /**
      * Getter, returns zFar - maximum view distance
+     *
      * @return returns zFar
      */
     public float getzFar() {
@@ -93,6 +99,7 @@ public class Camera {
 
     /**
      * Setter, sets the zFar parameter of the camera, returns the instance of the camera
+     *
      * @param zFar the desired maximum view distance of the camera
      * @return the current instance of the camera
      */
@@ -103,6 +110,7 @@ public class Camera {
 
     /**
      * Getter, returns zNear - minimum view distance
+     *
      * @return the zNear
      */
     public float getzNear() {
@@ -111,6 +119,7 @@ public class Camera {
 
     /**
      * Setter, sets the zNear parameter of the camera, returns the instance of the camera
+     *
      * @param zNear the desired minimum view distance of the camera
      * @return the current instance of the camera
      */
@@ -121,6 +130,7 @@ public class Camera {
 
     /**
      * Getter, returns the aspect ratio of the camera
+     *
      * @return the aspect ratio of the camera
      */
     public float getAspectRatio() {
@@ -129,6 +139,7 @@ public class Camera {
 
     /**
      * Getter, returns the position vector of the camera
+     *
      * @return returns a 3 float element position vector of the camera, format: X, Y, Z
      */
     public Vector3f getPosition() {
@@ -137,6 +148,7 @@ public class Camera {
 
     /**
      * Getter, returns the rotation vector of the camera
+     *
      * @return returns a 3 float element rotation vector of the camera
      */
     public Vector3f getRotation() {
@@ -145,6 +157,7 @@ public class Camera {
 
     /**
      * Setter, sets the position of the camera, returns the current instance of the camera
+     *
      * @param x the desired x coordinate of the camera
      * @param y the desired y coordinate of the camera
      * @param z the desired z coordinate of the camera
@@ -159,6 +172,7 @@ public class Camera {
 
     /**
      * Setter, sets the rotation of the camera, returns the current instance of the camera
+     *
      * @param x the desired x coordinate of the camera
      * @param y the desired y coordinate of the camera
      * @param z the desired z coordinate of the camera
@@ -173,6 +187,7 @@ public class Camera {
 
     /**
      * This function rotates the camera by the given margins, returns the current instance of the camera
+     *
      * @param x the amount to move the x coordinate by
      * @param y the amount to move the y coordinate by
      * @param z the amount to move the z coordinate by
@@ -187,6 +202,7 @@ public class Camera {
 
     /**
      * This function moves the camera by the given margins in its direction, returns the current instance of the camera
+     *
      * @param x the amount to move the x coordinate by
      * @param y the amount to move the y coordinate by
      * @param z the amount to move the z coordinate by

@@ -56,4 +56,8 @@ public enum Constants {
     public static final int TERRAIN_VERTEX_COUNT = 128;
 
     public static final float TERRAIN_SIZE = 200f;
+
+    public static final float CAMERA_SPEED = 3.5f;
+
 }
+

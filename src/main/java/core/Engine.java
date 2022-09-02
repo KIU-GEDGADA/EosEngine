@@ -17,11 +17,12 @@ public class Engine {
     /**
      * Getter, returns the instance of the game engine,
      * if one does not exist, creates a new instance using the specified window and returns it
+     *
      * @param window window in which the game engine instance should be created, if one does not exist
      * @return the instance of the game engine
      */
-    public static Engine getInstance(Window window){
-        if (instance == null){
+    public static Engine getInstance(Window window) {
+        if (instance == null) {
             instance = new Engine(window);
         }
         return instance;
@@ -29,6 +30,7 @@ public class Engine {
 
     /**
      * Class constructor, specifying which window to initiate the engine in
+     *
      * @param window the window where the engine is to be initiated
      */
     private Engine(Window window) {
@@ -36,7 +38,8 @@ public class Engine {
     }
 
     /**
-     *getter, returns the window which the engine instance is in
+     * getter, returns the window which the engine instance is in
+     *
      * @return the window which the engine instance is in
      */
     public Window getWindow() {
@@ -45,6 +48,7 @@ public class Engine {
 
     /**
      * setter, sets the window in which the engine instance will be
+     *
      * @param window the window in which the engine instance will be
      */
     public void setWindow(Window window) {
@@ -53,6 +57,7 @@ public class Engine {
 
     /**
      * getter, returns the list of entities that exist in the game engine
+     *
      * @return the list of entities that exist in the game engine
      */
     public List<Entity> getEntities() {
@@ -61,6 +66,7 @@ public class Engine {
 
     /**
      * setter, sets the list of entities that are to be handled by the game engine
+     *
      * @param entities the list of entities that are to be handled by the game engine
      */
     public void setEntities(List<Entity> entities) {
@@ -90,7 +96,7 @@ public class Engine {
         window.init();
         entities.forEach(Entity::init);
         Renderer.init();
-      //  TerrainRenderer.init();
+        //  TerrainRenderer.init();
         Camera.getInstance().init((float) window.getWidth() / window.getHeight());
     }
 

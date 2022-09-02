@@ -14,6 +14,7 @@ import utils.TimeUtils;
 
 import java.util.List;
 
+import static enums.Constants.CAMERA_SPEED;
 import static enums.Constants.MOUSE_SENSITIVITY;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -34,7 +35,7 @@ public class DummyGame implements Entity {
     Vector2f previousPos = new Vector2f(-1, -1);
     Vector2f rotationVec = new Vector2f();
     Vector3f lightColor = Vector3f.one();
-    PointLight pointLight = new PointLight(lightColor, Vector3f.zero(), 100f, 0, 0, 1);
+    PointLight pointLight = new PointLight(lightColor, new Vector3f(0,-5,0), 100f, 5, 0, 1);
 
     Vector3f cameraVelocity = Vector3f.zero();
 
@@ -136,9 +137,9 @@ public class DummyGame implements Entity {
 
 
         camera.movePosition(
-                cameraVelocity.x * TimeUtils.getDeltaTime() * 3.5f,
-                cameraVelocity.y * TimeUtils.getDeltaTime() * 3.5f,
-                cameraVelocity.z * TimeUtils.getDeltaTime() * 3.5f
+                cameraVelocity.x * TimeUtils.getDeltaTime() * CAMERA_SPEED,
+                cameraVelocity.y * TimeUtils.getDeltaTime() * CAMERA_SPEED,
+                cameraVelocity.z * TimeUtils.getDeltaTime() * CAMERA_SPEED
         );
     }
 

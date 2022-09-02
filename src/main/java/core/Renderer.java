@@ -54,6 +54,7 @@ public class Renderer {
 
     }
 
+
     public static void addLight(ILight light) {
         if (!lights.contains(light)) {
             lights.add(light);
@@ -65,10 +66,11 @@ public class Renderer {
     }
 
     /**
-     * This function clears the list of items to be rendered
+     * This function clears the list of items to be rendered including lights
      */
     public static void removeAll() {
         items.clear();
+        lights.clear();
     }
 
 }

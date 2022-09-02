@@ -26,7 +26,6 @@ public class Item {
 
     /**
      * Class constructor, creates an item to the given parameters
-     *
      * @param name    name of the item
      * @param model   model object of the item
      * @param shaders shaders to be used on the item
@@ -96,7 +95,6 @@ public class Item {
 
     /**
      * Getter, this function returns the model of the item
-     *
      * @return the model object of the item
      */
     public Model getModel() {
@@ -105,7 +103,6 @@ public class Item {
 
     /**
      * Getter, this function returns the shaderProgram of the item
-     *
      * @return the shaderProgram object of the ite,
      */
     public ShaderProgram getShaderProgram() {
@@ -114,7 +111,6 @@ public class Item {
 
     /**
      * Getter, this function returns all shaders of the item
-     *
      * @return list of shaders of the item
      */
     public List<Shader> getShaders() {
@@ -123,7 +119,6 @@ public class Item {
 
     /**
      * Getter, this function returns the name of the item
-     *
      * @return the name of the item
      */
     public String getName() {
@@ -132,7 +127,6 @@ public class Item {
 
     /**
      * Setter, this function sets the name of the item
-     *
      * @param name the desired name of the item
      */
     public void setName(String name) {
@@ -141,7 +135,6 @@ public class Item {
 
     /**
      * Getter, this function returns the transform object of the item
-     *
      * @return the transform object of the item
      */
     public Transform getTransform() {
@@ -150,7 +143,6 @@ public class Item {
 
     /**
      * Setter, this function sets the transform object of the item
-     *
      * @param transform the desired transform object of the item
      */
     public void setTransform(Transform transform) {
