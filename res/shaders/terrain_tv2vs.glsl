@@ -23,5 +23,5 @@ void main(){
     fNormal = normalize(worldPos).xyz;
     fPos = worldPos.xyz;
     fColor = aColor;
-    fTexCords = aTexCords / 2.5f;
+    fTexCords = aTexCords;
 }
