@@ -2,16 +2,15 @@ package graphics.lighting;
 
 import math.Vector3f;
 
-public class PointLight {
+public class PointLight extends ILight{
 
-    private Vector3f color, position;
-    private float intensity, constant, linear, exponent;
+    private Vector3f position;
+    private float constant, linear, exponent;
 
 
     public PointLight(Vector3f color, Vector3f position, float intensity, float constant, float linear, float exponent) {
-        this.color = color;
+        super(color, intensity);
         this.position = position;
-        this.intensity = intensity;
         this.constant = constant;
         this.linear = linear;
         this.exponent = exponent;
@@ -21,28 +20,12 @@ public class PointLight {
         this(color, position, intensity, 1, 0, 0);
     }
 
-    public Vector3f getColor() {
-        return color;
-    }
-
-    public void setColor(Vector3f color) {
-        this.color = color;
-    }
-
     public Vector3f getPosition() {
         return position;
     }
 
     public void setPosition(Vector3f position) {
         this.position = position;
-    }
-
-    public float getIntensity() {
-        return intensity;
-    }
-
-    public void setIntensity(float intensity) {
-        this.intensity = intensity;
     }
 
     public float getConstant() {
@@ -67,5 +50,17 @@ public class PointLight {
 
     public void setExponent(float exponent) {
         this.exponent = exponent;
+    }
+
+    @Override
+    public String toString() {
+        return "PointLight{" +
+                "position=" + position +
+                ", constant=" + constant +
+                ", linear=" + linear +
+                ", exponent=" + exponent +
+                ", color=" + color +
+                ", intensity=" + intensity +
+                '}';
     }
 }

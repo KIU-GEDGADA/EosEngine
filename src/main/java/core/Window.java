@@ -26,14 +26,15 @@ public class Window {
 
     /**
      * this function returns the instance of the window if it exists, if not creates a new instance and returns it
-     * @param width width in pixels of the window to be created if it does not already exist
+     *
+     * @param width  width in pixels of the window to be created if it does not already exist
      * @param height height in pixels of the window to be created if it does not already exist
-     * @param title name of the window to be created if it does not already exist
-     * @param vSync if the window should have vSync turned on or off
+     * @param title  name of the window to be created if it does not already exist
+     * @param vSync  if the window should have vSync turned on or off
      * @return returns the instance of the window
      */
-    public static Window getInstance(int width, int height, String title, boolean vSync){
-        if (instance == null){
+    public static Window getInstance(int width, int height, String title, boolean vSync) {
+        if (instance == null) {
             instance = new Window(width, height, title, vSync);
         }
         return instance;
@@ -41,10 +42,11 @@ public class Window {
 
     /**
      * class Constructor, initializes the window object to the given parameters
-     * @param width the width in pixels of the window to be created
+     *
+     * @param width  the width in pixels of the window to be created
      * @param height height in pixels of the window to be created
-     * @param title name of the window to be created
-     * @param vSync if the window should have vSync turned on or off
+     * @param title  name of the window to be created
+     * @param vSync  if the window should have vSync turned on or off
      */
     private Window(int width, int height, String title, boolean vSync) {
         this.width = width;
@@ -147,6 +149,7 @@ public class Window {
      * -BORDERLESS: sets the window to a maximized window without borders
      * -HIDDEN: hides the window
      * -SHOWN: shows the window
+     *
      * @param windowMode the window mode to which the window must be switched
      */
     public void setMode(WindowState windowMode) {
@@ -182,6 +185,7 @@ public class Window {
 
     /**
      * this function returns wherever the current window object is running
+     *
      * @return true if window running, false if window no longer running and should close
      */
     public boolean isRunning() {
@@ -190,6 +194,7 @@ public class Window {
 
     /**
      * this function returns wherever vSync is turned on for the current window
+     *
      * @return true if vSync is turned off, false otherwise
      */
     public boolean isVSync() {
@@ -198,6 +203,7 @@ public class Window {
 
     /**
      * Getter, returns the current window object
+     *
      * @return the current window object
      */
     public long getWindow() {
@@ -206,6 +212,7 @@ public class Window {
 
     /**
      * Getter, returns the width of the window object
+     *
      * @return the width
      */
     public int getWidth() {
@@ -214,6 +221,7 @@ public class Window {
 
     /**
      * Getter, returns the height of the window object
+     *
      * @return the height
      */
     public int getHeight() {

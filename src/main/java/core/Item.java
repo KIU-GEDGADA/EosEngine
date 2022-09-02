@@ -8,6 +8,7 @@ import graphics.lighting.DirectionalLight;
 import graphics.lighting.PointLight;
 import math.Transform;
 import math.Vector3f;
+import graphics.lighting.ILight;
 
 import java.util.List;
 
@@ -17,8 +18,7 @@ import java.util.List;
 public class Item {
 
     private final List<Shader> shaders;
-    private DirectionalLight directionalLight;
-    private PointLight pointLight;
+    private List<ILight> lights;
     private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
     private final Model model;
@@ -26,7 +26,6 @@ public class Item {
 
     /**
      * Class constructor, creates an item to the given parameters
-     *
      * @param name    name of the item
      * @param model   model object of the item
      * @param shaders shaders to be used on the item
@@ -66,8 +65,6 @@ public class Item {
             shaderProgram.addMaterialUniform("material");
             // Lights
             shaderProgram.addUniform("ambientLight");
-            shaderProgram.addDirectionalLightUniform("directionalLight");
-            shaderProgram.addPointLightUniform("pointLight");
             // Light Parameters
             shaderProgram.addUniform("specularPower");
         }
@@ -89,8 +86,7 @@ public class Item {
         } else {
             shaderProgram.setUniform("useTexture", false);
         }
-        if (directionalLight != null) shaderProgram.setUniform("directionalLight", directionalLight);
-        if (pointLight != null) shaderProgram.setUniform("pointLight", pointLight);
+        setLightUniforms();
         if (model.getMaterial().hasTexture()) model.getMaterial().getTexture().bind();
         model.getMesh().render();
         if (model.getMaterial().hasTexture()) model.getMaterial().getTexture().unbind();
@@ -99,7 +95,6 @@ public class Item {
 
     /**
      * Getter, this function returns the model of the item
-     *
      * @return the model object of the item
      */
     public Model getModel() {
@@ -108,7 +103,6 @@ public class Item {
 
     /**
      * Getter, this function returns the shaderProgram of the item
-     *
      * @return the shaderProgram object of the ite,
      */
     public ShaderProgram getShaderProgram() {
@@ -117,7 +111,6 @@ public class Item {
 
     /**
      * Getter, this function returns all shaders of the item
-     *
      * @return list of shaders of the item
      */
     public List<Shader> getShaders() {
@@ -126,7 +119,6 @@ public class Item {
 
     /**
      * Getter, this function returns the name of the item
-     *
      * @return the name of the item
      */
     public String getName() {
@@ -135,7 +127,6 @@ public class Item {
 
     /**
      * Setter, this function sets the name of the item
-     *
      * @param name the desired name of the item
      */
     public void setName(String name) {
@@ -144,7 +135,6 @@ public class Item {
 
     /**
      * Getter, this function returns the transform object of the item
-     *
      * @return the transform object of the item
      */
     public Transform getTransform() {
@@ -152,9 +142,8 @@ public class Item {
     }
 
     /**
-     * Setter, this function sets the transofmr object of the item
-     *
-     * @param transform the desired transofmr object of the item
+     * Setter, this function sets the transform object of the item
+     * @param transform the desired transform object of the item
      */
     public void setTransform(Transform transform) {
         this.transform = transform;
@@ -171,16 +160,32 @@ public class Item {
         shaders.remove(shader);
     }
 
-    public void setLights(DirectionalLight dl, PointLight pl) {
-        if (dl != null) directionalLight = dl;
-        if (pl != null) this.pointLight = pl;
-    }
-
     /**
      * This function destroys the item, its model and shaderProgram
      */
     public void destroy() {
         model.destroy();
         shaderProgram.destroy();
+    }
+
+    public void setLights(List<ILight> lights) {
+        this.lights = lights;
+        for (ILight light : this.lights) {
+            if (light instanceof DirectionalLight) {
+                shaderProgram.addDirectionalLightUniform("directionalLight");
+            } else if (light instanceof PointLight) {
+                shaderProgram.addPointLightUniform("pointLight");
+            }
+        }
+    }
+
+    public void setLightUniforms() {
+        for (ILight light : lights) {
+            if (light instanceof DirectionalLight) {
+                shaderProgram.setUniform("directionalLight", (DirectionalLight) light);
+            } else if (light instanceof PointLight) {
+                shaderProgram.setUniform("pointLight", (PointLight) light);
+            }
+        }
     }
 }
