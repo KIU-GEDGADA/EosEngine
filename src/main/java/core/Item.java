@@ -5,12 +5,11 @@ import graphics.Model;
 import graphics.Shader;
 import graphics.ShaderProgram;
 import graphics.lighting.DirectionalLight;
+import graphics.lighting.PointLight;
 import math.Transform;
+import math.Vector3f;
 
 import java.util.List;
-
-import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13C.glActiveTexture;
 
 /**
  * This class handles each individual element in the engine
@@ -19,6 +18,7 @@ public class Item {
 
     private final List<Shader> shaders;
     private DirectionalLight directionalLight;
+    private PointLight pointLight;
     private final ShaderProgram shaderProgram = new ShaderProgram();
     private String name;
     private final Model model;
@@ -26,8 +26,9 @@ public class Item {
 
     /**
      * Class constructor, creates an item to the given parameters
-     * @param name name of the item
-     * @param model model object of the item
+     *
+     * @param name    name of the item
+     * @param model   model object of the item
      * @param shaders shaders to be used on the item
      */
     public Item(String name, Model model, List<Shader> shaders) {
@@ -38,6 +39,13 @@ public class Item {
 
     }
 
+    public Item(Vector3f position, String name, Model model, List<Shader> shaders) {
+        this.name = name;
+        this.model = model;
+        this.shaders = shaders;
+        this.transform = new Transform().setPosition(position);
+    }
+
 
     /**
      * This function initializes the item by initializing the model and shaders
@@ -45,8 +53,8 @@ public class Item {
     public void init() {
         model.init();
         shaderProgram.init();
-        compileShaders();
-        shaders.forEach(shaderProgram:: attachShader);
+        shaders.forEach(Shader::compile);
+        shaders.forEach(shaderProgram::attachShader);
         if (shaderProgram.getAttachedShaders().size() > 0) {
             shaderProgram.link();
             shaderProgram.addUniform("useTexture");
@@ -59,19 +67,10 @@ public class Item {
             // Lights
             shaderProgram.addUniform("ambientLight");
             shaderProgram.addDirectionalLightUniform("directionalLight");
+            shaderProgram.addPointLightUniform("pointLight");
             // Light Parameters
             shaderProgram.addUniform("specularPower");
         }
-    }
-
-    private void useTexture() {
-        shaderProgram.setUniform("useTexture", true);
-        shaderProgram.setTexture("texSampler", 0);
-        glActiveTexture(GL_TEXTURE0);
-    }
-
-    private void useColor() {
-        shaderProgram.setUniform("useTexture", false);
     }
 
     /**
@@ -85,22 +84,22 @@ public class Item {
         shaderProgram.setUniform("ambientLight", Constants.AMBIENT_LIGHT);
         shaderProgram.setUniform("material", getModel().getMaterial());
         shaderProgram.setUniform("specularPower", Constants.SPECULAR_POWER);
-        if(directionalLight != null)
-            shaderProgram.setUniform("directionalLight", directionalLight);
-        if (model.getMesh().isUsingTexture()) {
-            model.getTexture().bind();
+        if (model.getMaterial().hasTexture()) {
+            shaderProgram.setUniform("useTexture", true);
         } else {
-            useColor();
+            shaderProgram.setUniform("useTexture", false);
         }
+        if (directionalLight != null) shaderProgram.setUniform("directionalLight", directionalLight);
+        if (pointLight != null) shaderProgram.setUniform("pointLight", pointLight);
+        if (model.getMaterial().hasTexture()) model.getMaterial().getTexture().bind();
         model.getMesh().render();
-        if (model.getMesh().isUsingTexture()) {
-            model.getTexture().unbind();
-        }
+        if (model.getMaterial().hasTexture()) model.getMaterial().getTexture().unbind();
         shaderProgram.unbind();
     }
 
     /**
      * Getter, this function returns the model of the item
+     *
      * @return the model object of the item
      */
     public Model getModel() {
@@ -109,6 +108,7 @@ public class Item {
 
     /**
      * Getter, this function returns the shaderProgram of the item
+     *
      * @return the shaderProgram object of the ite,
      */
     public ShaderProgram getShaderProgram() {
@@ -117,6 +117,7 @@ public class Item {
 
     /**
      * Getter, this function returns all shaders of the item
+     *
      * @return list of shaders of the item
      */
     public List<Shader> getShaders() {
@@ -125,6 +126,7 @@ public class Item {
 
     /**
      * Getter, this function returns the name of the item
+     *
      * @return the name of the item
      */
     public String getName() {
@@ -133,6 +135,7 @@ public class Item {
 
     /**
      * Setter, this function sets the name of the item
+     *
      * @param name the desired name of the item
      */
     public void setName(String name) {
@@ -141,6 +144,7 @@ public class Item {
 
     /**
      * Getter, this function returns the transform object of the item
+     *
      * @return the transform object of the item
      */
     public Transform getTransform() {
@@ -149,14 +153,11 @@ public class Item {
 
     /**
      * Setter, this function sets the transofmr object of the item
+     *
      * @param transform the desired transofmr object of the item
      */
     public void setTransform(Transform transform) {
         this.transform = transform;
-    }
-
-    private void compileShaders() {
-        shaders.forEach(Shader::compile);
     }
 
     private void addShader(Shader shader) {
@@ -170,9 +171,11 @@ public class Item {
         shaders.remove(shader);
     }
 
-    public void setLight(DirectionalLight light) {
-        directionalLight = light;
+    public void setLights(DirectionalLight dl, PointLight pl) {
+        if (dl != null) directionalLight = dl;
+        if (pl != null) this.pointLight = pl;
     }
+
     /**
      * This function destroys the item, its model and shaderProgram
      */
