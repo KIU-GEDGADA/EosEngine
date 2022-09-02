@@ -20,6 +20,7 @@ public class Renderer {
      */
     public static void init() {
         items.forEach(Item::init);
+        items.forEach(item -> item.setLights(lights));
     }
 
     /**
@@ -50,6 +51,7 @@ public class Renderer {
             System.out.println("No items to render");
         }
         items.forEach(Item::render);
+
     }
 
     public static void addLight(ILight light) {
