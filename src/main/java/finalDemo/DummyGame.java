@@ -31,8 +31,6 @@ public class DummyGame implements Entity {
     Camera camera;
 
     // Lighting
-    private float lightAngle;
-    // DirectionalLight directionalLight;
     Vector2f previousPos = new Vector2f(-1, -1);
     Vector2f rotationVec = new Vector2f();
     Vector3f lightColor = Vector3f.one();
@@ -59,14 +57,6 @@ public class DummyGame implements Entity {
         camera = Camera.getInstance();
 
         //Lighting parameters
-        lightAngle = -90;
-        float lightIntensity = 5.0f;
-        Vector3f lightPosition = new Vector3f(0, 0, -3.2f);
-
-
-        lightPosition = new Vector3f(-1, -10, 0);
-
-      //  directionalLight = new DirectionalLight(lightColor, lightPosition, lightIntensity);
 
         Vector3f pos1 = new Vector3f(-10, 0, -10);
         Vector3f pos2 = new Vector3f(-20, 0, -10);
@@ -74,7 +64,6 @@ public class DummyGame implements Entity {
         Vector3f pos4 = new Vector3f(0, 0, -10);
         Vector3f pos5 = new Vector3f(10, 0, -10);
         Vector3f pos6 = new Vector3f(20, 0, -10);
-
 
 
         item1 = new Item(pos1, "Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders); //With textures and lights
@@ -89,7 +78,7 @@ public class DummyGame implements Entity {
 
         item5 = new Item(pos5, "Complex Figure with texture", new Model(new Mesh("res/models/goodCube.obj")).setTexture(new Texture("res/textures/goodTexture.png")), shaders1);
 
-        item6 = new Item(pos6, "Complex Figure with Ligthing and texture",new Model(new Mesh("res/models/goodCube.obj")).setTexture(new Texture("res/textures/goodTexture.png")), shaders);
+        item6 = new Item(pos6, "Complex Figure with Ligthing and texture", new Model(new Mesh("res/models/goodCube.obj")).setTexture(new Texture("res/textures/goodTexture.png")), shaders);
 
         Model model = new Model(Generators.generateTerrain()).setTexture(texture2, 0.1f);
         model.getMaterial().setAmbientColor(Color.WHITE.toVector4f());
@@ -154,7 +143,7 @@ public class DummyGame implements Entity {
     }
 
     private void lightSetup() {
-        if(Input.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
+        if (Input.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
             if (Input.isKeyDown(GLFW_KEY_LEFT)) {
                 pointLight.getPosition().x -= 0.1f;
             }
@@ -167,8 +156,7 @@ public class DummyGame implements Entity {
             if (Input.isKeyDown(GLFW_KEY_DOWN)) {
                 pointLight.getPosition().y += 0.1f;
             }
-        }
-        else {
+        } else {
             if (Input.isKeyDown(GLFW_KEY_UP)) {
                 pointLight.getPosition().z -= 0.1f;
             }
@@ -176,26 +164,6 @@ public class DummyGame implements Entity {
                 pointLight.getPosition().z += 0.1f;
             }
         }
-
-
-//        lightAngle += 0.5f;
-//        if (lightAngle > 90f) {
-//            directionalLight.setIntensity(0);
-//            if (lightAngle >= 360) lightAngle = -90;
-//        } else if (lightAngle <= -80 || lightAngle >= 80) {
-//            float factor = 1 - (Math.abs(lightAngle) - 80) / 10.0f;
-//            directionalLight.setIntensity(factor);
-//            directionalLight.getColor().y = Math.max(factor, 0.9f);
-//            directionalLight.getColor().z = Math.max(factor, 0.5f);
-//        } else {
-//            directionalLight.setIntensity(1f);
-//            directionalLight.setColor(Vector3f.one());
-//        }
-//
-//        double angRad = Math.toRadians(lightAngle);
-//        directionalLight.getDirection().x = (float) Math.sin(angRad);
-//        directionalLight.getDirection().y = (float) Math.cos(angRad);
-
     }
 
     private void mousePosGetter() {

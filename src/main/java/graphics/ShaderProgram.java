@@ -255,7 +255,6 @@ public class ShaderProgram {
     }
 
     public void setUniform(String name, PointLight pointLight) {
-        System.out.println(pointLight.toString());
         setUniform(name + ".color", pointLight.getColor());
         setUniform(name + ".intensity", pointLight.getIntensity());
         setUniform(name + ".position", pointLight.getPosition());
