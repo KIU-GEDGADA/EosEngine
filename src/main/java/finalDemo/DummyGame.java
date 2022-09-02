@@ -1,8 +1,10 @@
 package finalDemo;
 
-import core.*;
+import core.Camera;
+import core.Entity;
+import core.Item;
+import core.Renderer;
 import graphics.*;
-import graphics.generators.Terrain;
 import graphics.lighting.DirectionalLight;
 import graphics.lighting.PointLight;
 import io.Input;
@@ -19,12 +21,10 @@ import static org.lwjgl.glfw.GLFW.*;
 public class DummyGame implements Entity {
     Item item1;
     Item item2;
+    Item item3;
+    Item item4;
 
-    Terrain terrain;
-    Terrain terrain2;
-    Texture texture1;
-    Texture texture2;
-    Texture texture3;
+    Item terrain1;
 
     Camera camera;
 
@@ -47,42 +47,69 @@ public class DummyGame implements Entity {
         Shader fs1 = new Shader("res/shaders/tv1fs.glsl");
         List<Shader> shaders1 = List.of(new Shader[]{vs1, fs1});
 
-        texture1 = new Texture("res/textures/grass.png");
-        texture2 = new Texture("res/textures/terrain.png");
-        texture3 = new Texture("res/textures/terrain_2.png");
+        Shader tvs = new Shader("res/shaders/terrain_tv2vs.glsl");
+        Shader tfs = new Shader("res/shaders/terrain_tv2fs.glsl");
+        List<Shader> terrainShaders = List.of(new Shader[]{tvs, tfs});
+
+        Texture texture1 = new Texture("res/textures/grass.png");
+        Texture texture2 = new Texture("res/textures/terrainTex.png");
         camera = Camera.getInstance();
 
         //Lighting parameters
         lightAngle = -90;
-
         float lightIntensity = 5.0f;
-
         Vector3f lightPosition = new Vector3f(0, 0, -3.2f);
         Vector3f lightColor = Vector3f.one();
         pointLight = new PointLight(lightColor, lightPosition, lightIntensity, 0, 0, 1);
-
-
         lightPosition = new Vector3f(-1, -10, 0);
         lightColor = Vector3f.one();
         directionalLight = new DirectionalLight(lightColor, lightPosition, lightIntensity);
 
-        item2 = new Item("Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders);
-        item2.getTransform().getScale().div(4f);
+        Vector3f pos1 = new Vector3f(-10, 0, -10);
+        Vector3f pos2 = new Vector3f(-20, 0, -10);
+        Vector3f pos3 = new Vector3f(-30, 0, -10);
 
-        terrain = new Terrain(new Vector3f(0, -1, -800), new Material(texture2).setReflectance(0.1f), terrainShaders);
-        terrain2 = new Terrain(new Vector3f(-800, -1, -800), new Material(texture3).setReflectance(0.1f), terrainShaders);
+        item1 = new Item(pos1, "Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders); //With textures and lights
+        item1.setLights(directionalLight, pointLight);
 
+        item2 = new Item(pos2, "Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders1); // With textures only
 
+        Model colorModel = new Model(new Mesh("res/models/grass.obj"));
+        item3 = new Item(pos3, "Cube", colorModel, shaders1); // With color
+
+        Model model = new Model(Generators.generateTerrain()).setTexture(texture2, 0.1f);
+        model.getMaterial().setAmbientColor(Color.BLUE.toVector4f());
+        terrain1 = new Item(new Vector3f(-100, -1, -100), "Terrain1", model, terrainShaders);
+        terrain1.setLights(directionalLight, pointLight);
+
+        Renderer.addItem(item1);
         Renderer.addItem(item2);
-        TerrainRenderer.addTerrain(terrain);
-   //     TerrainRenderer.addTerrain(terrain2);
-        Renderer.setupLights(directionalLight, pointLight);
+        Renderer.addItem(item3);
+
+        Renderer.addItem(terrain1);
+
 
     }
 
     @Override
     public void update() {
 
+        cameraControl();
+        lightSetup();
+
+
+    }
+
+    @Override
+    public void render() {
+    }
+
+    @Override
+    public void destroy() {
+        item2.destroy();
+    }
+
+    private void cameraControl() {
         mousePosGetter();
 
         cameraVelocity = Vector3f.zero();
@@ -99,80 +126,13 @@ public class DummyGame implements Entity {
             cameraVelocity.y = -1;
         if (Input.isKeyDown(GLFW_KEY_E))
             cameraVelocity.y = 1;
-        if (Input.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
-            if (Input.isKeyDown(GLFW_KEY_UP)) {
-                item2.getTransform().getRotation().x += 5f;
-                MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
-            } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
-                item2.getTransform().getRotation().x -= 5f;
-                MathUtils.clamp(item2.getTransform().getRotation().x, 0, 360);
-            } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
-                item2.getTransform().getRotation().y += 5f;
-                MathUtils.clamp(item2.getTransform().getRotation().y, 0, 360);
-            } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
-                item2.getTransform().getRotation().y -= 5f;
-                MathUtils.clamp(item2.getTransform().getRotation().y, 0, 360);
-            }
-        } else if (Input.isKeyDown(GLFW_KEY_LEFT_CONTROL)) {
-            if (Input.isKeyDown(GLFW_KEY_A)) {
-                if (Input.isKeyDown(GLFW_KEY_UP)) {
-                    item2.getTransform().getScale().y += 0.05f;
-                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
-                    item2.getTransform().getScale().x += 0.05f;
-                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
-                } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
-                    item2.getTransform().getScale().y -= 0.05f;
-                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
-                    item2.getTransform().getScale().x -= 0.05f;
-                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
-                }
-            } else {
-                if (Input.isKeyDown(GLFW_KEY_UP)) {
-                    item2.getTransform().getScale().y += 0.05f;
-                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
-                } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
-                    item2.getTransform().getScale().y -= 0.05f;
-                    item2.getTransform().getScale().y = MathUtils.clamp(item2.getTransform().getScale().y, 0.0f, 1f);
-                } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
-                    item2.getTransform().getScale().x += 0.05f;
-                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
-                } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
-                    item2.getTransform().getScale().x -= 0.05f;
-                    item2.getTransform().getScale().x = MathUtils.clamp(item2.getTransform().getScale().x, 0.0f, 1f);
-                }
-            }
-        } else if (Input.isKeyDown(GLFW_KEY_T)) {
-            if (Input.isKeyDown(GLFW_KEY_UP)) {
-                item2.getTransform().getPosition().y += 0.05f;
-                item2.getTransform().getPosition().y = MathUtils.clamp(item2.getTransform().getPosition().y, -1f, 1f);
-            } else if (Input.isKeyDown(GLFW_KEY_DOWN)) {
-                item2.getTransform().getPosition().y -= 0.05f;
-                item2.getTransform().getPosition().y = MathUtils.clamp(item2.getTransform().getPosition().y, -1f, 1f);
-            } else if (Input.isKeyDown(GLFW_KEY_LEFT)) {
-                item2.getTransform().getPosition().x -= 0.05f;
-                item2.getTransform().getPosition().x = MathUtils.clamp(item2.getTransform().getPosition().x, -1f, 1f);
-            } else if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
-                item2.getTransform().getPosition().x += 0.05f;
-                item2.getTransform().getPosition().x = MathUtils.clamp(item2.getTransform().getPosition().x, -1f, 1f);
-            }
-        }
+
 
         camera.movePosition(
                 cameraVelocity.x * TimeUtils.getDeltaTime(),
                 cameraVelocity.y * TimeUtils.getDeltaTime(),
                 cameraVelocity.z * TimeUtils.getDeltaTime()
         );
-
-        lightSetup();
-    }
-
-    @Override
-    public void render() {
-    }
-
-    @Override
-    public void destroy() {
-        item2.destroy();
     }
 
     private void lightSetup() {
