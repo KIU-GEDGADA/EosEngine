@@ -1,38 +1,14 @@
-package graphics.generators;
+package utils;
 
-import core.TerrainRenderer;
-import graphics.*;
-import math.Transform;
-import math.Vector2f;
+import graphics.Mesh;
 import math.Vector3f;
+import math.Vector2f;
+import graphics.Vertex;
 
-import java.util.List;
+import static enums.Constants.*;
 
-import static enums.Constants.TERRAIN_SIZE;
-import static enums.Constants.TERRAIN_VERTEX_COUNT;
-
-
-public class Terrain {
-    private Transform transform;
-    private Model model;
-
-    private final List<Shader> shaders;
-
-    public Terrain(Vector3f position, Material material, List<Shader> shaders) {
-        this.transform = new Transform().setPosition(position);
-        this.model = new Model(generateTerrain());
-        this.model.setMaterial(material);
-        this.shaders = shaders;
-    }
-
-    public void init(){
-        shaders.forEach(Shader::compile);
-        for (Shader shader : shaders){
-            TerrainRenderer.getShaderProgram().attachShader(shader);
-        }
-    }
-
-    private Mesh generateTerrain() {
+public class Generators {
+    public static Mesh generateTerrain() {
         int count = TERRAIN_VERTEX_COUNT * TERRAIN_VERTEX_COUNT;
         int[] indices = new int[6 * (TERRAIN_VERTEX_COUNT - 1) * (TERRAIN_VERTEX_COUNT - 1)];
         Vertex[] vertices = new Vertex[count];
@@ -69,22 +45,5 @@ public class Terrain {
             }
         }
         return new Mesh(vertices, textureCoords, normals, indices);
-    }
-
-
-    public Transform getTransform() {
-        return transform;
-    }
-
-    public void setTransform(Transform transform) {
-        this.transform = transform;
-    }
-
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
     }
 }
