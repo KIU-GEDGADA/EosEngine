@@ -1,5 +1,6 @@
 package core;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,16 +22,18 @@ public class Renderer {
 
     /**
      * This function adds an item to the list of those to be rendered
+     *
      * @param item the item to be added to the list
      */
     public static void addItem(Item item) {
-        if(!items.contains(item)) {
+        if (!items.contains(item)) {
             items.add(item);
         }
     }
 
     /**
      * This function removes an item from the list of items to be rendered
+     *
      * @param item the item to be removed
      */
     public static void removeItem(Item item) {
@@ -41,7 +44,7 @@ public class Renderer {
      * This function calls the render() function for every item to be rendered
      */
     public static void render() {
-        if(items.size() < 1) {
+        if (items.size() < 1) {
             System.out.println("No items to render");
         }
         items.forEach(Item::render);

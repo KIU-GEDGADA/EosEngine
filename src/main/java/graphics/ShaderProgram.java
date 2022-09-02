@@ -194,6 +194,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, int value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform1i(location, value);
@@ -208,6 +211,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, float value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform1f(location, value);
@@ -222,6 +228,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, boolean value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform1i(location, value ? 1 : 0);
@@ -259,6 +268,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Vector2f value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform2f(location,
@@ -275,6 +287,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Vector3f value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform3f(location,
@@ -292,6 +307,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Vector4f value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniform4f(location,
@@ -310,6 +328,9 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Matrix4x4 value) {
+        if(uniforms.get(name) == null) {
+            return;
+        }
         int location = uniforms.get(name);
         if (location != -1) {
             glUniformMatrix4fv(location, false, DataBufferUtils.flipMatrix(value));
