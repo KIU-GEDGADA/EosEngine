@@ -11,13 +11,6 @@ public class DirectionalLight extends ILight {
         this.direction = direction;
     }
 
-    public Vector3f getColor() {
-        return color;
-    }
-
-    public void setColor(Vector3f color) {
-        this.color = color;
-    }
 
     public Vector3f getDirection() {
         return direction;
@@ -27,11 +20,4 @@ public class DirectionalLight extends ILight {
         this.direction = direction;
     }
 
-    public float getIntensity() {
-        return intensity;
-    }
-
-    public void setIntensity(float intensity) {
-        this.intensity = intensity;
-    }
 }

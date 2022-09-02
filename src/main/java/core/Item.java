@@ -149,9 +149,9 @@ public class Item {
     }
 
     /**
-     * Setter, this function sets the transofmr object of the item
+     * Setter, this function sets the transform object of the item
      *
-     * @param transform the desired transofmr object of the item
+     * @param transform the desired transform object of the item
      */
     public void setTransform(Transform transform) {
         this.transform = transform;

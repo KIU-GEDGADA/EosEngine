@@ -194,7 +194,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, int value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
@@ -211,7 +211,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, float value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
@@ -228,7 +228,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, boolean value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
@@ -247,18 +247,23 @@ public class ShaderProgram {
 
     public void setUniform(String name, DirectionalLight directionalLight) {
         setUniform(name + ".color", directionalLight.getColor());
-        setUniform(name + ".direction", directionalLight.getDirection());
         setUniform(name + ".intensity", directionalLight.getIntensity());
+        setUniform(name + ".color", directionalLight.getColor());
+        setUniform(name + ".intensity", directionalLight.getIntensity());
+        setUniform(name + ".direction", directionalLight.getDirection());
+
     }
 
     public void setUniform(String name, PointLight pointLight) {
+        System.out.println(pointLight.toString());
         setUniform(name + ".color", pointLight.getColor());
-        setUniform(name + ".position", pointLight.getPosition());
         setUniform(name + ".intensity", pointLight.getIntensity());
+        setUniform(name + ".position", pointLight.getPosition());
         setUniform(name + ".constant", pointLight.getConstant());
         setUniform(name + ".linear", pointLight.getLinear());
         setUniform(name + ".exponent", pointLight.getExponent());
     }
+
 
     /**
      * This function sets a Vector2f uniform to the given value
@@ -268,7 +273,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Vector2f value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
@@ -287,7 +292,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Vector3f value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
@@ -307,7 +312,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Vector4f value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
@@ -328,7 +333,7 @@ public class ShaderProgram {
      * @param value the desired value
      */
     public void setUniform(String name, Matrix4x4 value) {
-        if(uniforms.get(name) == null) {
+        if (uniforms.get(name) == null) {
             return;
         }
         int location = uniforms.get(name);
