@@ -28,6 +28,7 @@ public class Color {
 
     /**
      * Class creator, this function creates a Color from 4 float values
+     *
      * @param r the red value
      * @param g the green value
      * @param b the blue value
@@ -42,6 +43,7 @@ public class Color {
 
     /**
      * Class creator, this function creates a Color from 3 float values with alpha being initialized to 1
+     *
      * @param r the red value
      * @param g the green value
      * @param b the blue value
@@ -52,14 +54,16 @@ public class Color {
 
     /**
      * Class creator, this function creates a color from 1 float value, with rgb being set to it and alpha to 1
+     *
      * @param grey Value of grey
      */
-    public Color(float grey){
+    public Color(float grey) {
         this(grey, grey, grey);
     }
 
     /**
      * This function returns a string representation of the color
+     *
      * @return a string representation of the color of format "Color(red,green,blue,alpha)"
      */
     public String toString() {
@@ -68,6 +72,7 @@ public class Color {
 
     /**
      * This function checks if the current color equals another, returns true if it does, false otherwise
+     *
      * @param other the color to compare to
      * @return true if the colors are equal, false otherwise
      */
@@ -77,10 +82,15 @@ public class Color {
 
     /**
      * This function returns an array representation of the color
+     *
      * @return an array representation of the color of the format [red,green,blue,alpha]
      */
     public float[] toArray() {
         return new float[]{red, green, blue, alpha};
+    }
+
+    public Vector4f toVector4f() {
+        return new Vector4f(red, green, blue, alpha);
     }
 
     /**
@@ -126,10 +136,11 @@ public class Color {
 
     /**
      * This function returns a random rgba color from the following colors: red, green, blue, cyan, yellow,magenta
+     *
      * @return a random color from the following:  red, green, blue, cyan, yellow,magenta
      */
-    public static Color random(){
+    public static Color random() {
         Color[] colors = new Color[]{RED, GREEN, BLUE, CYAN, YELLOW, MAGENTA};
-        return colors[(int)(Math.random() * colors.length)];
+        return colors[(int) (Math.random() * colors.length)];
     }
 }
