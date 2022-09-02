@@ -1,9 +1,7 @@
 package graphics;
 
 import utils.MathUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import math.Vector4f;
 
 /**
  * This function implements RGBA colors and operations on them within the EosEngine
