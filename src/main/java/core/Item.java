@@ -50,10 +50,7 @@ public class Item {
         if (shaderProgram.getAttachedShaders().size() > 0) {
             shaderProgram.link();
             shaderProgram.addUniform("useTexture");
-            if (model.getMaterial().hasTexture()) {
-                shaderProgram.addUniform("texSampler");
-            }
-
+            shaderProgram.addUniform("texSampler");
             //General
             shaderProgram.addUniform("tMat");
             shaderProgram.addUniform("vMat");
@@ -64,7 +61,6 @@ public class Item {
             shaderProgram.addDirectionalLightUniform("directionalLight");
             // Light Parameters
             shaderProgram.addUniform("specularPower");
-
         }
     }
 
