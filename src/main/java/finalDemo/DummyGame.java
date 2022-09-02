@@ -8,7 +8,7 @@ import graphics.lighting.PointLight;
 import io.Input;
 import math.Vector2f;
 import math.Vector3f;
-import utils.MathUtils;
+import utils.Generators;
 import utils.TimeUtils;
 
 import java.util.List;
@@ -17,6 +17,7 @@ import static enums.Constants.MOUSE_SENSITIVITY;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class DummyGame implements Entity {
+    Item item1;
     Item item2;
 
     Terrain terrain;
@@ -41,6 +42,10 @@ public class DummyGame implements Entity {
         Shader vs = new Shader("res/shaders/tv2vs.glsl");
         Shader fs = new Shader("res/shaders/tv2fs.glsl");
         List<Shader> shaders = List.of(new Shader[]{vs, fs});
+
+        Shader vs1 = new Shader("res/shaders/tv1vs.glsl");
+        Shader fs1 = new Shader("res/shaders/tv1fs.glsl");
+        List<Shader> shaders1 = List.of(new Shader[]{vs1, fs1});
 
         texture1 = new Texture("res/textures/grass.png");
         texture2 = new Texture("res/textures/terrain.png");
@@ -167,7 +172,6 @@ public class DummyGame implements Entity {
 
     @Override
     public void destroy() {
-        //item1.destroy();
         item2.destroy();
     }
 
