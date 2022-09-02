@@ -2,15 +2,13 @@ package graphics.lighting;
 
 import math.Vector3f;
 
-public class DirectionalLight {
+public class DirectionalLight extends ILight {
 
-    private Vector3f color, direction;
-    private float intensity;
+    private Vector3f direction;
 
     public DirectionalLight(Vector3f color, Vector3f direction, float intensity) {
-        this.color = color;
+        super(color, intensity);
         this.direction = direction;
-        this.intensity = intensity;
     }
 
     public Vector3f getColor() {

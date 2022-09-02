@@ -2,7 +2,7 @@ package graphics.lighting;
 
 import math.Vector3f;
 
-public class PointLight {
+public class PointLight extends ILight{
 
     private Vector3f color, position;
     private float intensity, constant, linear, exponent;

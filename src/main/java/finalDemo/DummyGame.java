@@ -30,10 +30,11 @@ public class DummyGame implements Entity {
 
     // Lighting
     private float lightAngle;
-    DirectionalLight directionalLight;
-    PointLight pointLight;
+    // DirectionalLight directionalLight;
     Vector2f previousPos = new Vector2f(-1, -1);
     Vector2f rotationVec = new Vector2f();
+    Vector3f lightColor = Vector3f.one();
+    PointLight pointLight = new PointLight(lightColor, Vector3f.zero(), 100f, 0, 0, 1);
 
     Vector3f cameraVelocity = Vector3f.zero();
 
@@ -78,7 +79,7 @@ public class DummyGame implements Entity {
         item3 = new Item(pos3, "Cube", colorModel, shaders1); // With color
 
         Model model = new Model(Generators.generateTerrain()).setTexture(texture2, 0.1f);
-        model.getMaterial().setAmbientColor(Color.BLUE.toVector4f());
+        model.getMaterial().setAmbientColor(Color.WHITE.toVector4f());
         terrain1 = new Item(new Vector3f(-100, -1, -100), "Terrain1", model, terrainShaders);
         terrain1.setLights(directionalLight, pointLight);
 

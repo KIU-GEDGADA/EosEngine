@@ -1,5 +1,6 @@
 package core;
 
+import graphics.lighting.ILight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  */
 public class Renderer {
     private static final List<Item> items = new ArrayList<>();
+    private static final List<ILight> lights = new ArrayList<>();
 
     private Renderer() {
     }
@@ -48,6 +50,16 @@ public class Renderer {
             System.out.println("No items to render");
         }
         items.forEach(Item::render);
+    }
+
+    public static void addLight(ILight light) {
+        if (!lights.contains(light)) {
+            lights.add(light);
+        }
+    }
+
+    public static void removeLight(ILight light) {
+        lights.remove(light);
     }
 
     /**
