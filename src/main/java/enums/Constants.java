@@ -1,5 +1,6 @@
 package enums;
 
+import graphics.Color;
 import math.Vector3f;
 import math.Vector4f;
 
@@ -12,6 +13,7 @@ public enum Constants {
      * VERTEX_SIZE - the size of the coordinates vector in floats
      */
     public static final int VERTEX_SIZE = 3;
+
     /**
      * COLOR_SIZE - the size of the color vector in floats
      */
@@ -45,8 +47,13 @@ public enum Constants {
      */
     public static final int MOUSEBTNS = 7;
 
-    public static final Vector4f DEFAULT_COLOR = Vector4f.one();
+    public static final Vector4f DEFAULT_COLOR = Color.WHITE.toVector4f();
 
     public static final Vector3f AMBIENT_LIGHT = new Vector3f(0.3f, 0.3f, 0.3f);
+
     public static final float SPECULAR_POWER = 10f;
+
+    public static final int TERRAIN_VERTEX_COUNT = 128;
+
+    public static final float TERRAIN_SIZE = 200f;
 }

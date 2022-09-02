@@ -90,6 +90,7 @@ public class Engine {
         window.init();
         entities.forEach(Entity::init);
         Renderer.init();
+      //  TerrainRenderer.init();
         Camera.getInstance().init((float) window.getWidth() / window.getHeight());
     }
 

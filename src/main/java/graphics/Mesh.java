@@ -25,14 +25,14 @@ public class Mesh {
     private int IBO;
     private int TBO;
     private int NBO;
-    private boolean usingTexture;
 
     /**
      * Class creator, creates a mesh from vertices, texture coordinates, normals and indices
-     * @param vertices the coordinates and colors vertices of the mesh
+     *
+     * @param vertices           the coordinates and colors vertices of the mesh
      * @param textureCoordinates the coordinates to which a texture should be mapped
-     * @param normals the normals of the mesh
-     * @param indices the indices of the mesh
+     * @param normals            the normals of the mesh
+     * @param indices            the indices of the mesh
      */
     public Mesh(Vertex[] vertices, Vector2f[] textureCoordinates, Vector3f[] normals, int[] indices) {
         this.vertices = vertices;
@@ -43,6 +43,7 @@ public class Mesh {
 
     /**
      * Class creator, creates a mesh from a filepath to a mesh object
+     *
      * @param path the filepath of the desired mesh object
      */
     public Mesh(String path) {
@@ -80,19 +81,17 @@ public class Mesh {
         glBufferData(GL_ARRAY_BUFFER, vertexBuffers[0], GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 
-        if (!usingTexture) {
-            this.CBO = glGenBuffers();
-            System.out.println("Mesh CBO: " + CBO + " created.");
-            glBindBuffer(GL_ARRAY_BUFFER, CBO);
-            glBufferData(GL_ARRAY_BUFFER, vertexBuffers[1], GL_STATIC_DRAW);
-            glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
-        } else {
-            this.TBO = glGenBuffers();
-            System.out.println("Mesh TBO: " + TBO + " created.");
-            glBindBuffer(GL_ARRAY_BUFFER, TBO);
-            glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
-            glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
-        }
+        this.CBO = glGenBuffers();
+        System.out.println("Mesh CBO: " + CBO + " created.");
+        glBindBuffer(GL_ARRAY_BUFFER, CBO);
+        glBufferData(GL_ARRAY_BUFFER, vertexBuffers[1], GL_STATIC_DRAW);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
+
+        this.TBO = glGenBuffers();
+        System.out.println("Mesh TBO: " + TBO + " created.");
+        glBindBuffer(GL_ARRAY_BUFFER, TBO);
+        glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
 
         this.NBO = glGenBuffers();
         System.out.println("Mesh NBO: " + NBO + " created.");
@@ -106,11 +105,8 @@ public class Mesh {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        if (!usingTexture) {
-            glEnableVertexAttribArray(1);
-        } else {
-            glEnableVertexAttribArray(2);
-        }
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
         glEnableVertexAttribArray(3);
 
         glBindVertexArray(0);
@@ -147,18 +143,10 @@ public class Mesh {
     public void destroy() {
         unbind();
         glDisableVertexAttribArray(0);
-        if (!usingTexture) {
-            glDisableVertexAttribArray(1);
-        } else {
-            glDisableVertexAttribArray(2);
-        }
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(3);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        if (!usingTexture) {
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-        } else {
-            glBindBuffer(GL_TEXTURE_BUFFER, 0);
-        }
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glDeleteBuffers(VBO);
         glDeleteBuffers(IBO);
@@ -166,27 +154,5 @@ public class Mesh {
         glDeleteBuffers(CBO);
         glDeleteBuffers(NBO);
         glDeleteVertexArrays(VAO);
-    }
-
-    /**
-     * This function sets the mesh to use textures instead of shaders
-     */
-    public void useTexture() {
-        this.usingTexture = true;
-    }
-
-    /**
-     * This function sets the mesh to use shaders instead of textures
-     */
-    public void useColor() {
-        this.usingTexture = false;
-    }
-
-    /**
-     * Getter, this function returns if the mesh uses textures
-     * @return true if mesh is using textures, false otherwise
-     */
-    public boolean isUsingTexture() {
-        return usingTexture;
     }
 }
