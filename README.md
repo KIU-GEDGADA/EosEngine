@@ -64,11 +64,11 @@ Install EosEngine with git:
 
 #### First ever Demo
 
-![Demo](https://github.com/KIU-GEDGADA/EosEngine/blob/b2d9efcfe668eb016a3f57638639e2d0b99435e1/branding/DemoPreview.gif)
+![Demo](/branding/DemoPreview.gif)
 
 #### Most recent Demo
 
-![Demo](https://github.com/KIU-GEDGADA/EosEngine/blob/b2d9efcfe668eb016a3f57638639e2d0b99435e1/branding/Demo2.gif)
+![Demo](/branding/Demo2.gif)
 
 ## Overall Idea
 
