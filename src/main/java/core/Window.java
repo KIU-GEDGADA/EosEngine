@@ -91,6 +91,8 @@ public class Window {
         glEnable(GL_TEXTURE_2D);
 
         setupCallbacks();
+
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
 
     /**

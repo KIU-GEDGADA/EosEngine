@@ -26,6 +26,7 @@ public class DummyGame implements Entity {
     Item item5;
     Item item6;
 
+    Item selectedItem;
 
     Item terrain1;
 
@@ -35,7 +36,7 @@ public class DummyGame implements Entity {
     Vector2f previousPos = new Vector2f(-1, -1);
     Vector2f rotationVec = new Vector2f();
     Vector3f lightColor = Vector3f.one();
-    PointLight pointLight = new PointLight(lightColor, new Vector3f(0,-5,0), 100f, 5, 0, 1);
+    PointLight pointLight = new PointLight(lightColor, new Vector3f(-10, 5, -10), 100f, 5, 0, 1);
 
     Vector3f cameraVelocity = Vector3f.zero();
 
@@ -60,19 +61,19 @@ public class DummyGame implements Entity {
         //Lighting parameters
 
         Vector3f pos1 = new Vector3f(-10, 0, -10);
-        Vector3f pos2 = new Vector3f(-20, 0, -10);
-        Vector3f pos3 = new Vector3f(-30, 0, -10);
-        Vector3f pos4 = new Vector3f(0, 0, -10);
-        Vector3f pos5 = new Vector3f(10, 0, -10);
-        Vector3f pos6 = new Vector3f(20, 0, -10);
+        Vector3f pos2 = new Vector3f(-15, 0, -10);
+        Vector3f pos3 = new Vector3f(-20, 0, -10);
+        Vector3f pos4 = new Vector3f(-5, 0, -10);
+        Vector3f pos5 = new Vector3f(0, 0, -10);
+        Vector3f pos6 = new Vector3f(5, 0, -10);
 
 
-        item1 = new Item(pos1, "Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders); //With textures and lights
+        item3 = new Item(pos1, "Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders); //With textures and lights
 
         item2 = new Item(pos2, "Cube", new Model(new Mesh("res/models/grass.obj")).setTexture(texture1, 1f), shaders1); // With textures only
 
         Model colorModel = new Model(new Mesh("res/models/grass.obj"));
-        item3 = new Item(pos3, "Cube", colorModel, shaders1); // With color
+        item1 = new Item(pos3, "Cube", colorModel, shaders1); // With color
 
         Model complexModel = new Model(new Mesh("res/models/goodCube.obj"));
         item4 = new Item(pos4, "Complex Figure with Colors", complexModel, shaders1);
@@ -94,18 +95,83 @@ public class DummyGame implements Entity {
         Renderer.addItem(item5);
         Renderer.addItem(item6);
 
-        Renderer.addItem(terrain1);
+        selectedItem = item1;
 
+        Renderer.addItem(terrain1);
 
     }
 
     @Override
     public void update() {
-
         cameraControl();
-        lightSetup();
+        lightControl();
+        selectObject();
+        objectControl();
+    }
 
+    private void objectControl() {
 
+        if (item1 != selectedItem){
+            item1.getTransform().getRotation().y += 0.5f;
+        }
+        if (item2 != selectedItem){
+            item2.getTransform().getRotation().y += 0.5f;
+        }
+        if (item3 != selectedItem){
+            item3.getTransform().getRotation().y += 0.5f;
+        }
+        if (item4 != selectedItem){
+            item4.getTransform().getRotation().y += 0.5f;
+        }
+        if (item5 != selectedItem){
+            item5.getTransform().getRotation().y += 0.5f;
+        }
+        if (item6 != selectedItem){
+            item6.getTransform().getRotation().y += 0.5f;
+        }
+
+        if (Input.isKeyDown(GLFW_KEY_R)) {
+            if (Input.isKeyDown(GLFW_KEY_W)) selectedItem.getTransform().getRotation().x += 5;
+            if (Input.isKeyDown(GLFW_KEY_S)) selectedItem.getTransform().getRotation().x -= 5;
+            if (Input.isKeyDown(GLFW_KEY_A)) selectedItem.getTransform().getRotation().z += 5;
+            if (Input.isKeyDown(GLFW_KEY_D)) selectedItem.getTransform().getRotation().z -= 5;
+        }
+        if (Input.isKeyDown(GLFW_KEY_T)) {
+            if (Input.isKeyDown(GLFW_KEY_W)) selectedItem.getTransform().getPosition().y += 0.05f;
+            if (Input.isKeyDown(GLFW_KEY_S)) selectedItem.getTransform().getPosition().y -= 0.05f;
+            if (Input.isKeyDown(GLFW_KEY_A)) selectedItem.getTransform().getPosition().x -= 0.05f;
+            if (Input.isKeyDown(GLFW_KEY_D)) selectedItem.getTransform().getPosition().x += 0.05f;
+            if (Input.isKeyDown(GLFW_KEY_Q)) selectedItem.getTransform().getPosition().z += 0.05f;
+            if (Input.isKeyDown(GLFW_KEY_E)) selectedItem.getTransform().getPosition().z -= 0.05f;
+        }
+        if (Input.isKeyDown(GLFW_KEY_Y)){
+            if (Input.isKeyDown(GLFW_KEY_W)) {
+                selectedItem.getTransform().getScale().x += 0.05f;
+                selectedItem.getTransform().getScale().y += 0.05f;
+                selectedItem.getTransform().getScale().z += 0.05f;
+            }
+            if (Input.isKeyDown(GLFW_KEY_S)) {
+                selectedItem.getTransform().getScale().x -= 0.05f;
+                selectedItem.getTransform().getScale().y -= 0.05f;
+                selectedItem.getTransform().getScale().z -= 0.05f;
+            }
+        }
+    }
+
+    private void selectObject() {
+        if (Input.isKeyPressed(GLFW_KEY_1)) {
+            selectedItem = item1;
+        } else if (Input.isKeyPressed(GLFW_KEY_2)) {
+            selectedItem = item2;
+        } else if (Input.isKeyPressed(GLFW_KEY_3)) {
+            selectedItem = item3;
+        } else if (Input.isKeyPressed(GLFW_KEY_4)) {
+            selectedItem = item4;
+        } else if (Input.isKeyPressed(GLFW_KEY_5)) {
+            selectedItem = item5;
+        } else if (Input.isKeyPressed(GLFW_KEY_6)) {
+            selectedItem = item6;
+        }
     }
 
     @Override
@@ -114,7 +180,13 @@ public class DummyGame implements Entity {
 
     @Override
     public void destroy() {
+        item1.destroy();
         item2.destroy();
+        item3.destroy();
+        item4.destroy();
+        item5.destroy();
+        item6.destroy();
+        terrain1.destroy();
     }
 
     private void cameraControl() {
@@ -122,35 +194,21 @@ public class DummyGame implements Entity {
 
         cameraVelocity = Vector3f.zero();
 
-        if (Input.isKeyDown(GLFW_KEY_W))
-            cameraVelocity.z = -1;
-        if (Input.isKeyDown(GLFW_KEY_S))
-            cameraVelocity.z = 1;
-        if (Input.isKeyDown(GLFW_KEY_A))
-            cameraVelocity.x = -1;
-        if (Input.isKeyDown(GLFW_KEY_D))
-            cameraVelocity.x = 1;
-        if (Input.isKeyDown(GLFW_KEY_Q))
-            cameraVelocity.y = -1;
-        if (Input.isKeyDown(GLFW_KEY_E))
-            cameraVelocity.y = 1;
+        if (!(Input.isKeyDown(GLFW_KEY_R) || Input.isKeyDown(GLFW_KEY_T) || Input.isKeyDown(GLFW_KEY_Y))) {
+            if (Input.isKeyDown(GLFW_KEY_W)) cameraVelocity.z = -1;
+            if (Input.isKeyDown(GLFW_KEY_S)) cameraVelocity.z = 1;
+            if (Input.isKeyDown(GLFW_KEY_A)) cameraVelocity.x = -1;
+            if (Input.isKeyDown(GLFW_KEY_D)) cameraVelocity.x = 1;
+            if (Input.isKeyDown(GLFW_KEY_Q)) cameraVelocity.y = -1;
+            if (Input.isKeyDown(GLFW_KEY_E)) cameraVelocity.y = 1;
+        }
 
 
-        camera.movePosition(
-                cameraVelocity.x * TimeUtils.getDeltaTime() * CAMERA_SPEED,
-                cameraVelocity.y * TimeUtils.getDeltaTime() * CAMERA_SPEED,
-                cameraVelocity.z * TimeUtils.getDeltaTime() * CAMERA_SPEED
-        );
+        camera.movePosition(cameraVelocity.x * TimeUtils.getDeltaTime() * CAMERA_SPEED, cameraVelocity.y * TimeUtils.getDeltaTime() * CAMERA_SPEED, cameraVelocity.z * TimeUtils.getDeltaTime() * CAMERA_SPEED);
     }
 
-    private void lightSetup() {
+    private void lightControl() {
         if (Input.isKeyDown(GLFW_KEY_LEFT_SHIFT)) {
-            if (Input.isKeyDown(GLFW_KEY_LEFT)) {
-                pointLight.getPosition().x -= 0.1f;
-            }
-            if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
-                pointLight.getPosition().x += 0.1f;
-            }
             if (Input.isKeyDown(GLFW_KEY_UP)) {
                 pointLight.getPosition().y -= 0.1f;
             }
@@ -158,6 +216,12 @@ public class DummyGame implements Entity {
                 pointLight.getPosition().y += 0.1f;
             }
         } else {
+            if (Input.isKeyDown(GLFW_KEY_LEFT)) {
+                pointLight.getPosition().x -= 0.1f;
+            }
+            if (Input.isKeyDown(GLFW_KEY_RIGHT)) {
+                pointLight.getPosition().x += 0.1f;
+            }
             if (Input.isKeyDown(GLFW_KEY_UP)) {
                 pointLight.getPosition().z -= 0.1f;
             }
@@ -178,19 +242,14 @@ public class DummyGame implements Entity {
             float y = currentPos.y - previousPos.y;
             boolean rotateX = x != 0;
             boolean rotateY = y != 0;
-            if (rotateX)
-                rotationVec.y = x;
-            if (rotateY)
-                rotationVec.x = y;
+            if (rotateX) rotationVec.y = x;
+            if (rotateY) rotationVec.x = y;
 
         }
         previousPos.x = currentPos.x;
         previousPos.y = currentPos.y;
 
-        if (Input.isMouseDown(GLFW_MOUSE_BUTTON_2)) {
-            camera.moveRotation(rotationVec.x * MOUSE_SENSITIVITY, rotationVec.y * MOUSE_SENSITIVITY, 0);
-        }
-
+        camera.moveRotation(rotationVec.x * MOUSE_SENSITIVITY, rotationVec.y * MOUSE_SENSITIVITY, 0);
 
     }
 }

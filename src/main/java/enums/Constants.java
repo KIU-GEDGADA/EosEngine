@@ -29,11 +29,11 @@ public enum Constants {
     /**
      * WIDTH - the default width in pixels
      */
-    public static final int WIDTH = 1000;
+    public static final int WIDTH = 1920;
     /**
      * HEIGHT - the default height in pixels
      */
-    public static final int HEIGHT = 1000;
+    public static final int HEIGHT = 1080;
     /**
      * FPS - the default frames per second
      */
